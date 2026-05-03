@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Pedagógico — Alaete 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf8f3;
+    --cream: #f0ece2;
+    --accent-en: #2d6a4f;
+    --accent-pt: #9b2335;
+    --accent-en-light: #d8f3dc;
+    --accent-pt-light: #fce4e8;
+    --gold: #c9a84c;
+    --muted: #7a7a8a;
+    --border: #ddd8cc;
+    --white: #ffffff;
+    --shadow: 0 2px 12px rgba(26,26,46,0.08);
+    --shadow-md: 0 4px 24px rgba(26,26,46,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--ink);
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    color: var(--paper);
+    font-size: 2rem;
+    line-height: 1;
+  }
+  .header-title span {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .header-sub {
+    color: #9a9ab5;
+    font-size: 0.8rem;
+    font-weight: 300;
+    margin-top: 6px;
+    letter-spacing: 0.05em;
+  }
+  .header-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .legend-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: #9a9ab5;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* NAV TABS */
+  .nav {
+    background: var(--white);
+    border-bottom: 2px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    padding: 14px 22px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    user-select: none;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active-en {
+    color: var(--accent-en);
+    border-bottom-color: var(--accent-en);
+  }
+  .nav-tab.active-pt {
+    color: var(--accent-pt);
+    border-bottom-color: var(--accent-pt);
+  }
+
+  /* MAIN CONTENT */
+  .main { padding: 32px 40px; max-width: 1200px; }
+
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-badge {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .badge-en { background: var(--accent-en-light); color: var(--accent-en); }
+  .badge-pt { background: var(--accent-pt-light); color: var(--accent-pt); }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+
+  /* TRIMESTRE ACCORDION */
+  .trimestre {
+    margin-bottom: 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: var(--shadow);
+  }
+  .trimestre-header {
+    padding: 18px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .trimestre-header:hover { background: var(--cream); }
+  .trimestre-header.open { background: var(--ink); }
+  .trimestre-header.open .tri-title,
+  .trimestre-header.open .tri-meta { color: var(--paper); }
+  .trimestre-header.open .tri-arrow { color: var(--gold); transform: rotate(180deg); }
+
+  .tri-left { display: flex; align-items: center; gap: 14px; }
+  .tri-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+  .tri-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+  .tri-meta {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .tri-right { display: flex; align-items: center; gap: 16px; }
+  .tri-aulas {
+    background: var(--cream);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .trimestre-header.open .tri-aulas { background: rgba(255,255,255,0.15); color: #9a9ab5; }
+  .tri-arrow {
+    font-size: 1.1rem;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+
+  .trimestre-body {
+    display: none;
+    padding: 0 24px 20px;
+    border-top: 1.5px solid var(--border);
+  }
+  .trimestre-body.open { display: block; }
+
+  /* SEMANA CARDS */
+  .semanas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 20px;
+  }
+
+  .semana-card {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--paper);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .semana-card:hover {
+    border-color: var(--accent-en);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .semana-card.pt:hover { border-color: var(--accent-pt); }
+
+  .semana-card-head {
+    padding: 12px 16px 10px;
+    background: var(--cream);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .semana-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .semana-conteudo {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--ink);
+    margin-top: 2px;
+    line-height: 1.35;
+  }
+  .semana-bncc {
+    background: var(--ink);
+    color: var(--gold);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .semana-card-body {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .info-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .info-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    width: 64px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .info-val {
+    font-size: 0.78rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .semana-card-foot {
+    padding: 8px 16px 12px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .foot-chip {
+    font-size: 0.68rem;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .chip-ludica { background: #fff3cd; color: #856404; }
+  .chip-aee { background: #d1ecf1; color: #0c5460; }
+  .chip-livro { background: var(--cream); color: var(--muted); border: 1px solid var(--border); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,46,0.6);
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 680px;
+    max-height: 88vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(26,26,46,0.25);
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1.5px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .modal-turma-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .modal-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .modal-semana {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .modal-close {
+    background: var(--cream);
+    border: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-left: 16px;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--border); }
+
+  .modal-body { padding: 24px 28px; }
+
+  .template-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 24px;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    position: relative;
+  }
+  .step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 40px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .step-content {
+    padding: 8px 0 24px;
+    flex: 1;
+  }
+  .step-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .step-duration {
+    font-size: 0.7rem;
+    background: var(--cream);
+    color: var(--muted);
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 8px;
+    font-weight: 500;
+  }
+  .step-text {
+    font-size: 0.88rem;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  .modal-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .meta-box {
+    background: var(--cream);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .meta-box-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .meta-box-val {
+    font-size: 0.84rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .meta-box.full { grid-column: 1 / -1; }
+
+  .aee-box {
+    background: #e8f4f8;
+    border: 1.5px solid #bee3f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .aee-box-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #0c5460;
+    margin-bottom: 6px;
+  }
+  .aee-box-val {
+    font-size: 0.84rem;
+    color: #155a6a;
+    line-height: 1.5;
+  }
+
+  .ludica-box {
+    background: #fffbeb;
+    border: 1.5px solid #fde68a;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .ludica-box-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #92400e;
+    margin-bottom: 6px;
+  }
+  .ludica-box-val {
+    font-size: 0.84rem;
+    color: #78350f;
+    line-height: 1.5;
+  }
+
+  /* OVERVIEW / CRONOGRAMA */
+  .overview-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    margin-top: 16px;
+  }
+  .overview-table th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: var(--gold);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+  .overview-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  .overview-table tr:nth-child(even) td { background: var(--cream); }
+  .overview-table tr:hover td { background: var(--accent-en-light); }
+  .overview-table.pt tr:hover td { background: var(--accent-pt-light); }
+
+  .bncc-tag {
+    font-size: 0.65rem;
+    background: var(--ink);
+    color: var(--gold);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: 600;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  .warn-box {
+    background: #fff8e1;
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 0.82rem;
+    color: #5a4200;
+  }
+  .warn-box strong { font-weight: 600; }
+
+  /* DCRB BOX */
+  .dcrb-box {
+    background: #f0f4ff;
+    border: 1.5px solid #b8c8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .dcrb-box-label {
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #1a3a7a;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dcrb-tag {
+    background: #1a3a7a;
+    color: #e8eeff;
+    font-size: 0.65rem;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 600;
+  }
+  .dcrb-item {
+    margin-bottom: 6px;
+    font-size: 0.82rem;
+    color: #1a2a5a;
+    line-height: 1.5;
+    padding-left: 10px;
+    border-left: 2px solid #b8c8f0;
+  }
+  .dcrb-item strong { font-weight: 600; color: #1a3a7a; }
+  .dcrb-enfase {
+    margin-top: 10px;
+    background: #e8f0ff;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    color: #2a4080;
+    line-height: 1.5;
+  }
+  .dcrb-enfase strong { font-weight: 600; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .header { padding: 20px 20px 18px; }
+    .nav { padding: 0 12px; }
+    .main { padding: 20px 16px; }
+    .semanas-grid { grid-template-columns: 1fr; }
+    .modal-meta-grid { grid-template-columns: 1fr; }
+    .modal-body { padding: 20px; }
+    .modal-header { padding: 18px 20px; }
+    .header-title { font-size: 1.4rem; }
+    .overview-table { font-size: 0.72rem; }
+    .overview-table th, .overview-table td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div>
+    <div class="header-title">Painel <span>Pedagógico</span></div>
+    <div class="header-sub">ALAETE · 2026 · PRESIDENTE DUTRA &amp; BARRO ALTO</div>
+  </div>
+  <div class="header-legend">
+    <div class="legend-pill"><div class="legend-dot" style="background:#2d6a4f"></div>Inglês</div>
+    <div class="legend-pill"><div class="legend-dot" style="background:#9b2335"></div>Português</div>
+    <div class="legend-pill"><div class="legend-dot" style="background:#c9a84c"></div>Avaliação</div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-tab active-en" onclick="showView('ingles6')">Inglês 6º</div>
+  <div class="nav-tab" onclick="showView('ingles7')">Inglês 7º</div>
+  <div class="nav-tab" onclick="showView('ingles8')">Inglês 8º</div>
+  <div class="nav-tab" onclick="showView('ingles9')">Inglês 9º</div>
+  <div class="nav-tab" onclick="showView('port7')">Português 7º</div>
+  <div class="nav-tab" onclick="showView('cronograma')">📋 Cronograma Geral</div>
+  <div class="nav-tab" onclick="showView('banco')">🎲 Banco de Atividades</div>
+</nav>
+
+<div class="main">
+
+<!-- ======== INGLÊS 6 ======== -->
+<div id="view-ingles6" class="view active">
+  <div class="section-header">
+    <div class="section-badge badge-en">Inglês · 6º Ano · Barro Alto</div>
+    <div class="section-title">Ways 1ª ed. 2022 — FTD</div>
+  </div>
+  
+  <div id="acordeon-ingles6"></div>
+</div>
+
+<!-- ======== INGLÊS 7 ======== -->
+<div id="view-ingles7" class="view">
+  <div class="section-header">
+    <div class="section-badge badge-en">Inglês · 7º Ano · Barro Alto</div>
+    <div class="section-title">Ways 1ª ed. 2022 — FTD</div>
+  </div>
+  
+  <div id="acordeon-ingles7"></div>
+</div>
+
+<!-- ======== INGLÊS 8 ======== -->
+<div id="view-ingles8" class="view">
+  <div class="section-header">
+    <div class="section-badge badge-en">Inglês · 8º Ano · Barro Alto + Presidente Dutra</div>
+    <div class="section-title">Ways 1ª ed. 2022 — FTD</div>
+  </div>
+  
+  <div id="acordeon-ingles8"></div>
+</div>
+
+<!-- ======== INGLÊS 9 ======== -->
+<div id="view-ingles9" class="view">
+  <div class="section-header">
+    <div class="section-badge badge-en">Inglês · 9º Ano · Presidente Dutra</div>
+    <div class="section-title">Ways 1ª ed. 2022 — FTD</div>
+  </div>
+  
+  <div id="acordeon-ingles9"></div>
+</div>
+
+<!-- ======== PORTUGUÊS 7 ======== -->
+<div id="view-port7" class="view">
+  <div class="section-header">
+    <div class="section-badge badge-pt">Português · 7º Ano · Presidente Dutra</div>
+    <div class="section-title">SuperAção 1ª ed. 2022 — Moderna</div>
+  </div>
+  
+  <div id="acordeon-port7"></div>
+</div>
+
+<!-- ======== CRONOGRAMA GERAL ======== -->
+<div id="view-cronograma" class="view">
+  <div class="section-header">
+    <div class="section-badge badge-en">Visão Geral</div>
+    <div class="section-title">Cronograma Anual — Todas as Turmas</div>
+  </div>
+  <table class="overview-table" id="tabela-cronograma">
+    <thead>
+      <tr>
+        <th>Trimestre</th>
+        <th>Semana</th>
+        <th>Turma</th>
+        <th>Conteúdo</th>
+        <th>BNCC</th>
+        <th>Livro / Pág.</th>
+      </tr>
+    </thead>
+    <tbody id="cronograma-tbody"></tbody>
+  </table>
+</div>
+
+<!-- ======== BANCO DE ATIVIDADES ======== -->
+<div id="view-banco" class="view">
+  <div class="section-header">
+    <div class="section-badge badge-en">Banco de Recursos</div>
+    <div class="section-title">Atividades Lúdicas &amp; Materiais de Apoio</div>
+  </div>
+  <div class="semanas-grid" id="banco-grid"></div>
+</div>
+
+</div><!-- end main -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <div class="modal-header">
+      <div>
+        <div id="modal-badge" class="modal-turma-badge"></div>
+        <div id="modal-title" class="modal-title"></div>
+        <div id="modal-semana" class="modal-semana"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const DATA = {
+  ingles6: {
+    label: "Inglês 6º", cor: "en",
+    trimestres: [
+      {
+        num: "1º", titulo: "✅ APLICADO — Diagnóstico & Base Comunicativa",
+        periodo: "Fev – Maio 2026", aulas: 16,
+        foco: "Classroom Language · Greetings · Subject Pronouns · To Be (afirmativo)",
+        semanas: [
+          { sem: "1–2", conteudo: "Diagnóstico + Classroom Language", bncc: "EF06LI01", livro: "Ways U0 p.10–17", pergunta: "Onde o inglês aparece na sua vida?", ticket: "Escreva 2 comandos de sala em inglês", acolhida: "Mapa mental coletivo: onde vocês já viram inglês?", ativacao: "Bingo de Greetings — alunos circulam pela sala cumprimentando em inglês", desenvolvimento: "Diagnóstico inicial; comandos de sala com gestos; cores, alfabeto, dicionário bilíngue", pratica: "Role-play de cumprimentos em duplas: Aluno A chega, Aluno B responde", saida: "Escreva 2 comandos de sala", evidencia: "Participação oral + diagnóstico registrado", aee: "Banco de palavras visual + resposta oral permitida + tempo ampliado", ludica: "Bingo de Greetings", instrumento: "Diagnóstico inicial / observação" },
+          { sem: "3–4", conteudo: "Greetings & Personal Introductions + To Be Afirmativo", bncc: "EF06LI05 / EF06LI19", livro: "Ways U1 p.18–25", pergunta: "Como me apresento em inglês?", ticket: "I ___ a student. She ___ 12 years old.", acolhida: "Retomada de greetings com movimento", ativacao: "Human Pronouns: cartões I/You/He/She/We/They — turma grita o pronome correto", desenvolvimento: "How are you? / Nice to meet you; Subject Pronouns; To Be afirmativo + contrações (am/is/are); English ID Card", pratica: "Criar English ID Card + prática oral em pares", saida: "Complete: I ___ / He ___ / They ___", evidencia: "ID Card produzido + frases corretas", aee: "Modelo de frases + escrita guiada + resposta oral permitida", ludica: "—", instrumento: "Exercício guiado" }
+        ]
+      },
+      {
+        num: "2º", titulo: "Identidade, Origens & Meu Espaço",
+        periodo: "Maio – Ago 2026", aulas: 16,
+        foco: "To Be (negativa/interrogativa) · Países · Família · Genitivo · There is/are",
+        semanas: [
+          { sem: "1–3", conteudo: "Countries & Nationalities + To Be Negativa e Interrogativa", bncc: "EF06LI05 / EF06LI19", livro: "Ways U2 p.26–35", pergunta: "De onde vêm as pessoas que admiro?", ticket: "Is she from Brazil? No, she isn't. She is from ___.", acolhida: "Mostrar imagens de personalidades famosas — de onde são?", ativacao: "Guessing Game: 'Is he from the USA?' — alunos usam negativa/interrogativa para adivinhar", desenvolvimento: "Where are you from? / I am from…; To Be negativa (isn't/aren't) e interrogativa (Is/Are…?); países e nacionalidades com imagens de jogadores, cantores, influencers", pratica: "Jogo de adivinhação em duplas com cartões de personalidades", saida: "Is she from ___? No, she isn't. She is from ___.", evidencia: "Frases produzidas + participação oral", aee: "Cartões ilustrados + banco de palavras + resposta oral", ludica: "Guessing Game de personalidades", instrumento: "Atividade prática oral/escrita" },
+          { sem: "4–6", conteudo: "Family Members + Possessive Adjectives + Genitive ('s)", bncc: "EF06LI02 / EF06LI17", livro: "Ways U3 p.36–47", pergunta: "Como falo da minha família em inglês?", ticket: "Complete: ___ is Bart's ___. My sister's name is ___.", acolhida: "Árvore genealógica de personagem de série/anime favorito", ativacao: "Family Tree Game: montar a árvore de personagem fictício com genitivo", desenvolvimento: "Vocabulário de família; Adjetivos Possessivos (my, your, his, her…); Caso Genitivo ('s): 'Homer is Bart's father'; conexão com o cotidiano deles", pratica: "Criar árvore genealógica pessoal ou fictícia com frases + caso genitivo", saida: "Escreva 1 frase com 's e 1 com adjetivo possessivo", evidencia: "Árvore genealógica + frases", aee: "Modelo visual + frases-guia + lista de vocabulário", ludica: "Family Tree de personagem fictício", instrumento: "Produção visual + escrita" },
+          { sem: "7–8", conteudo: "House & Rooms + There is / There are", bncc: "EF06LI05 / EF06LI17", livro: "Ways U5 p.52–63", pergunta: "Como descrevo meu espaço em inglês?", ticket: "There is a ___ in my room. There are ___ in my house.", acolhida: "Que cômodos você conhece em inglês?", ativacao: "Dream Room: alunos desenham o quarto dos sonhos (Minecraft/Sims) e descrevem", desenvolvimento: "Vocabulário de cômodos e móveis; There is (singular) / There are (plural): afirmativo e negativo; foco na existência dos objetos, não em preposições complexas", pratica: "Descrever o quarto dos sonhos ou cena de jogo com there is/there are", saida: "There is a ___ / There are two ___", evidencia: "Produção escrita + desenho", aee: "Banco de palavras ilustrado + modelo de frases + atividade fragmentada", ludica: "Dream Room Game", instrumento: "Mini produção" }
+        ]
+      },
+      {
+        num: "3º", titulo: "Vida Diária & Rotina Escolar",
+        periodo: "Set – Dez 2026", aulas: 16,
+        foco: "Simple Present (I/You/We/They) · He/She/It · Advérbios de Frequência · Matérias",
+        semanas: [
+          { sem: "1–4", conteudo: "Simple Present — Rotina Pessoal (I/You/We/They)", bncc: "EF06LI05 / EF06LI19", livro: "Ways U7 p.70–82", pergunta: "O que você faz no seu dia a dia?", ticket: "Escreva 2 ações da sua rotina: I ___ on weekends.", acolhida: "O que você faz depois da escola? (português para ativar esquema mental)", ativacao: "Rotina Real: alunos falam sobre horários de jogos, uso de celular e lazer em inglês", desenvolvimento: "Simple Present afirmativo: I/You/We/They + verb; Advérbios de frequência: always, usually, never; conexão com a vida deles: 'I play Free Fire on weekends'", pratica: "Tabela de rotina pessoal + frases em inglês", saida: "Escreva 2 ações da sua rotina", evidencia: "Tabela de rotina produzida", aee: "Banco de verbos + frases-modelo + escrita guiada", ludica: "Turn and Talk — rotina em duplas", instrumento: "Mini produção" },
+          { sem: "5–8", conteudo: "Simple Present — 3ª pessoa (He/She/It) + School Subjects", bncc: "EF06LI05 / EF06LI17", livro: "Ways U8 p.84–97", pergunta: "O que seu colega faz que é diferente de você?", ticket: "She likes ___. He studies ___ on Mondays.", acolhida: "Entrevista rápida em duplas: o que seu colega faz?", ativacao: "Interview Game: aluno descobre o que o colega gosta e relata para a turma", desenvolvimento: "3ª pessoa: He/She/It + verbo com -s/-es; Matérias escolares; entrevista e relato: 'She likes Math'", pratica: "Entrevista + relato escrito sobre o colega", saida: "He/She likes ___. He/She studies ___.", evidencia: "Entrevista escrita + relato", aee: "Modelo de frases + vocabulário com imagens + tempo ampliado", ludica: "Interview Game em duplas", instrumento: "Produção + rubrica oral" }
+        ]
+      }
+    ]
+  },
+
+  ingles7: {
+    label: "Inglês 7º", cor: "en",
+    trimestres: [
+      {
+        num: "1º", titulo: "✅ APLICADO — Revisão de Base",
+        periodo: "Fev – Maio 2026", aulas: 16,
+        foco: "Revisão de verbos gerais · To Be (presente) · Modal Can",
+        semanas: [
+          { sem: "1–4", conteudo: "Revisão Geral de Verbos + To Be Presente", bncc: "EF07LI01 / EF07LI09", livro: "Ways 7 — Unidade 0 + revisão", pergunta: "O que consigo dizer em inglês hoje?", ticket: "Escreva 3 verbos que você conhece em inglês", acolhida: "Diagnóstico oral: o que você lembra do 6º ano?", ativacao: "Mímica de verbos — aluno faz ação, turma adivinha em inglês", desenvolvimento: "Revisão de verbos de ação comuns; To Be: am/is/are; frases afirmativas e negativas simples", pratica: "Frases pessoais com to be + lista de verbos do dia a dia", saida: "Escreva 3 verbos que você sabe + 1 frase", evidencia: "Lista + participação oral", aee: "Banco de verbos com imagens + modelo de frases + resposta oral", ludica: "Mímica de verbos", instrumento: "Diagnóstico" },
+          { sem: "5–8", conteudo: "Modal Can — Habilidades", bncc: "EF07LI01 / EF07LI05", livro: "Ways 7 U8 p.132–145 (antecipado)", pergunta: "O que você sabe fazer bem?", ticket: "I can ___. I can't ___.", acolhida: "O que você faz bem? (PT para ativar)", ativacao: "Mímica de habilidades: Can you ___? Yes, I can! / No, I can't!", desenvolvimento: "Can + verb (afirmativo, negativo, interrogativo); sem conjugação na 3ª pessoa; foco em habilidades dos alunos", pratica: "Find someone who can… — entrevista oral com colegas", saida: "I can ___ / I can't ___", evidencia: "Frases produzidas + participação", aee: "Modelo de frases + resposta oral permitida", ludica: "Mímica de habilidades", instrumento: "Exercício oral/escrito" }
+        ]
+      },
+      {
+        num: "2º", titulo: "Consolidando o Presente & Ponte para o Passado",
+        periodo: "Maio – Ago 2026", aulas: 16,
+        foco: "Simple Present · Advérbios · Esportes · Question Words · To Be Passado (was/were)",
+        semanas: [
+          { sem: "1–3", conteudo: "Simple Present + Advérbios de Frequência + Esportes", bncc: "EF07LI09 / EF07LI01", livro: "Ways 7 U1–2 p.18–35", pergunta: "O que você sempre, às vezes ou nunca faz?", ticket: "I always ___. He never ___.", acolhida: "Que esportes você pratica? (PT, para ativar esquema mental)", ativacao: "Flashcards do livro: montar frases curtas sobre esportes favoritos", desenvolvimento: "Simple Present revisão; Adverbs of frequency: always/usually/sometimes/never; vocabulário de esportes; 'I always play soccer' — foco em comunicação, não em regras", pratica: "Tabela: What do you always/never do? — completar e comparar com colega", saida: "I always ___. My friend usually ___.", evidencia: "Tabela preenchida + frases", aee: "Banco de verbos + modelo guiado + atividade fragmentada", ludica: "Flashcard Sport Game", instrumento: "Exercício + tabela" },
+          { sem: "4–6", conteudo: "Question Words + Tourist Attractions", bncc: "EF07LI06 / EF07LI11", livro: "Ways 7 U3 p.40–51", pergunta: "Como faço perguntas sobre lugares?", ticket: "Where is ___? What is ___? Who is ___?", acolhida: "Mostrar imagem de lugar famoso — o que vocês querem saber sobre ele?", ativacao: "Jogo de mapa: imagem de lugar, alunos usam Question Words para descobrir como chegar", desenvolvimento: "What / Where / Who / How / When; vocabulário de pontos turísticos e transportes; estratégias de leitura por imagens", pratica: "Quiz de lugares com Question Words em duplas", saida: "Escreva 1 pergunta com cada: What / Where / Who", evidencia: "Perguntas produzidas + participação", aee: "Lista visual de Question Words + modelo + tempo ampliado", ludica: "Quiz de lugares", instrumento: "Produção oral/escrita" },
+          { sem: "7–8", conteudo: "To Be Passado — Was / Were + Occupations", bncc: "EF07LI09 / EF07LI05", livro: "Ways 7 U4 p.54–65", pergunta: "Quem foi essa pessoa famosa?", ticket: "Was she a singer? Yes, she was. / No, she wasn't.", acolhida: "Mostrar imagem de personalidade histórica — quem é?", ativacao: "Guessing Game: sim/não com was/were para adivinhar personalidade", desenvolvimento: "Was/Were (afirmativo, negativo, interrogativo); vocabulário de profissões; jogo com Nelson Mandela, atletas e cantores", pratica: "Cards de personalidades: aluno descreve quem foi usando was/were", saida: "Was he/she a ___? Yes, he/she was.", evidencia: "Frases produzidas + jogo", aee: "Cartões com imagem + modelo de frase + resposta oral", ludica: "Guessing Game histórico", instrumento: "Atividade prática" }
+        ]
+      },
+      {
+        num: "3º", titulo: "Narrativas Curtas & Ações no Passado",
+        periodo: "Set – Dez 2026", aulas: 16,
+        foco: "Simple Past Regular · Verbos Irregulares (5–10) · Linking Words · Past Continuous (tirinhas)",
+        semanas: [
+          { sem: "1–3", conteudo: "Simple Past Regular — Verbos com -ed + Entretenimento", bncc: "EF07LI09 / EF07LI05", livro: "Ways 7 U5 p.70–85", pergunta: "O que você assistiu no fim de semana?", ticket: "I watched ___. She played ___ yesterday.", acolhida: "Que filme/série você assistiu recentemente? (PT para ativar)", ativacao: "Imagens de filmes/heróis conhecidos: o que o personagem fez?", desenvolvimento: "Regra do -ed (verbos regulares); pronúncia /t/ /d/ /ɪd/; vocabulário de entretenimento; Getting Started e Vocabulary Study do livro", pratica: "Mini relato escrito: What did you do last weekend? (3 frases)", saida: "Escreva 2 ações no passado simples regular", evidencia: "Mini texto produzido", aee: "Banco de verbos + modelo + atividade fragmentada", ludica: "Movie Card Game", instrumento: "Mini produção" },
+          { sem: "4–6", conteudo: "Simple Past Irregular (5–10 verbos) + False Friends", bncc: "EF07LI09 / EF07LI11", livro: "Ways 7 U6 p.88–103", pergunta: "Por que alguns verbos são 'irregulares'? O que são falsos cognatos?", ticket: "Escreva o passado de: go / eat / see / have / make", acolhida: "Quick review: 5 verbos regulares em 30 seg", ativacao: "Memory Game: infinitivo × passado irregular (go/went, eat/ate, see/saw, have/had, make/made)", desenvolvimento: "Apenas os 5–10 irregulares mais usados — sem lista completa para não desmotivar; False Friends: actually, parents — curiosidade e engajamento", pratica: "Frases com irregulares em contexto + jogo de memory em duplas", saida: "Escreva 2 verbos irregulares + frase com cada", evidencia: "Memory game + frases", aee: "Lista reduzida de irregulares + banco de apoio + resposta oral", ludica: "Memory Game verbos irregulares", instrumento: "Exercícios + jogo" },
+          { sem: "7–8", conteudo: "Linking Words + Past Continuous (via Tirinhas)", bncc: "EF07LI05 / EF07LI01", livro: "Ways 7 U7–8 p.108–130", pergunta: "O que acontecia quando cheguei?", ticket: "She was ___ when I arrived. I was ___ because ___.", acolhida: "Leitura de tirinha do livro em voz alta coletiva", ativacao: "Tirinhas embaralhadas: ordenar a sequência correta", desenvolvimento: "And, but, because como conectores; Past Continuous via tirinhas curtas (Jim do livro); Was/were + -ing; linguagem visual como apoio para alunos NEE e resistentes", pratica: "Descrever cena da tirinha usando was/were + -ing + conector", saida: "Escreva 1 frase: When I ___, she was ___.", evidencia: "Tirinha descrita + conectores usados", aee: "Tirinha com apoio de vocabulário + modelo + resposta oral", ludica: "Comic Strip Game", instrumento: "Produção + observação" }
+        ]
+      }
+    ]
+  },
+
+  ingles8: {
+    label: "Inglês 8º", cor: "en",
+    trimestres: [
+      {
+        num: "1º", titulo: "✅ APLICADO — Revisão de Base",
+        periodo: "Fev – Maio 2026", aulas: 8,
+        foco: "Revisão geral de verbos · Simple Present",
+        semanas: [
+          { sem: "1–8", conteudo: "Diagnóstico + Revisão Geral de Verbos + Simple Present", bncc: "EF08LI01 / EF08LI09", livro: "Ways 8 — revisão de base", pergunta: "O que você ainda lembra de inglês?", ticket: "Escreva 3 frases no Simple Present sobre sua rotina", acolhida: "Diagnóstico: o que os alunos lembram do 7º ano?", ativacao: "Tabela de verbos conhecidos — cada aluno contribui com 1", desenvolvimento: "Revisão de verbos; Simple Present (afirmativo, negativo, interrogativo); rotina e hábitos em contexto do campo", pratica: "Frases sobre a rotina do campo: 'I wake up at 5am / We plant vegetables'", saida: "Escreva 3 frases no Simple Present", evidencia: "Frases + diagnóstico registrado", aee: "Banco de verbos + modelo + apoio individual + resposta oral", ludica: "Verb Relay — cada aluno passa o verbo adiante", instrumento: "Diagnóstico + exercício" }
+        ]
+      },
+      {
+        num: "2º", titulo: "Nosso Ambiente & Nossas Características",
+        periodo: "Maio – Ago 2026", aulas: 16,
+        foco: "Contáveis/Incontáveis · Quantificadores · Comparativos · Superlativos · Escola do Campo",
+        semanas: [
+          { sem: "1–3", conteudo: "Countable/Uncountable Nouns + Quantifiers (some, any, many, much)", bncc: "EF08LI09 / EF08LI01", livro: "Ways 8 U1 p.18–29 (resgatado do T1)", pergunta: "How many tomatoes? How much water?", ticket: "We need ___ water. There are ___ tomatoes.", acolhida: "O que precisa para fazer uma receita simples da região?", ativacao: "Receita local: alunos listam ingredientes usando some/any/many/much", desenvolvimento: "Contáveis (many/a few) × incontáveis (much/a little/some/any); receitas e colheitas do campo como contexto; tirinhas curtas do livro como suporte visual", pratica: "Receita simples: montar lista de ingredientes com quantificadores", saida: "We need ___ (much/many) ___ and some ___.", evidencia: "Lista de ingredientes + frases", aee: "Tabela visual contável/incontável + modelo + fragmentação da atividade", ludica: "Receita da região — ingredientes em inglês", instrumento: "Atividade prática" },
+          { sem: "4–6", conteudo: "Comparative & Superlative Adjectives + Campo", bncc: "EF08LI09 / EF08LI08", livro: "Ways 8 U2 p.30–45", pergunta: "O que é maior, mais rápido ou mais silencioso na nossa região?", ticket: "A horse is ___ than a cow. The countryside is the ___ place.", acolhida: "Comparar dois animais da fazenda — qual é maior?", ativacao: "Ranking da turma com adjetivos: mais alto, mais baixo, mais rápido", desenvolvimento: "Adj+er / more+adj; the adj+est / the most adj; contexto do campo: 'A horse is faster than a cow', 'The countryside is quieter than the city'", pratica: "Jogo: criar frases comparativas com elementos do campo e da cidade", saida: "Escreva 1 comparativo + 1 superlativo", evidencia: "Frases produzidas", aee: "Lista visual de adjetivos + modelo guiado + apoio individual", ludica: "Comparação campo vs cidade", instrumento: "Exercícios" },
+          { sem: "7–8", conteudo: "Tirinhas + Afixos (Prefixos e Sufixos)", bncc: "EF08LI05 / EF08LI01", livro: "Ways 8 U1–2 (Vocabulary + Reading)", pergunta: "Como descubro o significado de palavras novas sem dicionário?", ticket: "Farm → farmer. Happy → unhappy. O que muda?", acolhida: "Mostrar palavras com -er, -ly, -un… alunos tentam adivinhar o significado", ativacao: "Jogo de afixos: raiz + sufixo/prefixo = nova palavra", desenvolvimento: "Sufixos: -er (farmer), -ly (quickly), -ful (helpful); Prefixos: un- (unhappy), re- (reuse); estratégia vital para turmas com pouco vocabulário: deduzir sem traduzir", pratica: "Ler tirinha curta + identificar palavras com afixos + inferir significado", saida: "Escreva 2 palavras com afixo + significado deduzido", evidencia: "Lista de afixos + tirinha analisada", aee: "Lista visual de raízes + modelo + mediação", ludica: "Jogo de afixos", instrumento: "Vocabulário + leitura" }
+        ]
+      },
+      {
+        num: "3º", titulo: "Comunidade, Sustentabilidade & Projetos de Vida",
+        periodo: "Set – Dez 2026", aulas: 16,
+        foco: "Pronomes Relativos · Will · Be going to · Sustentabilidade · Gallery Walk",
+        semanas: [
+          { sem: "1–4", conteudo: "Relative Pronouns (who, which, that) + Campo", bncc: "EF08LI09 / EF08LI06", livro: "Ways 8 U5 p.82–97", pergunta: "Como uno ideias para falar da minha comunidade?", ticket: "The tractor ___ we use is old. My neighbor is the person ___ helps me.", acolhida: "Descrever um colega ou objeto sem dizer o nome — a turma adivinha", ativacao: "Tiras de papel: metades de frases — achar a outra metade com pronome relativo", desenvolvimento: "Who (pessoas) / Which (coisas) / That (ambos); contexto do campo: 'The farm which is near here'; Union de ideias; evitar repetições", pratica: "Gallery Walk: cartazes com frases relativas sobre a comunidade pendurados na parede", saida: "Complete: The person who ___ / The place which ___", evidencia: "Frases produzidas + cartazes", aee: "Modelo estruturado + apoio visual + mediação individual", ludica: "Tiras de papel — juntar metades", instrumento: "Gallery Walk + produção" },
+          { sem: "5–8", conteudo: "Future: Will (previsões) + Be going to (planos) + Sustentabilidade", bncc: "EF08LI09 / EF08LI06", livro: "Ways 8 U6 p.100–115", pergunta: "O que você vai fazer para proteger o campo onde vive?", ticket: "I am going to plant trees. If we recycle, we will ___.", acolhida: "O que o mundo vai ser em 2050? (previsão livre)", ativacao: "Goal Wall: post-it com plano de cada aluno usando going to", desenvolvimento: "Will + verb (previsões, decisões imediatas); Be going to (planos concretos); vocabulário ambiental; 'I am going to protect the river'; Turn and Talk sobre projetos da comunidade", pratica: "Campanha de sustentabilidade: cartaz com planos e previsões para a comunidade rural", saida: "Escreva 1 plano (going to) + 1 previsão (will)", evidencia: "Cartaz + frases produzidas", aee: "Modelo estruturado + apoio visual + tempo ampliado", ludica: "Goal Wall + Gallery Walk", instrumento: "Projeto/cartaz" }
+        ]
+      }
+    ]
+  },
+
+  ingles9: {
+    label: "Inglês 9º", cor: "en",
+    trimestres: [
+      {
+        num: "1º", titulo: "✅ APLICADO — Diagnóstico & Simple Present",
+        periodo: "Fev – Maio 2026", aulas: 8,
+        foco: "Diagnóstico · Revisão de verbos gerais · Simple Present",
+        semanas: [
+          { sem: "1–8", conteudo: "Diagnóstico + Revisão de Verbos + Simple Present", bncc: "EF09LI01 / EF09LI09", livro: "Ways 9 — revisão de base", pergunta: "O inglês serve para quê na minha vida?", ticket: "Escreva 3 frases sobre sua rotina em inglês", acolhida: "Quebra-gelo: onde você usaria inglês se viajasse?", ativacao: "Verb Relay — aluno passa verbo adiante, sem repetir", desenvolvimento: "Diagnóstico real da turma; revisão de verbos comuns; Simple Present sem tradução mecânica; conexão com o cotidiano do campo", pratica: "Frases sobre a rotina local: 'I wake up early / We plant beans'", saida: "3 frases no Simple Present", evidencia: "Frases + diagnóstico", aee: "Banco de verbos + modelo + resposta oral + tempo ampliado", ludica: "Verb Relay", instrumento: "Diagnóstico + exercício guiado" }
+        ]
+      },
+      {
+        num: "2º", titulo: "Argumentação, Conectivos & Leitura Crítica",
+        periodo: "Maio – Ago 2026", aulas: 8,
+        foco: "Verbos Modais · Linking Words · Pronomes Relativos · Fact vs Opinion",
+        semanas: [
+          { sem: "1–3", conteudo: "Modal Verbs + Linking Words (and, but, because)", bncc: "EF09LI16 / EF09LI14", livro: "Ways 9 U1–2 p.18–38", pergunta: "O que devo, posso ou preciso fazer?", ticket: "I should ___. I must ___. I can't ___ because ___.", acolhida: "Qual é a diferença entre querer e precisar?", ativacao: "Turn and Talk: duas frases simples — qual conector une melhor (and/but/because)?", desenvolvimento: "Should (conselho) / Must / Have to / May / Might; conectores para unir ideias sem tradução mecânica; contexto de mensagens e situações do campo", pratica: "One-Minute Paper: escrever 1 regra da comunidade com modal verb", saida: "Escreva 1 frase com should + 1 com because", evidencia: "Frases produzidas", aee: "Lista visual de modais + modelo + tempo ampliado", ludica: "Turn and Talk — dedução de conectivos", instrumento: "Exercício + one-minute paper" },
+          { sem: "4–6", conteudo: "Relative Pronouns (who, which, that) + Fact vs Opinion", bncc: "EF09LI06 / EF09LI07", livro: "Ways 9 U2–3 p.32–50", pergunta: "Como identifico fato e opinião em um texto?", ticket: "Dê 1 exemplo de fato e 1 de opinião do texto lido", acolhida: "Manchete do dia: fato ou opinião?", ativacao: "Jogo de combinação: tiras de papel com metades de frases relativas — achar o par", desenvolvimento: "Who / Which / That em frases do cotidiano do campo; Fact (verificável) vs Opinion (julgamento); leitura crítica de textos curtos", pratica: "Think-Pair-Share: analisar manchete → fato ou opinião? → debater em dupla → compartilhar", saida: "Este texto é fato ou opinião? Justifique.", evidencia: "Análise escrita + participação no debate", aee: "Texto simplificado + modelo de resposta + mediação", ludica: "Jogo de combinação com tiras", instrumento: "Análise + exercício" },
+          { sem: "7–8", conteudo: "Argument Structure + Mini Debate", bncc: "EF09LI01 / EF09LI03", livro: "Ways 9 U3 p.50–65", pergunta: "Como organizo meus argumentos para convencer alguém?", ticket: "Escreva: Tese → 1 argumento → 1 exemplo", acolhida: "Revisão oral: fato vs opinião com exemplos novos", ativacao: "Debate relâmpago: 2 min por lado sobre tema da comunidade", desenvolvimento: "Tese → Argumento → Evidência → Conclusão; conectivos; parágrafo argumentativo curto; Mime Game: frases com but/because dramatizadas", pratica: "Produção de 1 parágrafo argumentativo com tema real", saida: "Parágrafo: tese + argumento + exemplo", evidencia: "Parágrafo produzido + participação no debate", aee: "Modelo com lacunas + apoio individual + tempo ampliado", ludica: "Debate relâmpago + Mime Game", instrumento: "Produção escrita" }
+        ]
+      },
+      {
+        num: "3º", titulo: "Mídia, Persuasão & Projeto Final",
+        periodo: "Set – Dez 2026", aulas: 8,
+        foco: "Passive Voice · Reported Speech · If-clauses · Essay · Apresentação oral",
+        semanas: [
+          { sem: "1–3", conteudo: "Passive Voice (intro) + If-clauses Tipo 1 e 2", bncc: "EF09LI09 / EF09LI15", livro: "Ways 9 U4–5 p.68–95", pergunta: "Como mudamos o foco da frase? E se as coisas fossem diferentes?", ticket: "The test is corrected by ___. If I study, I will ___.", acolhida: "Por que notícias usam voz passiva? Exemplo real", ativacao: "Jogo de transformação: ativa → passiva em cartões coloridos", desenvolvimento: "Subject + is/are + past participle; If + present → will (tipo 1); If + past → would (tipo 2); contexto de questões da comunidade e ambiente", pratica: "Transformar frases + criar 1 condicional sobre questão local", saida: "Escreva 1 frase passiva + 1 condicional tipo 1", evidencia: "Exercícios + frases produzidas", aee: "Modelos estruturados + tabela de apoio + mediação", ludica: "Jogo de transformação ativa/passiva", instrumento: "Exercícios" },
+          { sem: "4–6", conteudo: "Persuasion + Fake News + Essay Writing", bncc: "EF09LI05 / EF09LI10 / EF09LI14", livro: "Ways 9 U5–6 p.96–115", pergunta: "Como escrever um essay convincente sobre algo que importa para mim?", ticket: "Escreva a introdução do seu essay", acolhida: "Exemplo de fake news famosa — análise coletiva", ativacao: "Quiz: Fake News ou Verdade?", desenvolvimento: "Técnicas persuasivas; conectores: however, therefore, in addition; estrutura do essay: Introduction → Body → Conclusion; produção progressiva (introdução → desenvolvimento → conclusão)", pratica: "Essay progressivo: semana por semana cada parte", saida: "1 parágrafo de introdução com tese + gancho", evidencia: "Rascunho progressivo", aee: "Modelo com lacunas + apoio individual + tempo ampliado", ludica: "Quiz Fake News", instrumento: "Produção progressiva" },
+          { sem: "7–8", conteudo: "Essay Final + Oral Presentation", bncc: "EF09LI01 / EF09LI12", livro: "Ways 9 — Final", pergunta: "O que aprendi e o que posso fazer com o inglês daqui para frente?", ticket: "Autoavaliação: 1 conquista + 1 meta para o futuro", acolhida: "Celebração: linha do tempo do que aprendemos no ano", ativacao: "Quiz final em equipes — todo conteúdo do 9º ano", desenvolvimento: "Essay final revisado; apresentação oral de 1–2 min: tema livre conectado à realidade deles", pratica: "Apresentações em grupos + feedback coletivo respeitoso", saida: "1 meta pessoal em inglês para o futuro", evidencia: "Essay final + rubrica oral", aee: "Roteiro de apresentação + apoio visual + tempo extra", ludica: "Quiz final + celebração", instrumento: "Rubrica final" }
+        ]
+      }
+    ]
+  },
+
+  port7: {
+    label: "Português 7º", cor: "pt",
+    trimestres: [
+      {
+        num: "1º", titulo: "✅ APLICADO — Campo Artístico-Literário",
+        periodo: "Fev – Maio 2026", aulas: "15",
+        foco: "Poema · Figuras de linguagem · Sarau · Plano de Emergência de Escrita",
+        semanas: [
+          { sem: "1–2", conteudo: "Diagnóstico + Poema Visual e Tirinha", bncc: "EF67LP28 / EF67LP05", livro: "SuperAção U1 p.12–20", pergunta: "O que diferencia poema de notícia?", ticket: "O que esse poema visual comunica sem palavras?", acolhida: "Você já leu ou ouviu algum poema? Qual?", ativacao: "Caça-rimas: professor lê versos, alunos completam a rima", desenvolvimento: "Diagnóstico via leitura de imagem; poema visual e tirinha como textos multimodais; relação imagem × texto verbal para leitores com defasagem", pratica: "Atividade de colorir versos por estrofe + responder perguntas objetivas", saida: "O que o poema comunica? Resposta livre em 1 frase", evidencia: "Participação + resposta escrita", aee: "Texto ampliado + modelo visual + mediação na leitura", ludica: "Caça-rimas coletivo", instrumento: "Diagnóstico / observação" },
+          { sem: "3–4", conteudo: "Sonoridade, Rimas e Figuras de Linguagem", bncc: "EF67LP28", livro: "SuperAção p.19–23", pergunta: "Por que os poemas rimam? O que é sentido figurado?", ticket: "Crie 1 verso com metáfora ou comparação", acolhida: "Bingo de rimas — professor fala palavra, aluno busca a rima", ativacao: "Cartões: sentido literal vs. figurado — qual é qual?", desenvolvimento: "Rima, ritmo, repetição; figuras de sentido: metáfora, antítese, hipérbole, metonímia; figuras de sonoridade: assonância, aliteração; exemplos visuais com cores", pratica: "Caça-Figura de Linguagem: poema ampliado, 3 cores diferentes para 3 figuras", saida: "Escreva 1 verso com metáfora", evidencia: "Poema com marcações + verso produzido", aee: "Expressões destacadas + exemplos concretos + frases-modelo", ludica: "Caça-Figura de Linguagem", instrumento: "Atividade prática + análise" },
+          { sem: "5–6", conteudo: "Eu Lírico, Tema, Interpretação + Plano de Escrita Emergencial", bncc: "EF67LP05 / EF67LP29", livro: "SuperAção p.21–23", pergunta: "Quem fala no poema? Qual é a mensagem?", ticket: "Eu lírico: ___ / Tema: ___ / Sentimento: ___", acolhida: "Leitura silenciosa de poema novo", ativacao: "Perguntas surpresa sobre o poema", desenvolvimento: "Eu lírico; tema e sentimento; interpretação fundamentada; início do Plano de Emergência de Escrita: diagnóstico frase→texto (quem? por quê? consequência?)", pratica: "Mapa mental: eu lírico → tema → sentimento → verso que comprova + expansão de frases simples", saida: "Eu lírico + sentimento + 1 frase expandida", evidencia: "Mapa mental + frase expandida", aee: "Lista de sentimentos com ícones + opções múltiplas + apoio na escrita", ludica: "Perguntas surpresa", instrumento: "Ficha de interpretação + escrita guiada" },
+          { sem: "7–8", conteudo: "Produção Poética + Mecânica Básica + Sarau", bncc: "EF67LP30 / EF67LP18 / EF67LP08", livro: "SuperAção p.24", pergunta: "Como criar um poema com as minhas palavras?", ticket: "Versão final do poema: tem rima + 1 figura de linguagem?", acolhida: "Escuta de declamação; orientações de postura e voz", ativacao: "Poema coletivo: cada aluno escreve 1 verso sobre mesmo tema", desenvolvimento: "Escrita guiada com tema + rima + 1 figura; reescrita coletiva; mecânica básica: letra maiúscula e pontuação final; sarau poético", pratica: "Revisão com checklist + reescrita + varal de poemas", saida: "Versão final do poema para o varal", evidencia: "Poema produzido + apresentação no sarau", aee: "Apoio na estruturação + treino de leitura expressiva + participação adaptada", ludica: "Sarau poético + Varal de poemas", instrumento: "Produção textual" }
+        ]
+      },
+      {
+        num: "2º", titulo: "Estruturação da Frase, Ortografia & Textos Informativos",
+        periodo: "Maio – Ago 2026", aulas: "15",
+        foco: "Estrutura da oração · Sujeito · Predicado · Ortografia · Notícia · Infográfico",
+        semanas: [
+          { sem: "1–2", conteudo: "Leitura de Notícia e Infográfico — Estrutura e Confiabilidade", bncc: "EF67LP01 / EF67LP05", livro: "SuperAção U2 — Jornalístico", pergunta: "Podemos confiar em tudo que lemos?", ticket: "1 fato + 1 opinião do texto lido", acolhida: "Você lê notícias? Onde?", ativacao: "Fake News ou Verdade? — cartões de manchetes para análise", desenvolvimento: "Pirâmide invertida: quem? o quê? onde? quando? por quê?; infográficos unem linguagem verbal e visual, facilitando leitores com defasagem; fonte confiável vs boato", pratica: "Ficha de leitura ativa + 10 perguntas de compreensão", saida: "1 fato + 1 opinião identificados no texto", evidencia: "Ficha de leitura preenchida", aee: "Texto simplificado + perguntas objetivas + leitura mediada", ludica: "Fake News ou Verdade?", instrumento: "Diagnóstico + leitura" },
+          { sem: "3–5", conteudo: "Estrutura Básica da Oração: Sujeito e Predicado", bncc: "EF67LP05 / EF67LP08", livro: "SuperAção — gramática em uso", pergunta: "Quem faz a ação? Qual é a ação?", ticket: "Identifique sujeito e predicado: 'O menino correu para casa.'", acolhida: "Jogo de frases: aluno separa quem faz da ação que faz", ativacao: "Frases em tiras de papel: separar sujeito | predicado com cores", desenvolvimento: "Sujeito (simples, composto, oculto, indeterminado); Predicado (nominal e verbal); identificação dos termos essenciais; foco em identificar claramente quem faz o quê na frase", pratica: "Exercícios de classificação + frases do livro + produção guiada", saida: "Identifique S e P na frase: '___ ___'", evidencia: "Exercícios + frase analisada", aee: "Frase ampliada + cores por função + atividade fragmentada", ludica: "Frase em tiras coloridas", instrumento: "Exercícios + ficha de análise" },
+          { sem: "6–7", conteudo: "Complementos: Verbos Transitivos e Intransitivos + OD e OI", bncc: "EF67LP05 / EF67LP08", livro: "SuperAção — gramática em uso", pergunta: "Quando o verbo precisa de complemento para fazer sentido?", ticket: "O verbo '___ ' pede complemento? O que ele pede?", acolhida: "Frases com e sem complemento — o que muda?", ativacao: "Jogo: frase incompleta — o que está faltando?", desenvolvimento: "Verbos transitivos (exigem complemento: VTD/VTI) e intransitivos; objeto direto e indireto de forma prática, com frases do cotidiano", pratica: "Classificar verbos em frases + criar 3 frases com VTD e 3 com VTI", saida: "Escreva 1 frase com VTD + 1 com VI", evidencia: "Frases produzidas", aee: "Lista de verbos classificados + modelo + mediação", ludica: "Jogo da frase incompleta", instrumento: "Exercícios" },
+          { sem: "8", conteudo: "Ortografia Essencial: há/a/à, acentos diferenciais, homônimas", bncc: "EF67LP08 / EF67LP32", livro: "SuperAção — ortografia", pergunta: "Como evito os erros mais comuns da escrita?", ticket: "Complete: ___ muito tempo / Vou ___ escola / Deu ___ ele.", acolhida: "Alunos listam palavras que mais erram na escrita", ativacao: "Caça-erro: encontrar os erros ortográficos em trechos projetados", desenvolvimento: "Há/a/à — distinção prática; pode/pôde, tem/têm — acento diferencial; traz/trás, mais/mas — homônimas comuns; revisão focalizada sem sobrecarregar", pratica: "Pauta de revisão: corrigir texto com foco em 2 aspectos ortográficos", saida: "Complete 3 frases com há/a/à corretamente", evidencia: "Atividade de revisão", aee: "Cartão de referência ortográfica + mediação individual", ludica: "Caça-erro", instrumento: "Atividade prática" },
+          { sem: "9–10", conteudo: "Plano de Escrita: Notícia Curta", bncc: "EF67LP02 / EF67LP08 / EF67LP32", livro: "SuperAção U2 — produção", pergunta: "Como produzir uma notícia sobre algo que aconteceu na minha escola?", ticket: "Pauta de revisão: minha notícia tem sujeito claro? Tem ponto final?", acolhida: "Planejamento coletivo na lousa: o que aconteceu + quem + quando + onde", ativacao: "Esquema guiado no quadro antes de escrever", desenvolvimento: "Planejamento → Rascunho → Revisão → Reescrita; Pauta de revisão focada em 2–3 aspectos (sujeito claro + pontuação + ortografia trabalhada); reescrita como momento metacognitivo", pratica: "Produção de notícia curta sobre evento da escola", saida: "Notícia revisada: tem lead? Sujeito claro? Ponto final?", evidencia: "Notícia produzida + revisada", aee: "Roteiro guiado + pauta simplificada + apoio na reescrita", ludica: "Jornal mural da turma", instrumento: "Produção textual + pauta de revisão" }
+        ]
+      },
+      {
+        num: "3º", titulo: "Expansão da Frase, Conexão de Ideias & Textos Literários",
+        periodo: "Set – Dez 2026", aulas: "15",
+        foco: "Conjunções · Adjuntos · Imperativo · Concordância · Crônica · Cordel · Campanha",
+        semanas: [
+          { sem: "1–2", conteudo: "Charges e Campanhas de Conscientização — Leitura Visual", bncc: "EF67LP01 / EF67LP05", livro: "SuperAção U5 — visual e crítico", pergunta: "Como charges e campanhas comunicam com poucas palavras?", ticket: "O que a charge critica? Qual é o público da campanha?", acolhida: "Mostrar charge — o que ela está dizendo?", ativacao: "Comparar: notícia vs charge sobre o mesmo tema", desenvolvimento: "Charge: humor, ironia e crítica via imagem e poucas palavras; campanha: texto curto + apelo ao público; infografia e texto multimodal", pratica: "Ficha de leitura visual: tema + crítica + público", saida: "O que a charge critica? Em 1 frase.", evidencia: "Ficha preenchida + participação", aee: "Perguntas objetivas + leitura mediada + texto ampliado", ludica: "Comparação notícia vs charge", instrumento: "Ficha de leitura" },
+          { sem: "3–5", conteudo: "Conexão de Ideias: Conjunções Coordenativas + Adjunto Adnominal e Adverbial", bncc: "EF67LP05 / EF67LP08", livro: "SuperAção — gramática em uso", pergunta: "Como junto frases sem ficar repetindo? Como enriqueço minha frase?", ticket: "Una as frases com 'mas' ou 'porque': 'Estudei ___ passei' / 'Fui embora ___ estava cansado'.", acolhida: "Leitura de texto com frases curtas e fragmentadas — o que está faltando?", ativacao: "Turn and Talk: qual conector une melhor (e/mas/porque)?", desenvolvimento: "Conjunções coordenativas aditivas (e, nem) e adversativas (mas, porém); Adjunto adnominal: detalha o substantivo; Adjunto adverbial: detalha o verbo (tempo, lugar, modo)", pratica: "Conectar frases + enriquecer frases simples com adjuntos", saida: "Una 2 frases com conector + adicione 1 adjunto adverbial", evidencia: "Frases produzidas", aee: "Lista visual de conectores + modelo + mediação", ludica: "Turn and Talk — conector certo", instrumento: "Exercícios" },
+          { sem: "6–7", conteudo: "Modo Imperativo + Concordância Nominal e Verbal", bncc: "EF67LP08 / EF67LP32", livro: "SuperAção — gramática em uso", pergunta: "Como damos ordens e pedidos? Por que 'o aluno' e 'os alunos' são diferentes?", ticket: "Escreva 2 imperativos para uma campanha escolar", acolhida: "Leitura de cartaz de campanha — que verbos aparecem?", ativacao: "Caça-erro: encontrar erros de concordância em frases projetadas", desenvolvimento: "Imperativo (ordem/pedido): muito comum em campanhas; concordância nominal (gênero e número) e verbal (sujeito + verbo) em situações comunicativas reais", pratica: "Criar 3 imperativos para campanha escolar + corrigir frases com erro de concordância", saida: "Escreva 2 verbos no imperativo + corrija 2 frases", evidencia: "Frases produzidas + correção", aee: "Modelo com lacunas + fragmentação + mediação", ludica: "Caça-erro de concordância", instrumento: "Exercícios + produção" },
+          { sem: "8–10", conteudo: "Plano de Escrita: Campanha/Cartaz + Leitura Expressiva de Cordel", bncc: "EF67LP02 / EF67LP18 / EF67LP30 / EF67LP32", livro: "SuperAção Final", pergunta: "Como produzir um cartaz de campanha eficaz? Como ler cordel em voz alta?", ticket: "Meu cartaz: usa imperativo? Tem apelo ao público? Ortografia revisada?", acolhida: "Leitura dramática de cordel em voz alta", ativacao: "Planejamento coletivo na lousa: público + mensagem + imperativo", desenvolvimento: "Texto curto e objetivo: ideal para nível inicial; imperativo + adequação ao público; leitura expressiva de cordel: entonação, pausa e fluência; pauta de revisão focada", pratica: "Produção de cartaz de campanha + leitura expressiva em dupla ou grupo", saida: "Pauta de revisão: usa imperativo? Público definido? Ortografia?", evidencia: "Cartaz produzido + leitura expressiva registrada", aee: "Roteiro de campanha guiado + treino de leitura + participação adaptada", ludica: "Leitura dramática de cordel", instrumento: "Produto + rubrica curta" }
+        ]
+      }
+    ]
+  }
+};
+
+// ============================================================
+// DCRB BAHIA — Habilidades por código
+// O DCRB adota os mesmos códigos da BNCC + ênfases territoriais baianas
+// ============================================================
+const DCRB = {
+  // 6º ANO — INGLÊS
+  "EF06LI01": { desc: "Interagir em situações de intercâmbio oral, demonstrando iniciativa para utilizar a língua inglesa em sala de aula e fora dela.", enfase: "Contextualizar saudações e apresentações a partir de referências culturais do Nordeste e da Bahia (festas populares, personagens locais, comunidades quilombolas)." },
+  "EF06LI02": { desc: "Coletar informações do grupo, perguntando e respondendo sobre família, amigos, escola e comunidade.", enfase: "Valorizar a diversidade familiar baiana, incluindo famílias quilombolas, ribeirinhas e do campo (contexto de escola do campo de Presidente Dutra)." },
+  "EF06LI03": { desc: "Solicitar esclarecimentos sobre o que não entendeu e significado de palavras desconhecidas em inglês.", enfase: "Incentivar a comparação entre expressões em inglês e termos do português baiano/nordestino para ampliar repertório." },
+  "EF06LI05": { desc: "Aplicar conhecimentos da língua inglesa para falar de si e de outras pessoas, explicitando informações pessoais, gostos, preferências e rotinas.", enfase: "Conectar rotinas do cotidiano baiano (práticas culturais, alimentação regional, festas locais) às estruturas do Simple Present." },
+  "EF06LI09": { desc: "Localizar informações específicas em texto escrito em inglês.", enfase: "Utilizar textos com temáticas ligadas à realidade baiana (meio ambiente do semiárido, Chapada Diamantina, cultura afro-brasileira) como suporte de leitura." },
+  "EF06LI11": { desc: "Explorar ambientes virtuais e aplicativos para construir repertório lexical em inglês.", enfase: "Usar mídias digitais para pesquisa de vocabulário contextualizado na realidade do estudante baiano." },
+  "EF06LI07": { desc: "Produzir textos escritos em língua inglesa sobre si mesmo, família e comunidade.", enfase: "Produzir textos que valorizem a identidade cultural local: comunidades, festas, patrimônio da Bahia." },
+  "EF06LI13": { desc: "Listar ideias para produção de textos, levando em conta tema e assunto.", enfase: "Partir de temas do universo cotidiano baiano para planejamento textual." },
+  "EF06LI17": { desc: "Construir repertório lexical relativo a temas familiares: escola, família, rotina, lazer, esportes.", enfase: "Incluir vocabulário relacionado a esportes, brincadeiras e manifestações culturais típicas da Bahia e do Nordeste." },
+  "EF06LI19": { desc: "Utilizar o presente do indicativo para identificar pessoas (verbo to be) e descrever rotinas diárias.", enfase: "Descrever rotinas em contexto de escola do campo e comunidade rural, respeitando o contexto de vida dos estudantes." },
+  "EF06LI08": { desc: "Identificar o assunto de um texto, reconhecendo organização textual e palavras cognatas.", enfase: "Usar textos que tratem de temáticas culturais e ambientais relevantes para o contexto baiano." },
+
+  // 7º ANO — INGLÊS
+  "EF07LI01": { desc: "Interagir em situações de intercâmbio oral para realizar atividades, trocando ideias e engajando-se em brincadeiras e jogos.", enfase: "Promover interações que valorizem a cultura nordestina/baiana: músicas, literatura de cordel, causos e histórias locais como ponto de partida para a oralidade." },
+  "EF07LI02": { desc: "Entrevistar os colegas para conhecer suas histórias de vida.", enfase: "Valorizar histórias de vida de estudantes de comunidades rurais, quilombolas e do semiárido baiano." },
+  "EF07LI03": { desc: "Mobilizar conhecimentos prévios para compreender texto oral.", enfase: "Conectar conhecimentos da cultura oral baiana (repente, cordel, música popular) à compreensão do inglês." },
+  "EF07LI05": { desc: "Compor narrativas orais sobre fatos, acontecimentos e personalidades marcantes do passado.", enfase: "Narrar fatos históricos relevantes para a Bahia: resistência quilombola, personagens afro-baianos, eventos culturais locais no passado." },
+  "EF07LI06": { desc: "Antecipar o sentido global de textos em inglês por inferências, leitura rápida, títulos e palavras-chave.", enfase: "Utilizar textos sobre diversidade cultural, meio ambiente e cidadania com contexto baiano." },
+  "EF07LI09": { desc: "Identificar e usar o past simple em narrativas escritas e orais.", enfase: "Narrar eventos históricos e culturais baianos no passado como forma de desenvolver o past simple em contexto significativo." },
+  "EF07LI11": { desc: "Construir repertório lexical temático relacionado a viagens, lugares e experiências.", enfase: "Explorar vocabulário de pontos turísticos, biomas e regiões da Bahia como contexto para travel vocabulary." },
+  "EF07LI13": { desc: "Reconhecer e valorizar a diversidade cultural por meio da língua inglesa.", enfase: "Comparar aspectos da cultura baiana com culturas de países anglófonos, valorizando a identidade baiana e afro-brasileira." },
+
+  // 8º ANO — INGLÊS
+  "EF08LI01": { desc: "Fazer uso da língua inglesa para resolver mal-entendidos, emitir opiniões e esclarecer informações.", enfase: "Desenvolver o posicionamento crítico sobre questões sociais relevantes para a realidade baiana (desigualdade, meio ambiente, identidade)." },
+  "EF08LI03": { desc: "Construir o sentido global de textos orais, relacionando partes, assunto principal e informações relevantes.", enfase: "Usar textos sobre questões ambientais do semiárido, bioma caatinga e preservação como contexto de leitura crítica." },
+  "EF08LI05": { desc: "Inferir informações e relações não explícitas no texto para construção de sentidos.", enfase: "Analisar textos sobre desigualdade social, racismo e direitos humanos, temas centrais no DCRB Bahia." },
+  "EF08LI06": { desc: "Produzir textos escritos sobre temas de interesse pessoal e coletivo.", enfase: "Produzir textos relacionados a questões da comunidade local, ambiente e cultura baiana." },
+  "EF08LI08": { desc: "Produzir textos orais em inglês sobre experiências pessoais e temas do cotidiano.", enfase: "Relatar experiências do cotidiano baiano em inglês, valorizando a identidade local." },
+  "EF08LI09": { desc: "Empregar estruturas comparativas, superlativas e modais em produções escritas e orais.", enfase: "Comparar realidades sociais e ambientais locais (Bahia) com globais usando comparativos e modais." },
+  "EF08LI13": { desc: "Reconhecer e valorizar aspectos culturais de países de língua inglesa, comparando com a cultura local.", enfase: "Estabelecer comparações entre a cultura afro-brasileira baiana e culturas afro-americanas e caribenhas de expressão inglesa, valorizando a diáspora africana." },
+
+  // 9º ANO — INGLÊS
+  "EF09LI01": { desc: "Fazer uso da língua inglesa para expor pontos de vista, argumentos e contra-argumentos com eficácia comunicativa.", enfase: "Argumentar sobre temas de interesse social baiano: racismo, desigualdade, direito à educação, identidade quilombola e indígena." },
+  "EF09LI03": { desc: "Analisar posicionamentos defendidos e refutados em textos orais sobre temas de interesse social e coletivo.", enfase: "Analisar discursos sobre identidade, pertencimento e diversidade cultural baiana e afro-brasileira." },
+  "EF09LI06": { desc: "Distinguir fatos de opiniões em textos argumentativos da esfera jornalística.", enfase: "Usar notícias e reportagens sobre a Bahia e o Nordeste como suporte para o desenvolvimento do pensamento crítico." },
+  "EF09LI07": { desc: "Identificar argumentos principais e as evidências/exemplos que os sustentam.", enfase: "Analisar argumentos em textos sobre direitos humanos, território e cultura — temas estruturantes do DCRB Bahia." },
+  "EF09LI08": { desc: "Explorar ambientes virtuais de informação e socialização, analisando qualidade e validade das informações.", enfase: "Desenvolver letramentos digitais críticos para identificar desinformação sobre povos e culturas afro-brasileiras e indígenas." },
+  "EF09LI09": { desc: "Empregar estruturas verbais avançadas: voz passiva, discurso indireto, condicionais e modais.", enfase: "Usar a voz passiva e o discurso indireto em contextos de notícias sobre direitos e cidadania baiana." },
+  "EF09LI14": { desc: "Utilizar conectores de adição, condição, oposição, contraste, conclusão e síntese na argumentação.", enfase: "Construir textos argumentativos sobre questões de identidade, território e diversidade cultural." },
+  "EF09LI15": { desc: "Empregar formas verbais em orações condicionais tipos 1 e 2 (If-clauses).", enfase: "Desenvolver hipóteses sobre questões sociais e ambientais baianas usando condicionais." },
+  "EF09LI17": { desc: "Debater sobre a expansão da língua inglesa pelo mundo em função do processo de colonização.", enfase: "Ênfase central do DCRB: debater o papel do inglês no processo colonial nas Américas e na África, conectando com a história da Bahia e do povo afro-brasileiro. Desenvolver postura crítica e não subalternizada em relação à língua inglesa." },
+
+  // PORTUGUÊS 7º ANO
+  "EF67LP01": { desc: "Envolver-se em práticas de leitura literária com postura reflexiva, reconhecendo as singularidades estéticas e culturais de diferentes formas de expressão.", enfase: "Valorizar a literatura de autores baianos e afro-brasileiros; incluir poetas do cordel nordestino; trabalhar poemas de autores negros como forma de representatividade cultural." },
+  "EF67LP05": { desc: "Interpretar textos com autonomia, fazendo inferências sobre temas e sentidos.", enfase: "Usar textos que tratem da realidade do semiárido, do campo e das comunidades baianas como base para interpretação." },
+  "EF67LP08": { desc: "Empregar pontuação com intencionalidade nas produções escritas.", enfase: "Partir de textos do cotidiano baiano (cartas, notícias regionais) para ensinar pontuação em contexto real." },
+  "EF67LP18": { desc: "Utilizar, ao produzir texto, recursos linguísticos e semióticos disponíveis na língua, de modo a ampliar possibilidades de sentidos.", enfase: "Valorizar oralidade, declamação e manifestações culturais baianas (sarau, slam, cordel) como práticas legítimas de linguagem." },
+  "EF67LP28": { desc: "Reconhecer e utilizar recursos poéticos como verso, estrofe, rima, ritmo e figuras de linguagem.", enfase: "Trabalhar com poetas baianos e nordestinos; incluir cordel e literatura de tradição oral afro-brasileira como textos poéticos legítimos." },
+  "EF67LP29": { desc: "Identificar o eu lírico, tema, sentimentos e efeitos de sentido em poemas.", enfase: "Usar poemas sobre identidade negra, cultura baiana, sertão e diversidade para desenvolver interpretação com pertencimento." },
+  "EF67LP30": { desc: "Produzir textos poéticos com domínio de recursos expressivos da linguagem.", enfase: "Estimular a produção de poemas que expressem a identidade cultural baiana e nordestina do estudante, valorizando o repertório local." },
+  "EF67LP32": { desc: "Revisar e reescrever textos considerando ortografia, pontuação e coesão.", enfase: "Valorizar variações linguísticas regionais baianas no processo de revisão, sem apagamento da identidade." },
+  "EF67LP02": { desc: "Produzir textos considerando a situação comunicativa, destinatário, finalidade e suporte.", enfase: "Trabalhar com gêneros textuais circulantes na comunidade local (carta, notícia regional, aviso de comunidade)." },
+};
+
+function getDCRB(bnccStr) {
+  const codes = bnccStr.split(/[/,]/).map(c => c.trim());
+  return codes.map(code => DCRB[code]).filter(Boolean);
+}
+
+const BANCO = [
+  { nome: "Bingo de Vocabulário", tipo: "Listening / Vocabulário", bncc: "EF06LI03, EF07LI03", turmas: "Todos", desc: "Professor fala palavra, aluno marca na cartela. Variações: imagens (apoio), palavras escritas (intermediário), frases (avançado).", aee: "Cartelas com imagens para TEA/DI; fonte ampliada para dislexia; poucas palavras para DI" },
+  { nome: "Jogo da Memória (Present × Past)", tipo: "Gramática", bncc: "EF08LI05", turmas: "8º, 9º", desc: "Cartões: infinitivo × forma no passado. Variação: apenas regulares (apoio), misturado (intermediário), criar frase com par (avançado).", aee: "Cores diferentes para os pares; lista de apoio disponível" },
+  { nome: "Frase Embaralhada", tipo: "Estrutura gramatical", bncc: "Todos os anos", turmas: "Todos", desc: "Tiras de papel com palavras da frase embaralhadas. Alunos organizam. Variação: 3 palavras (apoio) → perguntas (avançado).", aee: "Poucas palavras, cores por função gramatical" },
+  { nome: "Mímica de Verbos", tipo: "Vocabulário / Oral", bncc: "EF06LI01, EF07LI01", turmas: "6º, 7º", desc: "Aluno pega cartão com verbo e faz mímica. Turma adivinha 'Are you ___ing?'. Movimento e engajamento alto.", aee: "Imagem no cartão; aluno pode apontar ao invés de mimar" },
+  { nome: "Interview Chain", tipo: "Oralidade", bncc: "EF07LI01, EF08LI01", turmas: "7º, 8º, 9º", desc: "Past Simple: aluno A pergunta a B, B responde e pergunta a C, formando uma corrente de entrevistas orais.", aee: "Ficha de apoio com perguntas modelo; tempo ampliado" },
+  { nome: "Debate Relâmpago", tipo: "Argumentação / Oral", bncc: "EF09LI01, EF08LI01", turmas: "8º, 9º", desc: "Tema sorteado, 1 min para cada lado argumentar. Moderador (professor ou aluno avançado) controla o tempo.", aee: "Mediação do professor; ficha de argumento pré-preparada" },
+  { nome: "Fake News ou Verdade?", tipo: "Leitura crítica", bncc: "EF09LI03, EF08LI03, EF67LP01", turmas: "8º, 9º, PT7", desc: "Cartões de manchetes: alunos votam se é fato verificável ou fake news. Debate coletivo das justificativas.", aee: "Texto simplificado; apoio visual; leitura mediada" },
+  { nome: "Plano de Intervenção de Escrita (PT)", tipo: "Escrita", bncc: "EF67LP02, EF67LP08, EF67LP28, EF67LP32", turmas: "PT 7º", desc: "4 semanas: Semana 1 (frase e vocabulário), Semana 2 (maiúsculas), Semana 3 (pontuação), Semana 4 (parágrafo). Progressão garantida.", aee: "Atividades adaptadas com escolha múltipla + cores por categoria gramatical" },
+  { nome: "Sarau Poético", tipo: "Oralidade / Literário", bncc: "EF67LP18, EF67LP30", turmas: "PT 7º", desc: "Alunos declamam poemas produzidos. Varal de poemas na sala. Organização com participação voluntária e em dupla.", aee: "Treino guiado; leitura em dupla; participação por apresentação do varal" },
+  { nome: "Caça-Figura de Linguagem", tipo: "Análise literária", bncc: "EF67LP28", turmas: "PT 7º", desc: "Poema ampliado; 3 cores distintas para metáfora, comparação e personificação. Grupos identificam e justificam.", aee: "Texto ampliado; exemplos-modelo; ícones visuais por tipo de figura" },
+  { nome: "Quiz Relâmpago em Equipes", tipo: "Revisão", bncc: "Todos", turmas: "Todos", desc: "Perguntas projetadas ou no quadro. Equipes respondem em mini-quadros ou cartões. Competição rápida e engajante.", aee: "Resposta oral ou por gesto; equipe mista com apoio interno" },
+  { nome: "Goal Wall", tipo: "Metacognição / Futuro", bncc: "EF07LI09", turmas: "7º Inglês", desc: "Parede de post-its: cada aluno escreve 1 plano com 'I am going to…'. Apresentação oral de 1 frase cada.", aee: "Modelo de frase disponível; resposta oral permitida" }
+];
+
+// ============================================================
+// RENDER
+// ============================================================
+
+function renderAcordeon(turmKey) {
+  const turma = DATA[turmKey];
+  if (!turma) return;
+  const container = document.getElementById(`acordeon-${turmKey}`);
+  if (!container) return;
+  container.innerHTML = '';
+
+  turma.trimestres.forEach((tri, ti) => {
+    const div = document.createElement('div');
+    div.className = 'trimestre';
+    div.innerHTML = `
+      <div class="trimestre-header" onclick="toggleTri(this)" data-open="false">
+        <div class="tri-left">
+          <div class="tri-number">${tri.num}</div>
+          <div>
+            <div class="tri-title">${tri.titulo}</div>
+            <div class="tri-meta">${tri.periodo} · ${tri.foco}</div>
+          </div>
+        </div>
+        <div class="tri-right">
+          <div class="tri-aulas">${tri.aulas} AULAS</div>
+          <div class="tri-arrow">▼</div>
+        </div>
+      </div>
+      <div class="trimestre-body">
+        <div class="semanas-grid">
+          ${tri.semanas.map((s, si) => renderSemanaCard(s, turma.cor, turmKey, ti, si)).join('')}
+        </div>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function renderSemanaCard(s, cor, turmKey, ti, si) {
+  return `
+    <div class="semana-card ${cor === 'pt' ? 'pt' : ''}" onclick="openModal('${turmKey}',${ti},${si})">
+      <div class="semana-card-head">
+        <div>
+          <div class="semana-num">Semana ${s.sem}</div>
+          <div class="semana-conteudo">${s.conteudo}</div>
+        </div>
+        <div class="semana-bncc">${s.bncc.split('/')[0].trim()}</div>
+      </div>
+      <div class="semana-card-body">
+        <div class="info-row">
+          <span class="info-label">Pergunta</span>
+          <span class="info-val">${s.pergunta}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Ticket</span>
+          <span class="info-val">${s.ticket}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Evidência</span>
+          <span class="info-val">${s.evidencia}</span>
+        </div>
+      </div>
+      <div class="semana-card-foot">
+        ${s.ludica && s.ludica !== '—' ? `<span class="foot-chip chip-ludica">🎲 ${s.ludica.split('(')[0].trim()}</span>` : ''}
+        <span class="foot-chip chip-aee">♿ AEE</span>
+        <span class="foot-chip chip-livro">📖 ${s.livro}</span>
+      </div>
+    </div>`;
+}
+
+function toggleTri(header) {
+  const body = header.nextElementSibling;
+  const isOpen = header.dataset.open === 'true';
+  header.dataset.open = !isOpen;
+  if (isOpen) {
+    header.classList.remove('open');
+    body.classList.remove('open');
+  } else {
+    header.classList.add('open');
+    body.classList.add('open');
+  }
+}
+
+function openModal(turmKey, ti, si) {
+  const turma = DATA[turmKey];
+  const tri = turma.trimestres[ti];
+  const s = tri.semanas[si];
+  const cor = turma.cor;
+
+  const badge = document.getElementById('modal-badge');
+  badge.textContent = turma.label + ' · ' + tri.num + ' Trimestre';
+  badge.className = 'modal-turma-badge ' + (cor === 'pt' ? 'badge-pt' : 'badge-en');
+
+  document.getElementById('modal-title').textContent = s.conteudo;
+  document.getElementById('modal-semana').textContent = `Semana ${s.sem} · ${tri.periodo} · ${s.bncc} · ${s.livro}`;
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="template-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-label">Acolhida + Retomada Espiralada <span class="step-duration">5 min</span></div>
+          <div class="step-text">${s.acolhida}</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-label">Ativação <span class="step-duration">10 min</span></div>
+          <div class="step-text">${s.ativacao}</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-label">Desenvolvimento <span class="step-duration">20 min</span></div>
+          <div class="step-text">${s.desenvolvimento}</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-label">Prática Guiada <span class="step-duration">10 min</span></div>
+          <div class="step-text">${s.pratica}</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-label">Ticket de Saída <span class="step-duration">5 min</span></div>
+          <div class="step-text">${s.ticket}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-meta-grid">
+      <div class="meta-box">
+        <div class="meta-box-label">🔥 Pergunta Motivadora</div>
+        <div class="meta-box-val">${s.pergunta}</div>
+      </div>
+      <div class="meta-box">
+        <div class="meta-box-label">📋 Evidência de Aprendizagem</div>
+        <div class="meta-box-val">${s.evidencia}</div>
+      </div>
+      <div class="meta-box full">
+        <div class="meta-box-label">📝 Instrumento Avaliativo</div>
+        <div class="meta-box-val">${s.instrumento}</div>
+      </div>
+    </div>
+
+    ${s.ludica && s.ludica !== '—' ? `
+    <div class="ludica-box">
+      <div class="ludica-box-label">🎲 Atividade Lúdica do Mês</div>
+      <div class="ludica-box-val">${s.ludica}</div>
+    </div>` : ''}
+
+    ${(function(){ const dcrbs = getDCRB(s.bncc); return dcrbs.length ? `<div class="dcrb-box"><div class="dcrb-box-label">🏫 BNCC + DCRB Bahia</div>${dcrbs.map(d => `<div class="dcrb-item"><strong>Habilidade:</strong> ${d.desc}<div class="dcrb-enfase"><strong>Ênfase DCRB Bahia:</strong> ${d.enfase}</div></div>`).join("")}</div>` : ""; })()}
+
+    <div class="aee-box">
+      <div class="aee-box-label">♿ Adaptações AEE — TEA · TDAH · Dislexia · DI · Defasagem</div>
+      <div class="aee-box-val">${s.aee}</div>
+    </div>`;
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalDirect(); });
+
+// ============================================================
+// CRONOGRAMA GERAL
+// ============================================================
+function renderCronograma() {
+  const tbody = document.getElementById('cronograma-tbody');
+  const rows = [];
+  Object.entries(DATA).forEach(([key, turma]) => {
+    turma.trimestres.forEach(tri => {
+      tri.semanas.forEach(s => {
+        rows.push({ turma: turma.label, tri: tri.num, sem: s.sem, conteudo: s.conteudo, bncc: s.bncc, livro: s.livro });
+      });
+    });
+  });
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td>${r.tri}º Tri</td>
+      <td>${r.sem}</td>
+      <td>${r.turma}</td>
+      <td>${r.conteudo}</td>
+      <td><span class="bncc-tag">${r.bncc.split('/')[0].trim()}</span></td>
+      <td>${r.livro}</td>
+    </tr>`).join('');
+}
+
+// ============================================================
+// BANCO
+// ============================================================
+function renderBanco() {
+  const grid = document.getElementById('banco-grid');
+  grid.innerHTML = BANCO.map(a => `
+    <div class="semana-card" style="cursor:default">
+      <div class="semana-card-head">
+        <div>
+          <div class="semana-num">${a.tipo}</div>
+          <div class="semana-conteudo">${a.nome}</div>
+        </div>
+        <div class="semana-bncc">${a.bncc.split(',')[0].trim()}</div>
+      </div>
+      <div class="semana-card-body">
+        <div class="info-row">
+          <span class="info-label">Turmas</span>
+          <span class="info-val">${a.turmas}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Como usar</span>
+          <span class="info-val">${a.desc}</span>
+        </div>
+      </div>
+      <div class="semana-card-foot">
+        <span class="foot-chip chip-aee">♿ ${a.aee.substring(0,40)}…</span>
+      </div>
+    </div>`).join('');
+}
+
+// ============================================================
+// NAV
+// ============================================================
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active-en','active-pt'));
+  document.getElementById(`view-${id}`).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const idx = ['ingles6','ingles7','ingles8','ingles9','port7','cronograma','banco'].indexOf(id);
+  if (idx >= 0) {
+    const cls = id === 'port7' ? 'active-pt' : 'active-en';
+    tabs[idx].classList.add(cls);
+  }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+['ingles6','ingles7','ingles8','ingles9','port7'].forEach(renderAcordeon);
+renderCronograma();
+renderBanco();
+</script>
+</body>
+</html>

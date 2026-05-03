@@ -1,0 +1,204 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .wk-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; gap: 12px; }
+  .wk-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .wk-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+  .badge { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; white-space: nowrap; background: #EEEDFE; color: #3C3489; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .tab { padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); background: transparent; transition: all .15s; font-family: var(--font-sans); }
+  .tab.on { background: #534AB7; color: #fff; border-color: #534AB7; }
+  .tab:hover:not(.on) { background: var(--color-background-secondary); }
+  .card { background: var(--color-background-secondary); border-radius: 12px; padding: 1.25rem 1.5rem; border: 0.5px solid var(--color-border-tertiary); }
+  .ah { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .anum { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; flex-shrink: 0; }
+  .atitle { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .ameta { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .sl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); margin: 1rem 0 5px; }
+  .st { font-size: 14px; color: var(--color-text-secondary); line-height: 1.65; }
+  .st b { font-weight: 500; color: var(--color-text-primary); }
+  hr.d { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: .9rem 0; }
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .p { font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+  .pt { background: #E1F5EE; color: #085041; }
+  .pp { background: #EEEDFE; color: #3C3489; }
+  .pa { background: #FAEEDA; color: #633806; }
+  .pg { background: #F1EFE8; color: #444441; }
+  .tip { background: #E1F5EE; border-left: 3px solid #1D9E75; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #085041; line-height: 1.6; margin-top: 1rem; }
+  .warn { background: #FAEEDA; border-left: 3px solid #EF9F27; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #633806; line-height: 1.6; margin-top: 1rem; }
+  .info { background: #EEEDFE; border-left: 3px solid #7F77DD; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #3C3489; line-height: 1.6; margin-top: 1rem; }
+  .box2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .mini { background: var(--color-background-primary); border-radius: 8px; border: 0.5px solid var(--color-border-tertiary); padding: 10px 12px; }
+  .mini-t { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .mini-s { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  @media (prefers-color-scheme: dark) {
+    .badge { background:#26215C; color:#CECBF6; }
+    .pt { background:#04342C; color:#9FE1CB; }
+    .pp { background:#26215C; color:#CECBF6; }
+    .pa { background:#412402; color:#FAC775; }
+    .pg { background:#2C2C2A; color:#D3D1C7; }
+    .tip { background:#04342C; color:#9FE1CB; }
+    .warn { background:#412402; color:#FAC775; }
+    .info { background:#26215C; color:#CECBF6; }
+  }
+</style>
+<div class="wrap">
+  <div class="wk-header">
+    <div>
+      <div class="wk-title">Semana 2 — Criação</div>
+      <div class="wk-sub">3º trimestre · 5 aulas · Oficina autoral + Sarau + livro coletivo</div>
+    </div>
+    <div class="badge">3º trim. · clímax do projeto</div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="sw(1,this)">A1</button>
+    <button class="tab" onclick="sw(2,this)">A2</button>
+    <button class="tab" onclick="sw(3,this)">A3</button>
+    <button class="tab" onclick="sw(4,this)">A4</button>
+    <button class="tab" onclick="sw(5,this)">A5</button>
+  </div>
+
+  <div class="card" id="d1">
+    <div class="ah">
+      <div class="anum" style="background:#EEEDFE;color:#3C3489;">A1</div>
+      <div><div class="atitle">Oficina de planejamento do conto autoral</div><div class="ameta">50 min · Organização: individual com roteiro guiado</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Lançar a produção do conto autoral com suporte estruturado, a partir do mapa temático construído na S1. Cada aluno sai da aula com um plano concreto para seu texto.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Resgate do mapa temático (8 min)</b> — O professor exibe (ou redistribui) o mapa de temas construído coletivamente na S1/A5. Retomada oral: "Esses foram os temas que encontramos nos contos. Agora vocês vão criar histórias inspiradas neles."<br><br>
+      <b>2. Apresentação do roteiro de planejamento (7 min)</b> — O professor distribui um roteiro de planejamento (ficha impressa ou no caderno) com as perguntas-guia do conto.<br><br>
+      <b>3. Preenchimento individual do roteiro (28 min)</b> — Cada aluno planeja seu conto respondendo ao roteiro. O professor circula, faz perguntas de apoio, ajuda quem travar: "Qual personagem do livro te marcou mais? O que aconteceria com ele em outro lugar?"<br><br>
+      <b>4. Socialização de ideias (7 min)</b> — 3 ou 4 alunos compartilham voluntariamente seu plano. A turma reage com escuta e curiosidade — sem julgamentos.
+    </div>
+    <div class="sl">Roteiro de planejamento</div>
+    <div class="box2">
+      <div class="mini"><div class="mini-t">Personagem principal</div><div class="mini-s">Quem é? De onde vem? O que deseja?</div></div>
+      <div class="mini"><div class="mini-t">Conflito central</div><div class="mini-s">Qual problema ou tensão move a história?</div></div>
+      <div class="mini"><div class="mini-t">Cenário</div><div class="mini-s">Onde e quando se passa? Que atmosfera?</div></div>
+      <div class="mini"><div class="mini-t">Desfecho</div><div class="mini-s">Como o conflito se resolve (ou não)?</div></div>
+    </div>
+    <div class="pills">
+      <span class="p pp">Escrita autoral</span>
+      <span class="p pt">Planejamento narrativo</span>
+      <span class="p pg">Roteiro guiado</span>
+    </div>
+    <div class="tip">Dica: Alunos que tiverem dificuldade de criar do zero podem "continuar" um dos contos lidos — mudando o final, transpondo para outro contexto, ou dando voz a um personagem secundário.</div>
+  </div>
+
+  <div class="card" id="d2" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#EEEDFE;color:#3C3489;">A2</div>
+      <div><div class="atitle">Rascunho individual com suporte do professor</div><div class="ameta">50 min · Escrita individual · 1ª sessão</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Produzir o rascunho inicial do conto autoral, transformando o plano da A1 em texto narrativo com acompanhamento próximo do professor.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Aquecimento de escrita (8 min)</b> — O professor propõe uma escrita rápida de 5 minutos: "Escreva a primeira cena do seu conto — não se preocupe com perfeição, escreva sem parar." Serve para destravá-los. Seguido de 3 minutos de releitura individual do plano.<br><br>
+      <b>2. Escrita do rascunho (35 min)</b> — Silêncio produtivo. Cada aluno escreve seu conto a partir do plano. O professor circula continuamente, lendo em silêncio trechos que estão sendo escritos, fazendo intervenções individuais e pontuais:<br>
+      — "Esse trecho está muito bom — consigo ver a cena."<br>
+      — "Como o personagem está se sentindo nesse momento?"<br>
+      — "O que acontece depois disso?"<br><br>
+      <b>3. Pausa de progresso (7 min)</b> — Cada aluno registra em uma frase o ponto em que está: "Meu conto chegou até..." Isso ajuda a retomada na próxima aula.
+    </div>
+    <div class="pills">
+      <span class="p pp">Rascunho</span>
+      <span class="p pt">Escrita criativa</span>
+      <span class="p pg">Intervenção do professor</span>
+    </div>
+    <div class="tip">Dica: Não corrija ortografia ou gramática durante a escrita do rascunho. O foco é o fluxo narrativo. Correções virão na revisão da A4.</div>
+  </div>
+
+  <div class="card" id="d3" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#EEEDFE;color:#3C3489;">A3</div>
+      <div><div class="atitle">Rascunho individual com suporte do professor</div><div class="ameta">50 min · Escrita individual · 2ª sessão · conclusão do rascunho</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Concluir o rascunho iniciado na A2, garantindo que todos os alunos tenham um texto completo — do início ao desfecho — antes da revisão em duplas.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Retomada com a frase de progresso (5 min)</b> — Cada aluno relê sua frase de progresso da A2 e os últimos parágrafos escritos para reentrar na narrativa.<br><br>
+      <b>2. Continuação e conclusão do rascunho (35 min)</b> — Sessão de escrita com o mesmo clima da A2. O professor prioriza nesta aula os alunos que estão com menos texto produzido — apoio mais intensivo a quem precisa terminar.<br><br>
+      <b>3. Leitura pessoal do rascunho completo (7 min)</b> — Cada aluno lê silenciosamente seu próprio texto do início ao fim, como se fosse um leitor desconhecido. Pode marcar trechos que "parecem estranhos" para rever na A4.<br><br>
+      <b>4. Título provisório (3 min)</b> — Cada aluno escreve um título para o seu conto — mesmo que mude depois. O título cria um senso de conclusão do rascunho.
+    </div>
+    <div class="pills">
+      <span class="p pp">Conclusão do rascunho</span>
+      <span class="p pt">Autoleitura</span>
+      <span class="p pg">Intervenção direcionada</span>
+    </div>
+    <div class="warn">Se algum aluno não conseguir terminar o rascunho nas duas sessões, o professor pode combinar uma continuação como tarefa — mas garantindo que todos cheguem à A4 com um texto ao menos minimamente completo.</div>
+  </div>
+
+  <div class="card" id="d4" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#EEEDFE;color:#3C3489;">A4</div>
+      <div><div class="atitle">Revisão em duplas com pauta</div><div class="ameta">50 min · Organização: duplas · Revisão orientada por pauta</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Aprimorar os contos por meio de leitura crítica entre pares, com foco em clareza narrativa, coerência e impacto do texto — usando uma pauta estruturada que orienta o feedback.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Formação das duplas e apresentação da pauta (8 min)</b> — O professor forma duplas (preferencialmente não-amigos próximos, para feedback mais honesto) e distribui a pauta de revisão impressa.<br><br>
+      <b>2. Leitura cruzada (15 min)</b> — Cada aluno lê o conto do colega silenciosamente, anotando diretamente na pauta.<br><br>
+      <b>3. Troca de feedbacks (15 min)</b> — Cada dupla conversa sobre o que leu. O autor ouve primeiro, sem interromper. Depois pode esclarecer suas intenções. O revisor sugere — não corrige.<br><br>
+      <b>4. Revisão com base no feedback (12 min)</b> — Cada aluno retoma seu próprio texto e realiza ajustes a partir das observações do colega e das próprias marcações da A3.
+    </div>
+    <div class="sl">Pauta de revisão em duplas</div>
+    <div class="box2">
+      <div class="mini"><div class="mini-t">Começo</div><div class="mini-s">O início prende a atenção? Quero continuar lendo?</div></div>
+      <div class="mini"><div class="mini-t">Personagem</div><div class="mini-s">Consigo entender quem é e o que quer?</div></div>
+      <div class="mini"><div class="mini-t">Conflito</div><div class="mini-s">Tem uma tensão clara que move a história?</div></div>
+      <div class="mini"><div class="mini-t">Final</div><div class="mini-s">O desfecho satisfaz ou surpreende?</div></div>
+    </div>
+    <div class="pills">
+      <span class="p pp">Revisão entre pares</span>
+      <span class="p pt">Feedback formativo</span>
+      <span class="p pg">Pauta de leitura</span>
+    </div>
+    <div class="tip">Dica: Treine com a turma a linguagem do feedback antes — "Fiquei com dúvida sobre..." é melhor do que "Isso não está claro." O foco é na experiência do leitor, não no julgamento do texto.</div>
+  </div>
+
+  <div class="card" id="d5" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#EEEDFE;color:#3C3489;">A5</div>
+      <div><div class="atitle">Sarau literário + montagem do livro coletivo</div><div class="ameta">50 min · Organização: roda ampla · Celebração e produto final</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Celebrar a produção autoral da turma com um sarau de leitura oral dos contos e montar coletivamente o livro da turma — produto concreto e simbólico do projeto.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Preparação para a leitura oral (5 min)</b> — Breve orientação sobre leitura em voz alta: ritmo, pausa, volume. O professor lê um trecho do livro de contos original como modelo expressivo.<br><br>
+      <b>2. Sarau — leitura oral dos contos (30 min)</b> — Cada aluno lê seu conto (ou um trecho escolhido) em voz alta para a turma. A turma escuta em silêncio respeitoso. Ao final de cada leitura, 30 segundos de reação espontânea ("uma palavra que descreve o que você sentiu").<br>
+      Formato sugerido: alunos sentados em roda, o leitor se levanta brevemente para ler.<br><br>
+      <b>3. Montagem do livro coletivo (12 min)</b> — Os contos (digitados, escritos à mão ou impressos) são reunidos. A turma decide coletivamente:<br>
+      — Título do livro<br>
+      — Ordem dos contos (por tema, por ordem alfabética, sorteio)<br>
+      — Capa (desenhada por voluntários ou coletivamente)<br><br>
+      <b>4. Encerramento do projeto (3 min)</b> — O professor faz uma fala de encerramento valorizando o percurso: "Vocês leram contos de outros povos e escreveram os seus. Agora fazem parte de uma tradição literária."
+    </div>
+    <div class="pills">
+      <span class="p pp">Sarau literário</span>
+      <span class="p pt">Leitura oral</span>
+      <span class="p pa">Livro coletivo</span>
+      <span class="p pg">Celebração</span>
+    </div>
+    <div class="info">O livro coletivo pode ser fotocopiado para cada aluno guardar um exemplar — custo mínimo, valor simbólico enorme. Se a escola tiver recursos, pode ser encadernado e doado à biblioteca da turma.</div>
+  </div>
+</div>
+<script>
+function sw(n, el) {
+  for(let i=1;i<=5;i++) document.getElementById('d'+i).style.display = i===n?'block':'none';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+}
+</script>

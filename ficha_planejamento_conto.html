@@ -1,0 +1,191 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .doc-header { border-bottom: 2px solid #534AB7; padding-bottom: 14px; margin-bottom: 1.5rem; }
+  .doc-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+  .doc-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+  .aluno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field.full { grid-column: 1 / -1; }
+  .label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); }
+  .line { border: none; border-bottom: 0.5px solid var(--color-border-secondary); height: 28px; width: 100%; background: transparent; }
+  .section { margin-bottom: 1.25rem; }
+  .sec-title { font-size: 13px; font-weight: 500; color: #3C3489; background: #EEEDFE; padding: 6px 12px; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .sec-num { width: 20px; height: 20px; border-radius: 50%; background: #534AB7; color: #fff; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .field-group { display: grid; gap: 10px; }
+  .field-group.two { grid-template-columns: 1fr 1fr; }
+  .field-group.three { grid-template-columns: 1fr 1fr 1fr; }
+  .ifield { display: flex; flex-direction: column; gap: 5px; }
+  .iline { border: none; border-bottom: 0.5px solid var(--color-border-secondary); height: 28px; background: transparent; font-family: var(--font-sans); font-size: 14px; color: var(--color-text-primary); outline: none; width: 100%; }
+  .iline:focus { border-bottom-color: #534AB7; }
+  .iarea { border: 0.5px solid var(--color-border-secondary); border-radius: 8px; padding: 8px 10px; font-family: var(--font-sans); font-size: 14px; color: var(--color-text-primary); background: transparent; resize: none; width: 100%; outline: none; line-height: 1.6; }
+  .iarea:focus { border-color: #534AB7; }
+  .hint { font-size: 12px; color: var(--color-text-tertiary); font-style: italic; margin-top: 2px; }
+  .inspire { background: #E1F5EE; border-radius: 8px; padding: 10px 14px; margin-bottom: 1.25rem; }
+  .inspire-t { font-size: 12px; font-weight: 500; color: #085041; margin-bottom: 6px; }
+  .inspire-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .itag { font-size: 12px; padding: 3px 10px; border-radius: 20px; background: #9FE1CB; color: #04342C; cursor: pointer; transition: background .15s; }
+  .itag:hover { background: #5DCAA5; }
+  .cena-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 6px; }
+  .cena-box { border: 0.5px solid var(--color-border-secondary); border-radius: 8px; padding: 8px 10px; }
+  .cena-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+  .cena-area { border: none; font-family: var(--font-sans); font-size: 13px; color: var(--color-text-secondary); background: transparent; resize: none; width: 100%; outline: none; line-height: 1.5; }
+  .progress { margin-top: 1.5rem; padding-top: 1rem; border-top: 0.5px solid var(--color-border-tertiary); }
+  .progress-label { font-size: 12px; color: var(--color-text-tertiary); margin-bottom: 8px; }
+  .check-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .check-item { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--color-text-secondary); cursor: pointer; }
+  .check-item input { accent-color: #534AB7; width: 15px; height: 15px; }
+  @media (prefers-color-scheme: dark) {
+    .sec-title { color: #CECBF6; background: #26215C; }
+    .inspire { background: #04342C; }
+    .inspire-t { color: #9FE1CB; }
+    .itag { background: #085041; color: #9FE1CB; }
+    .itag:hover { background: #0F6E56; }
+  }
+</style>
+<div class="wrap">
+  <div class="doc-header">
+    <div class="doc-title">Ficha de planejamento do meu conto</div>
+    <div class="doc-sub">Semana 2 · Aula 1 · Projeto literário — 3º trimestre</div>
+  </div>
+
+  <div class="aluno-grid">
+    <div class="ifield">
+      <div class="label">Nome</div>
+      <input class="iline" type="text" placeholder="Seu nome completo">
+    </div>
+    <div class="ifield">
+      <div class="label">Turma · Data</div>
+      <input class="iline" type="text" placeholder="Ex: 8º A · 12/08">
+    </div>
+  </div>
+
+  <div class="inspire">
+    <div class="inspire-t">Temas dos contos que lemos — clique para usar como inspiração</div>
+    <div class="inspire-tags">
+      <span class="itag" onclick="addTheme('Relação entre humanos e natureza')">Humanos e natureza</span>
+      <span class="itag" onclick="addTheme('Justiça e consequências')">Justiça</span>
+      <span class="itag" onclick="addTheme('Ancestralidade e memória')">Ancestralidade</span>
+      <span class="itag" onclick="addTheme('Coragem diante do medo')">Coragem</span>
+      <span class="itag" onclick="addTheme('Identidade e pertencimento')">Identidade</span>
+      <span class="itag" onclick="addTheme('Transformação')">Transformação</span>
+      <span class="itag" onclick="addTheme('Solidariedade')">Solidariedade</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title"><div class="sec-num">1</div>Tema e inspiração</div>
+    <div class="field-group">
+      <div class="ifield">
+        <div class="label">Tema central do meu conto</div>
+        <input class="iline" id="tema-input" type="text" placeholder="O que minha história quer dizer sobre o mundo?">
+        <div class="hint">Pode ser uma das tags acima ou algo que surgiu dos contos lidos</div>
+      </div>
+      <div class="ifield">
+        <div class="label">O que me inspirou nos contos que lemos?</div>
+        <input class="iline" type="text" placeholder="Ex: um personagem, uma imagem, um valor...">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title"><div class="sec-num">2</div>Personagem principal</div>
+    <div class="field-group two">
+      <div class="ifield">
+        <div class="label">Nome (pode ser inventado)</div>
+        <input class="iline" type="text" placeholder="Como se chama?">
+      </div>
+      <div class="ifield">
+        <div class="label">Quem é essa pessoa?</div>
+        <input class="iline" type="text" placeholder="Idade, origem, jeito de ser...">
+      </div>
+    </div>
+    <div class="field-group" style="margin-top:10px">
+      <div class="ifield">
+        <div class="label">O que esse personagem deseja mais do que tudo?</div>
+        <input class="iline" type="text" placeholder="Seu maior desejo ou objetivo na história">
+      </div>
+      <div class="ifield">
+        <div class="label">Qual é o maior defeito ou medo dele?</div>
+        <input class="iline" type="text" placeholder="O que o torna humano e imperfeito?">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title"><div class="sec-num">3</div>Cenário</div>
+    <div class="field-group three">
+      <div class="ifield">
+        <div class="label">Onde se passa?</div>
+        <input class="iline" type="text" placeholder="Floresta, cidade, aldeia...">
+      </div>
+      <div class="ifield">
+        <div class="label">Quando?</div>
+        <input class="iline" type="text" placeholder="Época, estação, hora do dia...">
+      </div>
+      <div class="ifield">
+        <div class="label">Clima / atmosfera</div>
+        <input class="iline" type="text" placeholder="Misterioso, alegre, tenso...">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title"><div class="sec-num">4</div>Conflito central</div>
+    <div class="field-group">
+      <div class="ifield">
+        <div class="label">O que acontece que muda tudo para o personagem?</div>
+        <textarea class="iarea" rows="2" placeholder="O problema, obstáculo ou tensão que move a história..."></textarea>
+      </div>
+      <div class="ifield">
+        <div class="label">Quem ou o que se opõe ao personagem?</div>
+        <input class="iline" type="text" placeholder="Outro personagem, a natureza, ele mesmo...">
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title"><div class="sec-num">5</div>Estrutura das cenas</div>
+    <div class="cena-grid">
+      <div class="cena-box">
+        <div class="cena-label">Início</div>
+        <textarea class="cena-area" rows="4" placeholder="Como começa? Onde estamos? Quem vemos primeiro?"></textarea>
+      </div>
+      <div class="cena-box">
+        <div class="cena-label">Meio — conflito</div>
+        <textarea class="cena-area" rows="4" placeholder="O problema surge. O que o personagem tenta fazer?"></textarea>
+      </div>
+      <div class="cena-box">
+        <div class="cena-label">Fim — desfecho</div>
+        <textarea class="cena-area" rows="4" placeholder="Como termina? O personagem muda? O conflito se resolve?"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title"><div class="sec-num">6</div>Título provisório</div>
+    <div class="ifield">
+      <input class="iline" type="text" placeholder="Pode mudar — escreva algo que represente sua história agora">
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="progress-label">Checklist de planejamento — marque o que já definiu</div>
+    <div class="check-row">
+      <label class="check-item"><input type="checkbox"> Tema</label>
+      <label class="check-item"><input type="checkbox"> Personagem</label>
+      <label class="check-item"><input type="checkbox"> Cenário</label>
+      <label class="check-item"><input type="checkbox"> Conflito</label>
+      <label class="check-item"><input type="checkbox"> Estrutura das cenas</label>
+      <label class="check-item"><input type="checkbox"> Título provisório</label>
+    </div>
+  </div>
+</div>
+<script>
+function addTheme(t) {
+  const el = document.getElementById('tema-input');
+  el.value = t;
+  el.focus();
+}
+</script>

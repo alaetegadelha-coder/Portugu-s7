@@ -1,0 +1,223 @@
+
+<style>
+  .container { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; }
+  .badge { background: #EEEDFE; color: #3C3489; font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+  .week-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .week-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 2px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 1px solid var(--color-border-secondary); color: var(--color-text-secondary); background: transparent; transition: all .15s; }
+  .tab.active { background: #534AB7; color: #fff; border-color: #534AB7; }
+  .tab:hover:not(.active) { background: var(--color-background-secondary); }
+  .aula-card { background: var(--color-background-secondary); border-radius: 12px; padding: 1.25rem 1.5rem; border: 1px solid var(--color-border-tertiary); }
+  .aula-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .aula-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; flex-shrink: 0; }
+  .aula-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .aula-meta { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .section { margin-bottom: 1rem; }
+  .section-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); margin-bottom: 6px; }
+  .section-text { font-size: 14px; color: var(--color-text-secondary); line-height: 1.65; }
+  .pill-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+  .pill { font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 400; }
+  .pill-purple { background: #EEEDFE; color: #3C3489; }
+  .pill-teal { background: #E1F5EE; color: #085041; }
+  .pill-amber { background: #FAEEDA; color: #633806; }
+  .pill-gray { background: #F1EFE8; color: #444441; }
+  .divider { border: none; border-top: 1px solid var(--color-border-tertiary); margin: 1rem 0; }
+  .tip-box { background: #E1F5EE; border-left: 3px solid #1D9E75; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #085041; line-height: 1.6; margin-top: 1rem; }
+  .warn-box { background: #FAEEDA; border-left: 3px solid #EF9F27; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #633806; line-height: 1.6; margin-top: 1rem; }
+  @media (prefers-color-scheme: dark) {
+    .badge { background: #26215C; color: #CECBF6; }
+    .pill-purple { background: #26215C; color: #CECBF6; }
+    .pill-teal { background: #04342C; color: #9FE1CB; }
+    .pill-amber { background: #412402; color: #FAC775; }
+    .pill-gray { background: #2C2C2A; color: #D3D1C7; }
+    .tip-box { background: #04342C; color: #9FE1CB; border-color: #1D9E75; }
+    .warn-box { background: #412402; color: #FAC775; border-color: #EF9F27; }
+  }
+</style>
+
+<div class="container">
+  <div class="header">
+    <div>
+      <div class="week-title">Semana 1 — Análise</div>
+      <div class="week-sub">3º trimestre · 5 aulas · Projeto literário: retomada e mergulho nos contos</div>
+    </div>
+    <div class="badge">3º trim.</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show(1)">A1</button>
+    <button class="tab" onclick="show(2)">A2</button>
+    <button class="tab" onclick="show(3)">A3</button>
+    <button class="tab" onclick="show(4)">A4</button>
+    <button class="tab" onclick="show(5)">A5</button>
+  </div>
+
+  <!-- A1 -->
+  <div class="aula-card" id="a1">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#EEEDFE;color:#3C3489;">A1</div>
+      <div>
+        <div class="aula-title">Roda literária de retomada</div>
+        <div class="aula-meta">Duração sugerida: 50 min · Organização: roda de conversa</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Objetivo</div>
+      <div class="section-text">Reativar a memória afetiva e literária sobre o conto lido antes do recesso, criando elos entre o que foi vivenciado no 2º trimestre e os novos textos que serão lidos.</div>
+    </div>
+    <hr class="divider">
+    <div class="section">
+      <div class="section-label">Desenvolvimento</div>
+      <div class="section-text">
+        <strong>1. Abertura (10 min)</strong> — O professor relembra brevemente o contexto do projeto: "Antes do recesso, começamos a ler juntos um livro de contos. Hoje retomamos essa história."<br><br>
+        <strong>2. Roda "O que vocês lembram?" (25 min)</strong> — Em roda, os alunos compartilham livremente o que recordam do conto: personagens, situações marcantes, sentimentos, imagens. O professor anota no quadro as memórias coletivas (nomes, trechos, emoções).<br><br>
+        <strong>3. Releitura expressiva (10 min)</strong> — O professor faz uma releitura em voz alta de um trecho-chave do conto para "reacender" a narrativa na memória dos alunos.<br><br>
+        <strong>4. Encerramento (5 min)</strong> — Cada aluno registra em uma palavra ou frase curta o que sentiu ao rever o conto.
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill pill-purple">Oralidade</span>
+      <span class="pill pill-teal">Memória literária</span>
+      <span class="pill pill-gray">Roda de conversa</span>
+    </div>
+    <div class="tip-box">💡 Dica: Não corrija as memórias "erradas". O objetivo é reativar o vínculo afetivo com o texto, não testar conteúdo.</div>
+  </div>
+
+  <!-- A2 -->
+  <div class="aula-card" id="a2" style="display:none">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#E1F5EE;color:#085041;">A2</div>
+      <div>
+        <div class="aula-title">Leitura do conto indígena</div>
+        <div class="aula-meta">Duração sugerida: 50 min · 1º conto novo (dos 2 previstos)</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Objetivo</div>
+      <div class="section-text">Ampliar o repertório literário dos alunos com um conto de tradição indígena, explorando a singularidade cultural e narrativa desse texto.</div>
+    </div>
+    <hr class="divider">
+    <div class="section">
+      <div class="section-label">Desenvolvimento</div>
+      <div class="section-text">
+        <strong>1. Contextualização cultural (10 min)</strong> — Breve apresentação oral do povo de origem do conto: território, língua, tradição oral. Pode-se usar imagem do mapa do Brasil destacando a região.<br><br>
+        <strong>2. Leitura compartilhada (25 min)</strong> — Leitura em voz alta pelo professor, com pausas para perguntas inferenciais: "Por que você acha que o personagem fez isso?" / "O que esse elemento da natureza representa nessa cultura?"<br><br>
+        <strong>3. Primeira impressão (10 min)</strong> — Os alunos registram (oral ou escrito) sua impressão inicial: o que chamou atenção, o que não entenderam, o que sentiram.<br><br>
+        <strong>4. Síntese coletiva (5 min)</strong> — O professor sistematiza: "Que tipo de história é essa? Quem são os personagens? Qual o conflito central?"
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill pill-teal">Literatura indígena</span>
+      <span class="pill pill-purple">Leitura compartilhada</span>
+      <span class="pill pill-amber">Diversidade cultural</span>
+    </div>
+    <div class="tip-box">💡 Dica: Escolha um conto curto (1–2 páginas) de fácil acesso emocional. Sugestão: contos do livro "Moqueca de maridos" ou contos Guarani adaptados para o público escolar.</div>
+  </div>
+
+  <!-- A3 -->
+  <div class="aula-card" id="a3" style="display:none">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#FAEEDA;color:#633806;">A3</div>
+      <div>
+        <div class="aula-title">Leitura do conto africano</div>
+        <div class="aula-meta">Duração sugerida: 50 min · 2º conto novo (dos 2 previstos)</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Objetivo</div>
+      <div class="section-text">Ampliar o repertório com um conto de tradição africana, preparando o terreno para a análise comparativa entre os três textos lidos no projeto.</div>
+    </div>
+    <hr class="divider">
+    <div class="section">
+      <div class="section-label">Desenvolvimento</div>
+      <div class="section-text">
+        <strong>1. Contextualização (8 min)</strong> — O professor situa brevemente a origem do conto: país, povo, tradição oral africana. Pode-se mencionar a relação histórica entre África e Brasil.<br><br>
+        <strong>2. Leitura dramatizada (20 min)</strong> — Leitura em voz alta com variação de entonação e ritmo. Se possível, distribuir papéis para alunos lerem falas de personagens.<br><br>
+        <strong>3. Exploração temática (15 min)</strong> — Perguntas orais em duplas: "Qual o valor ou ensinamento que esse conto carrega?" / "Que elementos te lembraram o conto indígena de ontem?"<br><br>
+        <strong>4. Mural de palavras (7 min)</strong> — Cada aluno escreve uma palavra que resume o conto em um papel colado num mural coletivo da turma.
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill pill-amber">Literatura africana</span>
+      <span class="pill pill-purple">Leitura dramatizada</span>
+      <span class="pill pill-teal">Tradição oral</span>
+    </div>
+    <div class="tip-box">💡 Dica: Sugestões de fontes — contos do livro "Contos africanos para crianças brasileiras" (Rogério Andrade Barbosa) ou fábulas Iorubá adaptadas.</div>
+  </div>
+
+  <!-- A4 -->
+  <div class="aula-card" id="a4" style="display:none">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#F1EFE8;color:#444441;">A4</div>
+      <div>
+        <div class="aula-title">Análise comparativa — parte 1</div>
+        <div class="aula-meta">Duração sugerida: 50 min · Comparação entre os 3 contos</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Objetivo</div>
+      <div class="section-text">Identificar semelhanças e diferenças nos elementos narrativos dos três contos lidos, desenvolvendo o pensamento analítico e o vocabulário literário dos alunos.</div>
+    </div>
+    <hr class="divider">
+    <div class="section">
+      <div class="section-label">Desenvolvimento</div>
+      <div class="section-text">
+        <strong>1. Revisão dos 3 contos (8 min)</strong> — O professor exibe no quadro um esquema simples com título, origem e personagem central de cada conto.<br><br>
+        <strong>2. Tabela comparativa em grupos (25 min)</strong> — Grupos de 4–5 alunos preenchem coletivamente uma tabela com os elementos: narrador, personagens, tempo/espaço, conflito central, desfecho. Um roteiro impresso guia a análise.<br><br>
+        <strong>3. Socialização (12 min)</strong> — Cada grupo compartilha uma descoberta. O professor sistematiza no quadro os pontos em comum e as diferenças.<br><br>
+        <strong>4. Registro individual (5 min)</strong> — Alunos anotam no caderno: "A semelhança que mais me surpreendeu entre os contos foi…"
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill pill-purple">Análise literária</span>
+      <span class="pill pill-gray">Trabalho em grupo</span>
+      <span class="pill pill-teal">Elementos narrativos</span>
+    </div>
+    <div class="warn-box">⚠️ Atenção: A tabela comparativa deve ser simples — 3 colunas (um por conto) e 4–5 linhas de elementos. Não sobrecarregar com categorias demais nesta aula.</div>
+  </div>
+
+  <!-- A5 -->
+  <div class="aula-card" id="a5" style="display:none">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#EEEDFE;color:#3C3489;">A5</div>
+      <div>
+        <div class="aula-title">Análise comparativa — parte 2 + síntese</div>
+        <div class="aula-meta">Duração sugerida: 50 min · Aprofundamento e fechamento da semana</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-label">Objetivo</div>
+      <div class="section-text">Aprofundar a análise comparativa com foco em temas universais presentes nos contos e construir uma síntese coletiva que sirva de base para a produção autoral da Semana 2.</div>
+    </div>
+    <hr class="divider">
+    <div class="section">
+      <div class="section-label">Desenvolvimento</div>
+      <div class="section-text">
+        <strong>1. Retomada da aula anterior (5 min)</strong> — O professor relembra as principais descobertas da tabela comparativa.<br><br>
+        <strong>2. Discussão temática aprofundada (20 min)</strong> — Roda de conversa com perguntas de ordem temática: "O que os três contos dizem sobre a relação entre humanos e natureza?" / "Quais valores aparecem nos três?" / "O que os povos que criaram essas histórias tinham em comum?"<br><br>
+        <strong>3. Mapa temático coletivo (15 min)</strong> — A turma constrói junto, no quadro, um mapa de temas: círculo central "O que os contos têm em comum" com ramificações para temas, valores, símbolos e sentimentos.<br><br>
+        <strong>4. Antecipação da produção (10 min)</strong> — O professor apresenta o que virá na Semana 2: "Vocês vão criar seu próprio conto. Esses três textos serão a inspiração. O mapa que fizemos hoje é a semente da história de vocês."
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill pill-purple">Síntese literária</span>
+      <span class="pill pill-teal">Temas universais</span>
+      <span class="pill pill-amber">Preparação para criação</span>
+      <span class="pill pill-gray">Mapa conceitual</span>
+    </div>
+    <div class="tip-box">💡 Dica: O mapa temático do quadro pode ser fotografado e impresso como material de apoio para a oficina de planejamento da A1 da Semana 2.</div>
+  </div>
+</div>
+
+<script>
+function show(n) {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('a'+i).style.display = i === n ? 'block' : 'none';
+  }
+  document.querySelectorAll('.tab').forEach((t, idx) => {
+    t.classList.toggle('active', idx === n - 1);
+  });
+}
+</script>

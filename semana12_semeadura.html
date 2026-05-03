@@ -1,0 +1,173 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .wk-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; gap: 12px; }
+  .wk-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .wk-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+  .badge { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; white-space: nowrap; background: #E1F5EE; color: #085041; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .tab { padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); background: transparent; transition: all .15s; font-family: var(--font-sans); }
+  .tab.on { background: #0F6E56; color: #fff; border-color: #0F6E56; }
+  .tab:hover:not(.on) { background: var(--color-background-secondary); }
+  .card { background: var(--color-background-secondary); border-radius: 12px; padding: 1.25rem 1.5rem; border: 0.5px solid var(--color-border-tertiary); }
+  .ah { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .anum { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; flex-shrink: 0; }
+  .atitle { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .ameta { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .sl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); margin: 1rem 0 5px; }
+  .st { font-size: 14px; color: var(--color-text-secondary); line-height: 1.65; }
+  .st b { font-weight: 500; color: var(--color-text-primary); }
+  hr.d { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: .9rem 0; }
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .p { font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+  .pt { background: #E1F5EE; color: #085041; }
+  .pp { background: #EEEDFE; color: #3C3489; }
+  .pa { background: #FAEEDA; color: #633806; }
+  .pg { background: #F1EFE8; color: #444441; }
+  .tip { background: #E1F5EE; border-left: 3px solid #1D9E75; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #085041; line-height: 1.6; margin-top: 1rem; }
+  .warn { background: #FAEEDA; border-left: 3px solid #EF9F27; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #633806; line-height: 1.6; margin-top: 1rem; }
+  @media (prefers-color-scheme: dark) {
+    .badge { background:#04342C; color:#9FE1CB; }
+    .pt { background:#04342C; color:#9FE1CB; }
+    .pp { background:#26215C; color:#CECBF6; }
+    .pa { background:#412402; color:#FAC775; }
+    .pg { background:#2C2C2A; color:#D3D1C7; }
+    .tip { background:#04342C; color:#9FE1CB; }
+    .warn { background:#412402; color:#FAC775; }
+  }
+</style>
+<div class="wrap">
+  <div class="wk-header">
+    <div>
+      <div class="wk-title">Semana 12 — Semeadura</div>
+      <div class="wk-sub">2º trimestre · 5 aulas · Primeiro contato com o projeto literário</div>
+    </div>
+    <div class="badge">2º trim.</div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="sw(1,this)">A1</button>
+    <button class="tab" onclick="sw(2,this)">A2</button>
+    <button class="tab" onclick="sw(3,this)">A3</button>
+    <button class="tab" onclick="sw(4,this)">A4</button>
+    <button class="tab" onclick="sw(5,this)">A5</button>
+  </div>
+
+  <div class="card" id="b1">
+    <div class="ah">
+      <div class="anum" style="background:#E1F5EE;color:#085041;">A1</div>
+      <div><div class="atitle">Leitura compartilhada do 1º conto</div><div class="ameta">50 min · Organização: coletiva, professor conduz</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Realizar o primeiro contato da turma com o livro de contos, criando uma experiência de leitura coletiva que desperte curiosidade e pertencimento ao projeto.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Apresentação do livro (12 min)</b> — O professor apresenta fisicamente o livro: capa, ilustrações, nome do autor, editora. Explora oralmente: "Que tipo de história esse livro pode trazer olhando só a capa?" / "O que o título sugere?" Os alunos compartilham hipóteses.<br><br>
+      <b>2. Contextualização do autor e contexto cultural (10 min)</b> — Breve apresentação do autor: origem, trajetória, de que universo cultural vêm os contos. Pode-se exibir imagem do país/povo de origem ou leitura de uma orelha do livro.<br><br>
+      <b>3. Leitura em voz alta do 1º conto (20 min)</b> — O professor lê expressivamente o primeiro conto, sem interrupções no início. Na segunda metade, faz pausas estratégicas para perguntas de antecipação: "O que vocês acham que vai acontecer agora?"<br><br>
+      <b>4. Roda de conversa inicial (8 min)</b> — Perguntas abertas: "O que chamou mais atenção?" / "Teve algo que vocês não entenderam?" / "Como se sentiram durante a leitura?"
+    </div>
+    <div class="pills">
+      <span class="p pt">Leitura compartilhada</span>
+      <span class="p pp">Exploração literária</span>
+      <span class="p pg">Roda de conversa</span>
+    </div>
+    <div class="tip">Dica: Não entregue o livro para os alunos folhearem antes da leitura. O suspense da apresentação oral é parte do ritual de entrada no projeto.</div>
+  </div>
+
+  <div class="card" id="b2" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#E1F5EE;color:#085041;">A2</div>
+      <div><div class="atitle">Exploração visual — capa, autor, contexto cultural</div><div class="ameta">50 min · Organização: grupos e coletivo</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Ampliar a leitura do texto para além das palavras, explorando os elementos visuais e paratextuais do livro como fonte de sentido e de informação cultural.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Distribuição do livro e exploração livre (10 min)</b> — Pela primeira vez, os alunos recebem o livro. Tempo livre para folhear, observar ilustrações, sumário, orelhas, dedicatória. Orientação: "Explorem sem ler — só olhem e anotem o que observam."<br><br>
+      <b>2. Análise da capa em grupos (15 min)</b> — Grupos analisam a capa com um roteiro simples: cores, imagens, elementos simbólicos, o que a capa revela sobre o conteúdo. Cada grupo registra 3 observações.<br><br>
+      <b>3. Pesquisa rápida sobre o autor/contexto (15 min)</b> — O professor exibe um perfil do autor (1 página ou slide): origem, influências, obras. Alunos comparam com o que imaginaram sobre o livro antes de ler.<br><br>
+      <b>4. Síntese coletiva (10 min)</b> — O professor sistematiza no quadro: "O que aprendemos sobre o livro que não está no texto do conto?" Introdução ao conceito de paratexto.
+    </div>
+    <div class="pills">
+      <span class="p pp">Leitura visual</span>
+      <span class="p pt">Paratexto literário</span>
+      <span class="p pa">Contexto cultural</span>
+    </div>
+    <div class="tip">Dica: Se o livro não tiver ilustrações ricas, o professor pode preparar um mini-dossiê com imagens do país/povo de origem e colá-lo como material de apoio.</div>
+  </div>
+
+  <div class="card" id="b3" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#FAEEDA;color:#633806;">A3</div>
+      <div><div class="atitle">Roda de conversa + quiz lúdico</div><div class="ameta">50 min · Organização: coletiva · Quiz mantido conforme planejamento</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Aprofundar a compreensão do conto lido na A1 por meio de conversa estruturada e consolidar o entendimento de forma lúdica com um quiz de interpretação.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Retomada do conto (8 min)</b> — O professor faz uma releitura expressiva de um trecho-chave do conto para reativar a memória da turma.<br><br>
+      <b>2. Roda de conversa estruturada (20 min)</b> — Perguntas progressivas: compreensão literal ("O que acontece no conto?") → inferencial ("Por que o personagem agiu assim?") → avaliativa ("Você concordaria com a escolha dele? Por quê?").<br><br>
+      <b>3. Quiz lúdico (18 min)</b> — 8 a 10 perguntas de múltipla escolha sobre o conto, apresentadas oralmente ou projetadas. Pode ser individual (lousa branca / cartão de resposta) ou equipes. Misturar perguntas de compreensão literal com interpretativas e sobre o contexto cultural.<br><br>
+      <b>4. Gabarito comentado (4 min)</b> — O professor discute as respostas mais polêmicas, valorizando argumentações diferentes e não apenas a resposta correta.
+    </div>
+    <div class="pills">
+      <span class="p pg">Quiz lúdico</span>
+      <span class="p pp">Compreensão leitora</span>
+      <span class="p pt">Discussão literária</span>
+    </div>
+    <div class="tip">Dica: No quiz, inclua ao menos 2 questões sem resposta única — que admitam argumentação. Isso enriquece a A4 e prepara os alunos para a produção autoral futura.</div>
+  </div>
+
+  <div class="card" id="b4" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#F1EFE8;color:#444441;">A4</div>
+      <div><div class="atitle">Revisão + simulado (aula normal)</div><div class="ameta">50 min · Sem alteração no planejamento regular</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Cumprir a revisão curricular regular do 2º trimestre. A aula segue o planejamento padrão — o projeto literário não interfere neste momento.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Revisão dos conteúdos gramaticais/textuais do trimestre (25 min)</b> — Retomada dos tópicos cobrados na avaliação final. O professor seleciona os pontos com mais dificuldade da turma.<br><br>
+      <b>2. Simulado ou exercícios dirigidos (20 min)</b> — Questões no formato da avaliação. Pode ser individual ou em duplas.<br><br>
+      <b>3. Correção e dúvidas (5 min)</b> — Correção coletiva das questões com maior índice de erro.
+    </div>
+    <div class="pills">
+      <span class="p pg">Revisão regular</span>
+      <span class="p pa">Simulado</span>
+    </div>
+    <div class="warn">Esta aula é 100% regular — o projeto literário não ocupa nenhum espaço aqui. O conto pode ser mencionado apenas se emergir naturalmente de alguma questão do simulado.</div>
+  </div>
+
+  <div class="card" id="b5" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#F1EFE8;color:#444441;">A5</div>
+      <div><div class="atitle">Estudo dirigido (aula normal)</div><div class="ameta">50 min · Sem alteração no planejamento regular</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Consolidar os conteúdos do 2º trimestre por meio de estudo dirigido, mantendo o ritmo do planejamento curricular sem interferência do projeto.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Estudo dirigido individual ou em duplas (35 min)</b> — Lista de exercícios ou material de apoio focado nos conteúdos da avaliação final. O professor circula e atende individualmente.<br><br>
+      <b>2. Dúvidas coletivas (10 min)</b> — O professor seleciona as dúvidas mais recorrentes e as responde para a turma.<br><br>
+      <b>3. Orientações para a avaliação (5 min)</b> — Informações sobre formato, data, critérios da avaliação final do 2º trimestre. Antecipação: "Na semana que vem, na S13, haverá uma questão sobre o conto que lemos."
+    </div>
+    <div class="pills">
+      <span class="p pg">Estudo dirigido</span>
+      <span class="p pa">Preparação para avaliação</span>
+    </div>
+    <div class="tip">Dica: Aproveite os 5 minutos finais para antecipar, de forma leve, que a avaliação terá uma questão sobre o conto. Isso valoriza a leitura literária feita nas aulas anteriores.</div>
+  </div>
+</div>
+<script>
+function sw(n, el) {
+  for(let i=1;i<=5;i++) document.getElementById('b'+i).style.display = i===n?'block':'none';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+}
+</script>

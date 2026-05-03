@@ -1,0 +1,225 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .doc-header { border-bottom: 2px solid #0F6E56; padding-bottom: 14px; margin-bottom: 1.5rem; }
+  .doc-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+  .doc-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+  .duo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+  .ifield { display: flex; flex-direction: column; gap: 5px; }
+  .label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); }
+  .iline { border: none; border-bottom: 0.5px solid var(--color-border-secondary); height: 28px; background: transparent; font-family: var(--font-sans); font-size: 14px; color: var(--color-text-primary); outline: none; width: 100%; }
+  .iline:focus { border-bottom-color: #0F6E56; }
+  .instrucoes { background: #E1F5EE; border-radius: 8px; padding: 12px 16px; margin-bottom: 1.5rem; }
+  .inst-t { font-size: 13px; font-weight: 500; color: #085041; margin-bottom: 8px; }
+  .inst-steps { display: flex; gap: 8px; }
+  .step { flex: 1; background: #fff; border-radius: 6px; padding: 8px 10px; border: 0.5px solid #9FE1CB; }
+  .step-n { font-size: 11px; font-weight: 500; color: #0F6E56; margin-bottom: 3px; }
+  .step-t { font-size: 12px; color: #085041; line-height: 1.4; }
+  .criterio { margin-bottom: 1.1rem; border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; overflow: hidden; }
+  .crit-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; user-select: none; }
+  .crit-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+  .crit-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .crit-arrow { font-size: 12px; color: var(--color-text-tertiary); transition: transform .2s; }
+  .crit-body { padding: 0 14px 14px; }
+  .escala { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .esc-btn { flex: 1; min-width: 80px; padding: 7px 6px; border-radius: 8px; border: 0.5px solid var(--color-border-secondary); font-size: 12px; text-align: center; cursor: pointer; transition: all .15s; color: var(--color-text-secondary); background: transparent; font-family: var(--font-sans); }
+  .esc-btn:hover { background: var(--color-background-secondary); }
+  .esc-btn.sel-1 { background: #FCEBEB; border-color: #E24B4A; color: #791F1F; }
+  .esc-btn.sel-2 { background: #FAEEDA; border-color: #EF9F27; color: #633806; }
+  .esc-btn.sel-3 { background: #E1F5EE; border-color: #1D9E75; color: #085041; }
+  .esc-btn.sel-4 { background: #EEEDFE; border-color: #534AB7; color: #3C3489; }
+  .perguntas { display: flex; flex-direction: column; gap: 8px; }
+  .pergunta { display: flex; flex-direction: column; gap: 4px; }
+  .pq { font-size: 13px; color: var(--color-text-secondary); font-style: italic; }
+  .iarea { border: 0.5px solid var(--color-border-secondary); border-radius: 6px; padding: 7px 10px; font-family: var(--font-sans); font-size: 13px; color: var(--color-text-primary); background: transparent; resize: none; width: 100%; outline: none; line-height: 1.5; }
+  .iarea:focus { border-color: #0F6E56; }
+  .elogio-box { margin-top: 1.25rem; border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 12px 14px; }
+  .elogio-t { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; }
+  .feedback-lingua { margin-top: 1.25rem; border: 0.5px solid var(--color-border-tertiary); border-radius: 10px; padding: 12px 14px; }
+  .lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+  .lang-item { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; color: var(--color-text-secondary); line-height: 1.4; }
+  .lang-item input { accent-color: #0F6E56; margin-top: 2px; flex-shrink: 0; }
+  .resumo { margin-top: 1.5rem; padding: 12px 14px; background: var(--color-background-secondary); border-radius: 10px; }
+  .resumo-t { font-size: 12px; font-weight: 500; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .resumo-nota { display: flex; align-items: baseline; gap: 6px; }
+  .nota-n { font-size: 28px; font-weight: 500; color: var(--color-text-primary); }
+  .nota-max { font-size: 14px; color: var(--color-text-tertiary); }
+  @media (prefers-color-scheme: dark) {
+    .instrucoes { background: #04342C; }
+    .inst-t { color: #9FE1CB; }
+    .step { background: #085041; border-color: #1D9E75; }
+    .step-n { color: #9FE1CB; }
+    .step-t { color: #9FE1CB; }
+    .esc-btn.sel-1 { background: #501313; border-color: #E24B4A; color: #F7C1C1; }
+    .esc-btn.sel-2 { background: #412402; border-color: #EF9F27; color: #FAC775; }
+    .esc-btn.sel-3 { background: #04342C; border-color: #1D9E75; color: #9FE1CB; }
+    .esc-btn.sel-4 { background: #26215C; border-color: #534AB7; color: #CECBF6; }
+  }
+</style>
+<div class="wrap">
+  <div class="doc-header">
+    <div class="doc-title">Pauta de revisão em duplas</div>
+    <div class="doc-sub">Semana 2 · Aula 4 · Projeto literário — 3º trimestre</div>
+  </div>
+
+  <div class="duo-grid">
+    <div class="ifield">
+      <div class="label">Revisor (quem preenche esta ficha)</div>
+      <input class="iline" type="text" placeholder="Seu nome">
+    </div>
+    <div class="ifield">
+      <div class="label">Autor (dono do conto que você leu)</div>
+      <input class="iline" type="text" placeholder="Nome do colega">
+    </div>
+    <div class="ifield">
+      <div class="label">Título do conto revisado</div>
+      <input class="iline" type="text" placeholder="Título do conto do colega">
+    </div>
+    <div class="ifield">
+      <div class="label">Data</div>
+      <input class="iline" type="text" placeholder="dd/mm/aaaa">
+    </div>
+  </div>
+
+  <div class="instrucoes">
+    <div class="inst-t">Como funciona a revisão</div>
+    <div class="inst-steps">
+      <div class="step"><div class="step-n">Passo 1</div><div class="step-t">Leia o conto do colega do início ao fim, sem interromper</div></div>
+      <div class="step"><div class="step-n">Passo 2</div><div class="step-t">Preencha esta ficha com suas impressões honestas</div></div>
+      <div class="step"><div class="step-n">Passo 3</div><div class="step-t">Converse com o autor — ele ouve primeiro, sem interromper</div></div>
+      <div class="step"><div class="step-n">Passo 4</div><div class="step-t">O autor decide o que aceitar ou não — a escolha é dele</div></div>
+    </div>
+  </div>
+
+  <div id="crits"></div>
+
+  <div class="elogio-box">
+    <div class="elogio-t">O que mais me surpreendeu ou emocionou no conto</div>
+    <textarea class="iarea" rows="2" placeholder="Escreva com sinceridade — isso é o mais valioso para o autor"></textarea>
+  </div>
+
+  <div class="feedback-lingua">
+    <div class="elogio-t">Observações de linguagem (opcional — marque apenas o que for relevante)</div>
+    <div class="lang-grid">
+      <label class="lang-item"><input type="checkbox"> Há trechos com muita repetição de palavras</label>
+      <label class="lang-item"><input type="checkbox"> Faltam vírgulas em alguns momentos</label>
+      <label class="lang-item"><input type="checkbox"> Alguns parágrafos ficaram longos demais</label>
+      <label class="lang-item"><input type="checkbox"> O diálogo poderia ter travessão</label>
+      <label class="lang-item"><input type="checkbox"> Há palavras que não se encaixam bem no contexto</label>
+      <label class="lang-item"><input type="checkbox"> A pontuação final das falas pode ser revisada</label>
+    </div>
+  </div>
+
+  <div class="resumo">
+    <div class="resumo-t">Impressão geral do revisor</div>
+    <div class="resumo-nota">
+      <span class="nota-n" id="nota-geral">—</span>
+      <span class="nota-max">pontos de 16 possíveis</span>
+    </div>
+    <div style="font-size:12px;color:var(--color-text-tertiary);margin-top:4px;" id="nota-label">Preencha os critérios acima para calcular</div>
+  </div>
+</div>
+
+<script>
+const criterios = [
+  {
+    num: 1,
+    cor: '#E1F5EE',
+    corNum: '#085041',
+    bgNum: '#9FE1CB',
+    titulo: 'Início — o conto prende a atenção?',
+    pergunta: 'O que você sentiu ao ler as primeiras linhas?',
+    ph: 'O começo foi envolvente? Você quis continuar lendo imediatamente?',
+    opcoes: ['Não prendeu', 'Prendeu um pouco', 'Prendeu bem', 'Prendeu muito']
+  },
+  {
+    num: 2,
+    cor: '#EEEDFE',
+    corNum: '#3C3489',
+    bgNum: '#AFA9EC',
+    titulo: 'Personagem — consigo entender quem é?',
+    pergunta: 'O personagem principal ficou claro para você como leitor?',
+    ph: 'Você entendeu quem ele é, o que quer, o que sente? Ele pareceu real?',
+    opcoes: ['Muito confuso', 'Um pouco confuso', 'Razoavelmente claro', 'Bem definido']
+  },
+  {
+    num: 3,
+    cor: '#FAEEDA',
+    corNum: '#633806',
+    bgNum: '#FAC775',
+    titulo: 'Conflito — tem tensão que move a história?',
+    pergunta: 'Você sentiu que havia um problema real a ser resolvido?',
+    ph: 'O conflito ficou claro? Você ficou curioso para saber como terminaria?',
+    opcoes: ['Não identifiquei', 'Confuso', 'Presente mas fraco', 'Bem construído']
+  },
+  {
+    num: 4,
+    cor: '#FAECE7',
+    corNum: '#712B13',
+    bgNum: '#F0997B',
+    titulo: 'Final — o desfecho satisfaz ou surpreende?',
+    pergunta: 'Como você se sentiu ao terminar de ler o conto?',
+    ph: 'O final resolveu bem a história? Foi satisfatório, surpreendente ou deixou você pensando?',
+    opcoes: ['Decepcionante', 'Esperado demais', 'Satisfatório', 'Surpreendente']
+  }
+];
+
+const scores = [0, 0, 0, 0];
+
+function calcNota() {
+  const total = scores.reduce((a, b) => a + b, 0);
+  const max = criterios.length * 4;
+  document.getElementById('nota-geral').textContent = total;
+  const labels = ['', 'Precisa de bastante revisão', 'Com potencial, mas precisa de ajustes', 'Bom texto com alguns pontos a melhorar', 'Texto muito bem construído'];
+  const idx = total === 0 ? 0 : total <= 6 ? 1 : total <= 10 ? 2 : total <= 14 ? 3 : 4;
+  document.getElementById('nota-label').textContent = labels[idx] || '';
+}
+
+function buildCriterios() {
+  const cont = document.getElementById('crits');
+  criterios.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'criterio';
+    div.innerHTML = `
+      <div class="crit-header" onclick="toggle(${i})">
+        <div class="crit-num" style="background:${c.bgNum};color:${c.corNum};">${c.num}</div>
+        <div class="crit-title">${c.titulo}</div>
+        <div class="crit-arrow" id="arr${i}">▼</div>
+      </div>
+      <div class="crit-body" id="body${i}">
+        <div class="escala">
+          ${c.opcoes.map((o, j) => `<button class="esc-btn" id="e${i}_${j}" onclick="sel(${i},${j+1},this)">${o}</button>`).join('')}
+        </div>
+        <div class="perguntas">
+          <div class="pergunta">
+            <div class="pq">${c.pergunta}</div>
+            <textarea class="iarea" rows="2" placeholder="${c.ph}"></textarea>
+          </div>
+        </div>
+      </div>`;
+    cont.appendChild(div);
+  });
+}
+
+function toggle(i) {
+  const b = document.getElementById('body'+i);
+  const a = document.getElementById('arr'+i);
+  const vis = b.style.display !== 'none';
+  b.style.display = vis ? 'none' : 'block';
+  a.style.transform = vis ? 'rotate(-90deg)' : '';
+}
+
+function sel(criterioIdx, val, btn) {
+  for(let j=1;j<=4;j++) {
+    const b = document.getElementById(`e${criterioIdx}_${j-1}`);
+    if(b) b.className = 'esc-btn';
+  }
+  btn.classList.add(`sel-${val}`);
+  scores[criterioIdx] = val;
+  calcNota();
+}
+
+buildCriterios();
+calcNota();
+</script>

@@ -1,0 +1,652 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1rem 0 2rem}
+.top-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.top-title{font-size:15px;font-weight:500;color:var(--color-text-primary)}
+.top-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.controls{display:flex;align-items:center;gap:10px}
+.controls label{font-size:12px;color:var(--color-text-secondary)}
+select{font-size:12px;padding:5px 8px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.2rem}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+.week-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;padding:8px 12px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.week-num{font-size:11px;font-weight:500;color:var(--color-text-secondary);background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);padding:3px 8px;border-radius:4px;white-space:nowrap}
+.week-theme{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.week-dates{font-size:11px;color:var(--color-text-secondary);margin-left:auto}
+
+.day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:1.5rem}
+.day-col{}
+.day-head{font-size:10px;font-weight:500;color:var(--color-text-secondary);text-align:center;padding:5px 4px;background:var(--color-background-secondary);border-radius:4px 4px 0 0;border:0.5px solid var(--color-border-tertiary);border-bottom:none;letter-spacing:0.03em}
+.day-school{font-size:9px;color:var(--color-text-secondary);text-align:center;padding:2px 4px;background:var(--color-background-secondary);border-left:0.5px solid var(--color-border-tertiary);border-right:0.5px solid var(--color-border-tertiary)}
+.day-content{border:0.5px solid var(--color-border-tertiary);border-top:none;border-radius:0 0 var(--border-radius-md) var(--border-radius-md);overflow:hidden;min-height:60px}
+
+.aula-block{padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.aula-block:last-child{border-bottom:none}
+.aula-hora{font-size:9px;color:var(--color-text-secondary);margin-bottom:2px;font-weight:500}
+.aula-badge{display:inline-block;font-size:9px;font-weight:500;padding:1px 5px;border-radius:3px;margin-bottom:3px}
+.aula-turma{font-size:11px;font-weight:500;line-height:1.3;margin-bottom:2px}
+.aula-desc{font-size:10px;color:var(--color-text-secondary);line-height:1.35}
+.aula-planej{font-size:10px;font-style:italic;color:var(--color-text-secondary);padding:8px;display:flex;align-items:center;gap:5px}
+
+.t-conteudo{background:#EAF3DE}
+.t-conteudo .aula-badge{background:#C0DD97;color:#27500A}
+.t-atividade{background:#E6F1FB}
+.t-atividade .aula-badge{background:#B5D4F4;color:#0C447C}
+.t-ludica{background:#FAEEDA}
+.t-ludica .aula-badge{background:#FAC775;color:#633806}
+.t-avaliacao{background:#FCEBEB}
+.t-avaliacao .aula-badge{background:#F7C1C1;color:#791F1F}
+.t-revisao{background:#F1EFE8}
+.t-revisao .aula-badge{background:#D3D1C7;color:#444441}
+.t-recuperacao{background:#FBEAF0}
+.t-recuperacao .aula-badge{background:#ED93B1;color:#72243E}
+.t-producao{background:#EEEDFE}
+.t-producao .aula-badge{background:#AFA9EC;color:#3C3489}
+.t-planej{background:var(--color-background-secondary)}
+
+.empty-day{padding:16px 8px;text-align:center;font-size:11px;color:var(--color-text-secondary);opacity:0.5;min-height:60px;display:flex;align-items:center;justify-content:center}
+
+@media(prefers-color-scheme:dark){
+.t-conteudo{background:#173404}
+.t-conteudo .aula-badge{background:#3B6D11;color:#C0DD97}
+.t-atividade{background:#042C53}
+.t-atividade .aula-badge{background:#185FA5;color:#B5D4F4}
+.t-ludica{background:#412402}
+.t-ludica .aula-badge{background:#854F0B;color:#FAC775}
+.t-avaliacao{background:#501313}
+.t-avaliacao .aula-badge{background:#A32D2D;color:#F7C1C1}
+.t-revisao{background:#2C2C2A}
+.t-revisao .aula-badge{background:#5F5E5A;color:#D3D1C7}
+.t-recuperacao{background:#4B1528}
+.t-recuperacao .aula-badge{background:#993556;color:#F4C0D1}
+.t-producao{background:#26215C}
+.t-producao .aula-badge{background:#534AB7;color:#CECBF6}
+}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Planner semanal completo do 2º Trimestre — horário do professor com todas as turmas nas escolas Presidente Dutra e Barro Alto, 13 semanas.</h2>
+
+<div class="top-bar">
+  <div>
+    <div class="top-title">Planner Semanal — 2º Trimestre</div>
+    <div class="top-sub">Inglês + Português · Escola do Campo · Presidente Dutra &amp; Barro Alto · 13 semanas</div>
+  </div>
+  <div class="controls">
+    <label>Semana</label>
+    <select id="semSel" onchange="renderSem(+this.value)"></select>
+  </div>
+</div>
+
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:#639922"></div>Conteúdo</div>
+  <div class="leg"><div class="leg-dot" style="background:#378ADD"></div>Atividade</div>
+  <div class="leg"><div class="leg-dot" style="background:#BA7517"></div>Lúdica</div>
+  <div class="leg"><div class="leg-dot" style="background:#E24B4A"></div>Avaliação</div>
+  <div class="leg"><div class="leg-dot" style="background:#888780"></div>Revisão</div>
+  <div class="leg"><div class="leg-dot" style="background:#D4537E"></div>Recuperação</div>
+  <div class="leg"><div class="leg-dot" style="background:#7F77DD"></div>Produção</div>
+</div>
+
+<div id="planner"></div>
+</div>
+
+<script>
+const SEMANAS = [
+  {
+    num:1, tema:"Diagnóstico + Vocabulário (Farm / Família / Alimentos)",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento / Preparação de materiais", desc:"Organizar atividades diagnósticas e fichas de vocabulário para todas as turmas"},
+        {hora:"Tarde — 2º horário", tipo:"ludica", turma:"6A • Inglês", desc:"Abertura: dinâmica 'O que eu sei em inglês?' — palavras no quadro, mapa mental coletivo"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Farm vocabulary diagnóstico: rice, corn, egg, water, milk — tabela C/U intro"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"6B • Inglês", desc:"Países e bandeiras — flashcards, abertura do trimestre B1"},
+        {hora:"Tarde — 5º horário", tipo:"ludica", turma:"7B • Inglês", desc:"Diagnóstico lúdico: mímica de ações do campo, vocabulário inicial"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Countable / Uncountable — tabela de 2 colunas, exemplos do cotidiano rural"},
+        {hora:"Tarde — 2º horário", tipo:"ludica", turma:"7C • Inglês", desc:"Diagnóstico: jogo de mímica de verbos do campo — feeding, planting, watering"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"7B • Inglês", desc:"Vocabulário do campo: farm · farmer · field · harvest · plant · animals"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"7A • Inglês", desc:"Vocabulário do campo: ações — feeding, planting, watering, collecting"},
+        {hora:"Tarde — 5º horário", tipo:"ludica", turma:"6C • Inglês", desc:"Abertura: dinâmica países — flashcards e bandeiras do mundo"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"6C • Inglês", desc:"To be afirmativo: I am / You are / She is — países e identidade"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"6A • Inglês", desc:"Países + bandeiras: flashcards, ficha de países, mapa mundi"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"7A • Inglês", desc:"Presente simples: texto 'Life on the Farm' — verbos no campo"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"6B • Inglês", desc:"To be afirmativo — identidade e país de origem"},
+        {hora:"Tarde — 5º horário", tipo:"conteudo", turma:"7C • Inglês", desc:"Presente simples: frases com verbos do cotidiano rural"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Abertura do trimestre: levantamento de conhecimentos — sujeito e predicado, gênero notícia"},
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Quantificadores: some e any — afirmativa / negativa / pergunta"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"9A • Inglês", desc:"Diagnóstico + Vocabulário do campo — farm vocabulary e modais básicos"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"9B • Inglês", desc:"Diagnóstico + Vocabulário do campo — farm vocabulary e modais básicos"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Quantificadores: many / much — diferença contável × incontável"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Texto jornalístico: estrutura da notícia — título, lide, corpo. Leitura e análise coletiva"},
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"9A • Inglês", desc:"Vocabulário ampliado: ações do campo + Presente simples"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"9B • Inglês", desc:"Vocabulário ampliado: ações do campo + Presente simples"}
+      ]}
+    }
+  },
+  {
+    num:2, tema:"Presente Simples / To Be Negativa e Interrogativa / Quantificadores",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento semanal", desc:"Preparar fichas de exercícios, materiais para jogo de memória e Guessing Game"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"6A • Inglês", desc:"To be negativa: isn't / aren't — quadro comparativo afirmativa × negativa"},
+        {hora:"Tarde — 3º horário", tipo:"ludica", turma:"8A • Inglês", desc:"Lúdica do mês: Supermercado da Roça — jogo com quantificadores some/any/many/much"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"6B • Inglês", desc:"To be negativa: exercícios com países e identidade"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"7B • Inglês", desc:"Ações do campo: jogo de memória — feeding · planting · watering · collecting"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"8A • Inglês", desc:"Lúdica: Supermercado da Roça — compra e venda com some/any em duplas"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Presente simples: texto 'Life on the Farm' + frases com verbos do campo"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7B • Inglês", desc:"Presente simples: exercícios de fixação — I work / She plants / We harvest"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Presente simples: atividades em duplas — frases sobre a rotina rural"},
+        {hora:"Tarde — 5º horário", tipo:"ludica", turma:"6C • Inglês", desc:"Guessing Game: To be interrogativa — duplas adivinham país/nacionalidade"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"6C • Inglês", desc:"To be interrogativa — Guessing Game em duplas: Is she Brazilian?"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"6A • Inglês", desc:"To be interrogativa: Guessing Game — lúdica do mês"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Modal Should: you should drink water · a farmer should rest"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"6B • Inglês", desc:"To be interrogativa: exercícios em duplas — perguntas sobre países"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Modal Should: conselho e recomendação — frases do cotidiano"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Sujeito e predicado: identificação e classificação — exercícios com frases do contexto rural"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Gênero textual: receita em inglês — Bean Soup · estrutura: title / ingredients / instructions"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"9A • Inglês", desc:"Modal Should: mini-cartaz de saúde em duplas — dicas para trabalhadores do campo"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"9B • Inglês", desc:"Modal Should: mini-cartaz de saúde em duplas — dicas para trabalhadores do campo"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Produção em duplas: nossa receita local — escrita guiada com folha-modelo"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"atividade", turma:"7º Ano • Português", desc:"Produção de notícia: rascunho — aplicar estrutura estudada, tema: comunidade/campo"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"9A • Inglês", desc:"Modal Must: Farmers must wake up early — obrigação forte · Jogo 'Obrigação ou Conselho?'"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"9B • Inglês", desc:"Modal Must: obrigação forte — jogo de classificação em duplas"}
+      ]}
+    }
+  },
+  {
+    num:3, tema:"Modais (Must/Have To/Should) / Nacionalidades / Receita / OD e OI",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Preparar materiais: painel 'Minha Celebridade', fichas de comparação de modais, cartazes"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"6A • Inglês", desc:"Nacionalidades: sufixos -ian/-ese/-ish — integração das 3 formas to be"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Apresentação oral das receitas locais: cada dupla apresenta em 45s"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"6B • Inglês", desc:"Nacionalidades: sufixos — prática com flashcards de celebridades"},
+        {hora:"Tarde — 5º horário", tipo:"conteudo", turma:"7B • Inglês", desc:"Modal Must: obrigação forte no contexto da roça — classificar frases"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Adjetivos descritivos: big/small, hot/cold, fast/slow, clean/dirty — fichas visuais"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"7C • Inglês", desc:"Modal Must: obrigação — tabela Should × Must comparativa"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"7B • Inglês", desc:"Modal Must + Have to: tabela comparativa em duplas — classificar frases"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Modal Should: mini-cartaz 'Health Tips' em duplas — saúde no campo"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"6C • Inglês", desc:"Painel 'Minha Celebridade': prática integrada — países, nacionalidades, to be"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"6C • Inglês", desc:"Painel 'Minha Celebridade' — apresentação oral das duplas"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"6A • Inglês", desc:"Prática integrada: painel 'Minha Celebridade' — países, to be, nacionalidade"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"7A • Inglês", desc:"Modal Must + Have to: tabela comparativa — exercícios em 3 níveis"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"6B • Inglês", desc:"Prática integrada: texto 'Quem sou' — to be + países + nacionalidade"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Modal Must: atividade 'Obrigação ou Conselho?' — classificar 20 frases"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"atividade", turma:"7º Ano • Português", desc:"Ortografia: há/a/à — mnemônicos de substituição, exercícios em 3 níveis"},
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Adjetivos comparativos: curtos +er than / longos more… than — tabela base/comp"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"9A • Inglês", desc:"Have to + comparação: tabela Should × Must × Have to — classificar em duplas"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"9B • Inglês", desc:"Have to + comparação: tabela Should × Must × Have to — classificar em duplas"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Comparativos: tirinhas do campo — leitura + construção de frases comparativas"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Objeto direto e indireto: conceito, construção coletiva — Superação Unidade 3"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"9A • Inglês", desc:"Saúde: vocabulário — headache, fever, tired, sunburn + leitura 'Staying Healthy on the Farm'"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"9B • Inglês", desc:"Saúde: vocabulário + leitura do folheto — pré-leitura + perguntas de compreensão"}
+      ]}
+    }
+  },
+  {
+    num:4, tema:"Vocabulário de Família/Casa / Comparativos / Saúde + Modais",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Organizar atividades de revisão Bloco 1 — quiz, fichas, materiais para Família Secreta"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"6A • Inglês", desc:"Revisão Bloco 1: quiz relâmpago — países, to be, nacionalidades, pontos difíceis"},
+        {hora:"Tarde — 3º horário", tipo:"ludica", turma:"8A • Inglês", desc:"Lúdica: Campeonato do Campo — comparativos em equipes, disputas orais e escritas"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"6B • Inglês", desc:"Revisão Bloco 1: quiz relâmpago — consolidação para produção final"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"7B • Inglês", desc:"Saúde + Modais: mini-cartaz 'Health Tips for Farm Workers' em duplas"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"8A • Inglês", desc:"Lúdica: Campeonato do Campo — superlativos · the biggest farm, the most productive"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Saúde + Modais: mini-cartaz integrado em duplas — vocabulário de sintomas"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7B • Inglês", desc:"Role play: diálogo médico/paciente + situações urgentes no campo"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Saúde + Modais integração: role play comunicação oral — Turn and Talk"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"6C • Inglês", desc:"Vocabulário de família: árvore fictícia — mother, father, sister, brother…"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"6C • Inglês", desc:"Consolidação família: árvore com frases — to be + família + 'Quem é?'"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"6A • Inglês", desc:"Produção escrita final Bloco 1: texto 'Quem sou' — encerramento"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Role play: diálogo médico/paciente — situações de saúde no campo"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"6B • Inglês", desc:"Produção escrita final Bloco 1: texto 'Quem sou' — to be integrado"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"7C • Inglês", desc:"Revisão geral: Should, Must, Have to — jogo de times 3 rodadas"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"atividade", turma:"7º Ano • Português", desc:"Fixação OD e OI: transformação de frases, troca de caderno — identificação em duplas"},
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Adjetivos superlativos: the + est / the most — tabela tripla base/comp/superl"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"9A • Inglês", desc:"Revisão geral: Vocabulário, Should, Must, Have to — jogo de times 3 rodadas"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"9B • Inglês", desc:"Revisão geral: Vocabulário, Modais, Leitura — jogo de times + simulado escrito"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Integração comp. + superl.: mini-parágrafo 'Minha Região em Inglês'"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Ortografia: pôde/pode, têm/tem — mnemônicos, guia de sobrevivência no caderno"},
+        {hora:"Tarde — 1º horário", tipo:"revisao", turma:"9A • Inglês", desc:"Simulado escrito: formato da prova + correção coletiva detalhada"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"9B • Inglês", desc:"Simulado escrito: formato da prova + correção coletiva detalhada"}
+      ]}
+    }
+  },
+  {
+    num:5, tema:"Caso Genitivo / Superlativos / Avaliação 9º ano / Ortografia LP",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Preparar avaliações — 9A e 9B (4 partes), preparar Família Secreta, materiais de genitivo"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"6A • Inglês", desc:"Caso genitivo ('s): Bart's father — regra visual, exemplos com a turma"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"8A • Inglês", desc:"Revisão geral semanas 1-4: mapa mental, 4 estações, mural de dúvidas com post-it"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"6B • Inglês", desc:"Caso genitivo ('s): regra visual e prática com nomes dos alunos"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"7B • Inglês", desc:"Revisão geral: jogo de times — vocabulário, should/must, saúde"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"avaliacao", turma:"8A • Inglês", desc:"Avaliação Trimestral Parte 1: vocabulário alimentos, C/U, some/any/many/much, receita"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"7C • Inglês", desc:"Revisão geral: should, must, saúde — quiz relâmpago + pontos difíceis"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"7B • Inglês", desc:"Revisão geral: simulado no formato da prova + correção coletiva"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"7A • Inglês", desc:"Revisão geral: should, must, have to, saúde — jogo de times 3 rodadas"},
+        {hora:"Tarde — 5º horário", tipo:"ludica", turma:"6C • Inglês", desc:"Lúdica do mês: Família Secreta — possessivos my/his/her/their em jogo"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"6C • Inglês", desc:"Possessivos: Família Secreta + genitivo integrado — jogo de identificação"},
+        {hora:"Tarde — 2º horário", tipo:"ludica", turma:"6A • Inglês", desc:"Lúdica do mês: Família Secreta — my/his/her/their + genitivo em jogo"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"7A • Inglês", desc:"Simulado no formato da prova — should, must, saúde, vocabulário"},
+        {hora:"Tarde — 4º horário", tipo:"ludica", turma:"6B • Inglês", desc:"Lúdica do mês: Família Secreta — possessivos + genitivo integrado"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"7C • Inglês", desc:"Simulado no formato da prova + correção coletiva detalhada"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"ludica", turma:"7º Ano • Português", desc:"Lúdica do mês: Quiz Campeões da Gramática — 4 equipes, sujeito, predicado, OD/OI, ortografia"},
+        {hora:"Tarde — 1º horário", tipo:"avaliacao", turma:"8A • Inglês", desc:"Avaliação Trimestral Parte 2: adjetivos, comparativos, superlativos, tirinha"},
+        {hora:"Tarde — 2º horário", tipo:"avaliacao", turma:"9A • Inglês", desc:"Avaliação Formal: vocabulário, modais, leitura, produção — banco de palavras disponível"},
+        {hora:"Tarde — 3º horário", tipo:"avaliacao", turma:"9B • Inglês", desc:"Avaliação Formal: vocabulário, modais, leitura, produção — banco de palavras disponível"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"8A • Inglês", desc:"Devolução + correção coletiva: Grupo A (aprofundamento) × Grupo B (retomada)"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"revisao", turma:"7º Ano • Português", desc:"Estudo dirigido em duplas: ficha de revisão semanas 1-5, microgrupos por dificuldade"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"9A • Inglês", desc:"Devolutiva + autoavaliação: correção coletiva + ficha 'O que aprendi / O que melhorar'"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"9B • Inglês", desc:"Devolutiva + autoavaliação: correção coletiva + ficha de autoavaliação"}
+      ]}
+    }
+  },
+  {
+    num:6, tema:"Avaliação 7º ano LP / Avaliação Turmas de Inglês / Possessivos",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Preparar avaliações 7º ano LP — 3 partes, materiais genitivo/possessivos 6º ano"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"6A • Inglês", desc:"Integração Bloco 2: genitivo + possessivos juntos — exercícios em duplas"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Vocabulário natureza e campo: sun, rain, wind, soil, river, tree, crop, harvest…"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"6B • Inglês", desc:"Integração Bloco 2: genitivo + possessivos — galeria, autoavaliação, portfólio"},
+        {hora:"Tarde — 5º horário", tipo:"avaliacao", turma:"7B • Inglês", desc:"Avaliação: vocabulário campo, should, must, saúde — banco de palavras disponível"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Texto descritivo: produção 'Meu Lugar' — escrita com andaime, revisão em duplas"},
+        {hora:"Tarde — 2º horário", tipo:"avaliacao", turma:"7C • Inglês", desc:"Avaliação: vocabulário campo, modais, saúde — banco de palavras disponível"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"7B • Inglês", desc:"Devolução avaliação + autoavaliação — ficha 'O que aprendi'"},
+        {hora:"Tarde — 4º horário", tipo:"avaliacao", turma:"7A • Inglês", desc:"Avaliação: vocabulário campo, should, must, have to, saúde"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"6C • Inglês", desc:"Revisão Blocos 1 e 2: quiz + simulado no formato da prova"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"revisao", turma:"6C • Inglês", desc:"Simulado final Blocos 1 e 2 — formato real, ajuste individual"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"6A • Inglês", desc:"Revisão Blocos 1 e 2: quiz + simulado formatado"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Devolução avaliação + autoavaliação: correção coletiva detalhada"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"6B • Inglês", desc:"Revisão Blocos 1 e 2: quiz relâmpago + pontos difíceis"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"7C • Inglês", desc:"Devolução avaliação + autoavaliação — ficha reflexiva"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"avaliacao", turma:"7º Ano • Português", desc:"Avaliação Intermediária LP: interpretação, gramática integrada (sujeito/predicado/OD/OI), produção"},
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Vocabulário: natureza e campo avançado — consolidação + texto descritivo"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"9A • Inglês", desc:"Recuperação paralela: Grupo A (avanço) × Grupo B (reensino com scaffolding)"},
+        {hora:"Tarde — 3º horário", tipo:"recuperacao", turma:"9B • Inglês", desc:"Recuperação paralela: grupos simultâneos — reensino diferenciado por nível"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Projeto: Mini-Card 'Meu Lugar' A5 — frente + verso, preparação"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"atividade", turma:"7º Ano • Português", desc:"Devolução avaliação LP: portfólio, comparação produção inicial × final, autoavaliação"},
+        {hora:"Tarde — 1º horário", tipo:"recuperacao", turma:"9A • Inglês", desc:"Atividade substitutiva: prova acessível com banco de palavras + versão adaptada"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"9B • Inglês", desc:"Atividade substitutiva: prova acessível + versão adaptada para laudo"}
+      ]}
+    }
+  },
+  {
+    num:7, tema:"Avaliação 6º ano / Conectivos AND/BUT / OD+OI fixação / Mini-Card",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Preparar avaliação final 6º ano — Blocos 1, 2, 3; materiais de conectivos para 7º/9º"},
+        {hora:"Tarde — 2º horário", tipo:"avaliacao", turma:"6A • Inglês", desc:"Avaliação Final: Blocos 1, 2 e 3 — 4 seções, inclusiva, banco de palavras"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Apresentação oral dos Mini-Cards: 45s por aluno, avaliação formativa de fala"},
+        {hora:"Tarde — 4º horário", tipo:"avaliacao", turma:"6B • Inglês", desc:"Avaliação Final: Blocos 1, 2 e 3 — 4 seções com adaptação"},
+        {hora:"Tarde — 5º horário", tipo:"conteudo", turma:"7B • Inglês", desc:"Conectivos: AND e BUT — Jogo 'E ou Mas?' com frases dos alunos no quadro"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"8A • Inglês", desc:"Lúdica do mês: Grand Prix do Campo — 4 categorias, equipes, competição oral e escrita"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"7C • Inglês", desc:"Conectivos: AND e BUT — frases com contexto rural, jogo 'E ou Mas?'"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"7B • Inglês", desc:"Conectivos: AND, BUT + introdução BECAUSE — jogo de imagens em pares"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"7A • Inglês", desc:"Conectivos: AND e BUT — construção de frases, atividade em duplas"},
+        {hora:"Tarde — 5º horário", tipo:"recuperacao", turma:"6C • Inglês", desc:"Recuperação paralela Blocos 1+2: fichas coloridas, jogo de dado, mini-avaliação"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"recuperacao", turma:"6C • Inglês", desc:"Recuperação Blocos 1+2: ficha diferenciada + avaliação substitutiva inclusiva"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"6A • Inglês", desc:"Recuperação + Encerramento: fichas dif., galeria de produções, portfólio"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"7A • Inglês", desc:"BECAUSE: jogo de imagens — pares de imagens → frases com AND/BUT/BECAUSE"},
+        {hora:"Tarde — 4º horário", tipo:"recuperacao", turma:"6B • Inglês", desc:"Recuperação + Encerramento: fichas diferenciadas, galeria, portfólio"},
+        {hora:"Tarde — 5º horário", tipo:"conteudo", turma:"7C • Inglês", desc:"BECAUSE: pares de imagens + introdução THEREFORE — causa × consequência"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Conjunções coordenativas: aditivas (e, nem) e adversativas (mas, porém) — mapa de conectivos"},
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"8A • Inglês", desc:"Lúdica: Grand Prix do Campo — 4 categorias, equipes, revisão final"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"9A • Inglês", desc:"Conectivos: AND e BUT — Jogo 'E ou Mas?' + frases com nomes dos alunos"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"9B • Inglês", desc:"Conectivos: AND e BUT — jogo de imagens + construção de frases"},
+        {hora:"Tarde — 4º horário", tipo:"recuperacao", turma:"8A • Inglês", desc:"Recuperação final: prova adaptada, banco de palavras, mediação individual"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"ludica", turma:"7º Ano • Português", desc:"Lúdica do mês: Jogo Construtor de Frases — períodos compostos com conjunções em grupos"},
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"9A • Inglês", desc:"Lúdica: jogo de imagens + BECAUSE — pares de imagens, frases com 3 conectivos"},
+        {hora:"Tarde — 2º horário", tipo:"ludica", turma:"9B • Inglês", desc:"Lúdica: jogo de imagens — AND/BUT/BECAUSE, construção oral e escrita"}
+      ]}
+    }
+  },
+  {
+    num:8, tema:"THEREFORE / Leitura com Conectivos / Adjunto / Produção Final",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Preparar materiais: leitura com conectivos, fichas de adjunto adverbial, rascunhos LP"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"6A • Inglês", desc:"There is / There are: forma afirmativa — cômodos da casa, singular/plural"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Connecting Words: THEREFORE — causa × consequência, transformar BECAUSE ↔ THEREFORE"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"6B • Inglês", desc:"There is / There are: forma afirmativa — planta baixa da casa rural"},
+        {hora:"Tarde — 5º horário", tipo:"conteudo", turma:"7B • Inglês", desc:"THEREFORE: causa × consequência — transformar frases em duplas"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Leitura com conectivos: 'Life on the Farm: Challenges and Rewards' — sublinhar AND/BUT/BECAUSE/THEREFORE"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Leitura com conectivos: texto do campo — sublinhar os 4 conectivos e classificar"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7B • Inglês", desc:"Leitura com conectivos: texto 'Life on the Farm' — compreensão leitora"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"7A • Inglês", desc:"THEREFORE + leitura: texto do campo — causa e consequência em duplas"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"6C • Inglês", desc:"There isn't / aren't: forma negativa — contraste singular/plural, exercícios"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"6C • Inglês", desc:"Integração 3 Blocos: perfil completo, texto integrador — identidade + família + casa"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"6A • Inglês", desc:"There isn't / aren't: forma negativa — exercícios com cômodos e objetos"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Leitura com conectivos: 'Life on the Farm' — sublinhar, classificar, responder"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"6B • Inglês", desc:"There isn't / aren't: forma negativa, contraste — fichas visuais"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Leitura com conectivos: integração AND/BUT/BECAUSE/THEREFORE — texto do campo"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Adjunto adnominal e adverbial: quadro-síntese, perguntas-guia Qual?/Quando?/Onde?"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Leitura com conectivos integrados — texto completo, análise das relações lógicas"},
+        {hora:"Tarde — 2º horário", tipo:"producao", turma:"9A • Inglês", desc:"Produção final: rascunho em duplas — brainstorming + escrita guiada com estrutura scaffolded"},
+        {hora:"Tarde — 3º horário", tipo:"producao", turma:"9B • Inglês", desc:"Produção final: rascunho em duplas — brainstorming + escrita guiada scaffolded"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"8A • Inglês", desc:"Revisão 3 Blocos integrados: Bingo gramatical + quiz em equipes"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"atividade", turma:"7º Ano • Português", desc:"Geógrafos da Frase: perguntas-guia + enriquecer notícia com 3 adjuntos adverbiais"},
+        {hora:"Tarde — 1º horário", tipo:"producao", turma:"9A • Inglês", desc:"Versão final + Mural: reescrita com feedback + Mural 'Nossa Roça em Inglês'"},
+        {hora:"Tarde — 2º horário", tipo:"producao", turma:"9B • Inglês", desc:"Versão final + Mural: reescrita com feedback + celebração do trimestre"}
+      ]}
+    }
+  },
+  {
+    num:9, tema:"Quarto dos Sonhos / Integração Conectivos / Modo Imperativo",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Preparar materiais: poster Quarto dos Sonhos, fichas de imperativo, materiais de consolidação"},
+        {hora:"Tarde — 2º horário", tipo:"ludica", turma:"6A • Inglês", desc:"Lúdica do mês: Quarto dos Sonhos — poster com there is/are, galeria de apresentações"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"8A • Inglês", desc:"Revisão geral: Bingo gramatical + 3 Blocos integrados, quiz em equipes"},
+        {hora:"Tarde — 4º horário", tipo:"ludica", turma:"6B • Inglês", desc:"Lúdica do mês: Quarto dos Sonhos — poster, there is/are + vocabulário casa"},
+        {hora:"Tarde — 5º horário", tipo:"conteudo", turma:"7B • Inglês", desc:"Integração: conectivos AND/BUT/BECAUSE/THEREFORE — atividade oral e escrita"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"avaliacao", turma:"8A • Inglês", desc:"Avaliação Final: Blocos 1, 2, 3 — 4 seções, inclusiva, banco de palavras"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Integração conectivos: produção de parágrafo com os 4 conectivos estudados"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7B • Inglês", desc:"Integração: parágrafo 'Minha Região' com AND/BUT/BECAUSE/THEREFORE"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Integração conectivos: construção de parágrafo guiado — scaffolding em duplas"},
+        {hora:"Tarde — 5º horário", tipo:"ludica", turma:"6C • Inglês", desc:"Lúdica do mês: Quarto dos Sonhos — poster + galeria, there is/are"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"ludica", turma:"6C • Inglês", desc:"Quarto dos Sonhos: apresentação oral + Integração dos 3 Blocos"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"6A • Inglês", desc:"Integração 3 Blocos: perfil completo — identidade, família, casa — texto final"},
+        {hora:"Tarde — 3º horário", tipo:"producao", turma:"7A • Inglês", desc:"Produção escrita: parágrafo conectado — 'Life on the Farm' versão da turma"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"6B • Inglês", desc:"Integração 3 Blocos: texto integrador, autoavaliação, portfólio"},
+        {hora:"Tarde — 5º horário", tipo:"producao", turma:"7C • Inglês", desc:"Produção escrita: parágrafo com os 4 conectivos — scaffolded + revisão em duplas"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Modo imperativo: afirmativo (indicativo − S) e negativo (não + subjuntivo) — verbos irregulares"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Recuperação 8A: fichas coloridas, jogo de dado — quantificadores, comp./superl."},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"9A • Inglês", desc:"Consolidação: mapa mental coletivo — chuva de inglês + ficha 'Eu consigo...'"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"9B • Inglês", desc:"Consolidação: mapa mental coletivo + ficha 'Eu consigo...'"},
+        {hora:"Tarde — 4º horário", tipo:"recuperacao", turma:"8A • Inglês", desc:"Recuperação: mini-avaliação formativa — baralho de comparação + ranking físico"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"conteudo", turma:"7º Ano • Português", desc:"Concordância nominal e verbal: artigo + adjetivo, verbo + sujeito composto — casos especiais"},
+        {hora:"Tarde — 1º horário", tipo:"conteudo", turma:"9A • Inglês", desc:"Ponte 3º Trimestre: prévia do Future Simple WILL — sonhos dos alunos em inglês"},
+        {hora:"Tarde — 2º horário", tipo:"conteudo", turma:"9B • Inglês", desc:"Ponte 3º Trimestre: prévia do WILL — I will work / She will study — sonhos"}
+      ]}
+    }
+  },
+  {
+    num:10, tema:"Revisão Geral / Produção Final / Imperativo + Concordância",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Preparar materiais finais: Quiz Superação Total, fichas produção, simulados finais"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"6A • Inglês", desc:"Revisão 3 Blocos: Bingo gramatical + quiz em equipes"},
+        {hora:"Tarde — 3º horário", tipo:"producao", turma:"8A • Inglês", desc:"Mini-Card 'Meu Lugar': revisão final, frente + verso, preparação para apresentação"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"6B • Inglês", desc:"Revisão 3 Blocos: Bingo gramatical + simulado no formato da prova"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"7B • Inglês", desc:"Revisão: conectivos AND/BUT/BECAUSE/THEREFORE — jogo de times, quiz em duplas"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Apresentação Mini-Cards: cada aluno 45s + avaliação formativa oral"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"7C • Inglês", desc:"Revisão geral: conectivos, should, must, vocabulário — quiz relâmpago"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"7B • Inglês", desc:"Revisão final: simulado no formato da prova — correção coletiva"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"7A • Inglês", desc:"Revisão: conectivos + saúde + modais — jogo de times 3 rodadas"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"6C • Inglês", desc:"Simulado final 3 Blocos: formato real da prova + ajuste individual"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"revisao", turma:"6C • Inglês", desc:"Revisão final: Bingo gramatical + quiz em equipes — encerramento trimestre"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"6A • Inglês", desc:"Simulado final 3 Blocos: formato real + ajuste individual"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"7A • Inglês", desc:"Revisão geral final: simulado + mural de dúvidas"},
+        {hora:"Tarde — 4º horário", tipo:"revisao", turma:"6B • Inglês", desc:"Simulado final 3 Blocos: formato real da prova"},
+        {hora:"Tarde — 5º horário", tipo:"revisao", turma:"7C • Inglês", desc:"Revisão final: Grand Prix do Campo — 4 rodadas integradas"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"producao", turma:"7º Ano • Português", desc:"Edição final do cartaz: devolutiva individual, publicação no mural, apresentação oral"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"8A • Inglês", desc:"Encerramento + celebração: Passaporte do Aprendiz, 'Word I Remember', mural final"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"9A • Inglês", desc:"Revisão final: mapa mental coletivo + ficha 'Eu consigo...'"},
+        {hora:"Tarde — 3º horário", tipo:"revisao", turma:"9B • Inglês", desc:"Revisão final: mapa mental + consolidação do trimestre"},
+        {hora:"Tarde — 4º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Encerramento trimestre: celebração, autoavaliação, portfólio final"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"ludica", turma:"7º Ano • Português", desc:"Lúdica do mês: Quiz Superação Total — 4 rodadas: OD/OI, ortografia, conjunções/imperativo + bônus produção"},
+        {hora:"Tarde — 1º horário", tipo:"revisao", turma:"9A • Inglês", desc:"Simulado final: formato real da avaliação + correção coletiva"},
+        {hora:"Tarde — 2º horário", tipo:"revisao", turma:"9B • Inglês", desc:"Simulado final: formato real da avaliação + ajuste individual"}
+      ]}
+    }
+  },
+  {
+    num:11, tema:"Avaliações Finais — 6º/7º anos Inglês e 7º Português",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Organizar avaliações finais todas as turmas — verificar adaptações, laudos, banco de palavras"},
+        {hora:"Tarde — 2º horário", tipo:"avaliacao", turma:"6A • Inglês", desc:"Avaliação Final: Blocos 1, 2, 3 — 4 seções inclusivas, banco de palavras"},
+        {hora:"Tarde — 3º horário", tipo:"conteudo", turma:"8A • Inglês", desc:"Reforço: connecting words THEREFORE integrado — mini-produção final"},
+        {hora:"Tarde — 4º horário", tipo:"avaliacao", turma:"6B • Inglês", desc:"Avaliação Final: Blocos 1, 2, 3 — 4 seções com adaptação"},
+        {hora:"Tarde — 5º horário", tipo:"avaliacao", turma:"7B • Inglês", desc:"Avaliação Final: vocabulário, modais, conectivos, produção — banco de palavras"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"revisao", turma:"8A • Inglês", desc:"Revisão: simulado final Blocos 1-3 — 4 estações integradas"},
+        {hora:"Tarde — 2º horário", tipo:"avaliacao", turma:"7C • Inglês", desc:"Avaliação Final: vocabulário, modais, conectivos, compreensão leitora"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7B • Inglês", desc:"Devolução avaliação + autoavaliação — ficha reflexiva trimestre"},
+        {hora:"Tarde — 4º horário", tipo:"avaliacao", turma:"7A • Inglês", desc:"Avaliação Final: vocabulário campo, modais, conectivos — banco de palavras"},
+        {hora:"Tarde — 5º horário", tipo:"avaliacao", turma:"6C • Inglês", desc:"Avaliação Final: Blocos 1, 2, 3 — 4 seções inclusivas"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"6C • Inglês", desc:"Devolução + encerramento: galeria de produções, portfólio, ficha de autoavaliação"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"6A • Inglês", desc:"Devolução avaliação: correção coletiva + portfólio + autoavaliação"},
+        {hora:"Tarde — 3º horário", tipo:"atividade", turma:"7A • Inglês", desc:"Devolução avaliação + autoavaliação: ficha 'O que aprendi'"},
+        {hora:"Tarde — 4º horário", tipo:"atividade", turma:"6B • Inglês", desc:"Devolução + encerramento: portfólio, galeria, autoavaliação"},
+        {hora:"Tarde — 5º horário", tipo:"atividade", turma:"7C • Inglês", desc:"Devolução avaliação + autoavaliação: portfólio do trimestre"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"avaliacao", turma:"7º Ano • Português", desc:"Avaliação Final LP: interpretação + gramática integrada + produção (cartaz ou notícia)"},
+        {hora:"Tarde — 1º horário", tipo:"revisao", turma:"8A • Inglês", desc:"Revisão final 8A: simulado formato real + correção coletiva"},
+        {hora:"Tarde — 2º horário", tipo:"avaliacao", turma:"9A • Inglês", desc:"Avaliação Final: vocabulário, modais, leitura, conectivos, produção — banco de palavras"},
+        {hora:"Tarde — 3º horário", tipo:"avaliacao", turma:"9B • Inglês", desc:"Avaliação Final: vocabulário, modais, leitura, conectivos, produção"},
+        {hora:"Tarde — 4º horário", tipo:"avaliacao", turma:"8A • Inglês", desc:"Avaliação Final Recuperação 8A: prova adaptada + banco de palavras + mediação"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"revisao", turma:"7º Ano • Português", desc:"Devolução avaliação LP: portfólio comparativo, ficha de autoavaliação, ticket final do trimestre"},
+        {hora:"Tarde — 1º horário", tipo:"atividade", turma:"9A • Inglês", desc:"Devolução avaliação + autoavaliação: correção coletiva + ficha reflexiva"},
+        {hora:"Tarde — 2º horário", tipo:"atividade", turma:"9B • Inglês", desc:"Devolução avaliação + autoavaliação: portfólio + ficha 'O que aprendi'"}
+      ]}
+    }
+  },
+  {
+    num:12, tema:"Recuperação Paralela — todas as turmas",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento", desc:"Organizar fichas de recuperação diferenciadas para todas as turmas — por nível e laudo"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"6A • Inglês", desc:"Recuperação: fichas dif. por nível — Blocos 1, 2 e 3 · Galeria de produções · Portfólio"},
+        {hora:"Tarde — 3º horário", tipo:"recuperacao", turma:"8A • Inglês", desc:"Recuperação: fichas coloridas, jogo de dado — quantificadores e comparativos/superlativos"},
+        {hora:"Tarde — 4º horário", tipo:"recuperacao", turma:"6B • Inglês", desc:"Recuperação: fichas diferenciadas · galeria · portfólio — Blocos 1, 2 e 3"},
+        {hora:"Tarde — 5º horário", tipo:"recuperacao", turma:"7B • Inglês", desc:"Recuperação: reensino com scaffolding — should/must/conectivos + mini-avaliação"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"recuperacao", turma:"8A • Inglês", desc:"Recuperação: baralho de comparação + ranking físico — mini-avaliação formativa"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"7C • Inglês", desc:"Recuperação: fichas scaffolded por nível — modais e conectivos"},
+        {hora:"Tarde — 3º horário", tipo:"recuperacao", turma:"7B • Inglês", desc:"Recuperação: prova acessível com banco de palavras + versão adaptada"},
+        {hora:"Tarde — 4º horário", tipo:"recuperacao", turma:"7A • Inglês", desc:"Recuperação: grupos simultâneos — Grupo A (avanço) × Grupo B (reensino)"},
+        {hora:"Tarde — 5º horário", tipo:"recuperacao", turma:"6C • Inglês", desc:"Recuperação: fichas dif. · galeria · portfólio — Blocos 1, 2 e 3"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"recuperacao", turma:"6C • Inglês", desc:"Recuperação substitutiva: prova acessível + versão adaptada p/ laudo"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"6A • Inglês", desc:"Recuperação substitutiva: avaliação inclusiva — banco de palavras + fichas"},
+        {hora:"Tarde — 3º horário", tipo:"recuperacao", turma:"7A • Inglês", desc:"Recuperação: prova acessível com banco de palavras — versão adaptada"},
+        {hora:"Tarde — 4º horário", tipo:"recuperacao", turma:"6B • Inglês", desc:"Recuperação substitutiva: avaliação inclusiva + portfólio"},
+        {hora:"Tarde — 5º horário", tipo:"recuperacao", turma:"7C • Inglês", desc:"Recuperação substitutiva: prova acessível + versão adaptada p/ laudo"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"recuperacao", turma:"7º Ano • Português", desc:"Recuperação LP: retomada OD/OI, ortografia, conjunções — fichas por dificuldade"},
+        {hora:"Tarde — 1º horário", tipo:"recuperacao", turma:"8A • Inglês", desc:"Recuperação final: prova adaptada, banco de palavras, mediação individual"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"9A • Inglês", desc:"Recuperação: reensino diferenciado — Grupo A (avanço) × Grupo B (scaffolding total)"},
+        {hora:"Tarde — 3º horário", tipo:"recuperacao", turma:"9B • Inglês", desc:"Recuperação: grupos simultâneos — reensino com scaffolding e prova substitutiva"},
+        {hora:"Tarde — 4º horário", tipo:"recuperacao", turma:"8A • Inglês", desc:"Recuperação 8A: avaliação final de recuperação — prova adaptada + banco de palavras"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"recuperacao", turma:"7º Ano • Português", desc:"Recuperação LP: avaliação substitutiva — fichas diferenciadas por nível, leitura oral dos enunciados"},
+        {hora:"Tarde — 1º horário", tipo:"recuperacao", turma:"9A • Inglês", desc:"Recuperação substitutiva 9A: prova acessível, banco de palavras, versão adaptada p/ laudo"},
+        {hora:"Tarde — 2º horário", tipo:"recuperacao", turma:"9B • Inglês", desc:"Recuperação substitutiva 9B: prova acessível, banco de palavras, versão adaptada"}
+      ]}
+    }
+  },
+  {
+    num:13, tema:"Encerramento do Trimestre — Celebração e Transição",
+    dias:{
+      seg:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — Planejamento", tipo:"planej", turma:"Planejamento final do trimestre", desc:"Organizar portfólios, murais, materiais de encerramento e registros avaliativos"},
+        {hora:"Tarde — 2º horário", tipo:"producao", turma:"6A • Inglês", desc:"Encerramento: Passaporte do Aprendiz — coleção dos melhores trabalhos, Word I Remember"},
+        {hora:"Tarde — 3º horário", tipo:"producao", turma:"8A • Inglês", desc:"Encerramento: Passaporte do Aprendiz + mural final + celebração da turma"},
+        {hora:"Tarde — 4º horário", tipo:"producao", turma:"6B • Inglês", desc:"Encerramento: galeria de produções, portfólio, celebração do trimestre"},
+        {hora:"Tarde — 5º horário", tipo:"producao", turma:"7B • Inglês", desc:"Encerramento: mapa mental coletivo + ficha 'Eu consigo...' + prévia 3º trimestre"}
+      ]},
+      ter:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"producao", turma:"8A • Inglês", desc:"Encerramento 8A: Passaporte do Aprendiz + Word I Remember + mural final"},
+        {hora:"Tarde — 2º horário", tipo:"producao", turma:"7C • Inglês", desc:"Encerramento: mapa mental + ficha 'Eu consigo...' + ponte para o 3º trimestre"},
+        {hora:"Tarde — 3º horário", tipo:"producao", turma:"7B • Inglês", desc:"Encerramento: galeria, portfólio + prévia WILL — 'I will study / She will work'"},
+        {hora:"Tarde — 4º horário", tipo:"producao", turma:"7A • Inglês", desc:"Encerramento: portfólio do trimestre + autoavaliação + mural 'Nossa Roça em Inglês'"},
+        {hora:"Tarde — 5º horário", tipo:"producao", turma:"6C • Inglês", desc:"Encerramento: Passaporte do Aprendiz + galeria + celebração final"}
+      ]},
+      qua:{escola:"Barro Alto", blocos:[
+        {hora:"Tarde — 1º horário", tipo:"producao", turma:"6C • Inglês", desc:"Encerramento final: mural coletivo + portfólio + ticket do trimestre"},
+        {hora:"Tarde — 2º horário", tipo:"producao", turma:"6A • Inglês", desc:"Encerramento: galeria + portfólio + ticket 'uma palavra para este trimestre'"},
+        {hora:"Tarde — 3º horário", tipo:"producao", turma:"7A • Inglês", desc:"Encerramento: Passaporte do Aprendiz + chuva de inglês + prévia do 3º trimestre"},
+        {hora:"Tarde — 4º horário", tipo:"producao", turma:"6B • Inglês", desc:"Encerramento: galeria, Passaporte do Aprendiz + ticket final do trimestre"},
+        {hora:"Tarde — 5º horário", tipo:"producao", turma:"7C • Inglês", desc:"Encerramento: mural 'Nossa Roça em Inglês' + autoavaliação + celebração"}
+      ]},
+      qui:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 4º/5º horário", tipo:"producao", turma:"7º Ano • Português", desc:"Encerramento LP: portfólio comparativo + ficha de autoavaliação + ticket 'uma palavra para este trimestre'"},
+        {hora:"Tarde — 1º horário", tipo:"producao", turma:"8A • Inglês", desc:"Encerramento final: Passaporte do Aprendiz + mural + celebração da turma"},
+        {hora:"Tarde — 2º horário", tipo:"producao", turma:"9A • Inglês", desc:"Encerramento 9A: mapa mental + 'Eu consigo...' + prévia WILL — sonhos em inglês"},
+        {hora:"Tarde — 3º horário", tipo:"producao", turma:"9B • Inglês", desc:"Encerramento 9B: mapa mental coletivo + sonhos com WILL + celebração final"},
+        {hora:"Tarde — 4º horário", tipo:"producao", turma:"8A • Inglês", desc:"Encerramento 8A: Word I Remember + ticket + autoavaliação final do trimestre"}
+      ]},
+      sex:{escola:"Presidente Dutra", blocos:[
+        {hora:"Manhã — 3º/4º/5º horário", tipo:"producao", turma:"7º Ano • Português", desc:"Encerramento LP: devolução final, autoavaliação completa, apresentação dos cartazes no mural"},
+        {hora:"Tarde — 1º horário", tipo:"producao", turma:"9A • Inglês", desc:"Encerramento 9A: celebração + Passaporte do Aprendiz + mural 'Nossa Roça em Inglês'"},
+        {hora:"Tarde — 2º horário", tipo:"producao", turma:"9B • Inglês", desc:"Encerramento 9B: celebração final + portfólio + ticket do trimestre"}
+      ]}
+    }
+  }
+];
+
+const DIAS_LABEL = ['Segunda','Terça','Quarta','Quinta','Sexta'];
+const DIAS_KEY = ['seg','ter','qua','qui','sex'];
+
+const badgeMap = {
+  conteudo:'Conteúdo', atividade:'Atividade', ludica:'Lúdica',
+  avaliacao:'Avaliação', revisao:'Revisão', recuperacao:'Recuperação',
+  producao:'Produção', planej:'Planejamento'
+};
+
+const sel = document.getElementById('semSel');
+SEMANAS.forEach((s,i)=>{
+  const o = document.createElement('option');
+  o.value = i;
+  o.textContent = `Semana ${s.num} — ${s.tema.substring(0,38)}${s.tema.length>38?'…':''}`;
+  sel.appendChild(o);
+});
+
+function renderSem(idx){
+  const s = SEMANAS[idx];
+  const cont = document.getElementById('planner');
+
+  let html = `<div class="week-header">
+    <span class="week-num">Semana ${s.num}</span>
+    <span class="week-theme">${s.tema}</span>
+  </div>
+  <div class="day-grid">`;
+
+  DIAS_KEY.forEach((key,i)=>{
+    const dayData = s.dias[key];
+    html += `<div class="day-col">
+      <div class="day-head">${DIAS_LABEL[i]}</div>
+      <div class="day-school">${dayData.escola}</div>
+      <div class="day-content">`;
+
+    if(!dayData.blocos || dayData.blocos.length===0){
+      html += `<div class="empty-day">—</div>`;
+    } else {
+      dayData.blocos.forEach(b=>{
+        const tipo = b.tipo || 'planej';
+        html += `<div class="aula-block t-${tipo}">
+          <div class="aula-hora">${b.hora}</div>
+          <span class="aula-badge">${badgeMap[tipo]||tipo}</span>
+          <div class="aula-turma">${b.turma}</div>
+          <div class="aula-desc">${b.desc}</div>
+        </div>`;
+      });
+    }
+
+    html += `</div></div>`;
+  });
+
+  html += `</div>`;
+  cont.innerHTML = html;
+}
+
+renderSem(0);
+</script>

@@ -1,0 +1,176 @@
+
+<style>
+  * { box-sizing: border-box; }
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .wk-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.25rem; gap: 12px; }
+  .wk-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .wk-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 3px; }
+  .badge { font-size: 11px; font-weight: 500; padding: 4px 12px; border-radius: 20px; white-space: nowrap; background: #FAECE7; color: #712B13; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .tab { padding: 6px 16px; border-radius: 20px; font-size: 13px; cursor: pointer; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); background: transparent; transition: all .15s; font-family: var(--font-sans); }
+  .tab.on { background: #993C1D; color: #fff; border-color: #993C1D; }
+  .tab:hover:not(.on) { background: var(--color-background-secondary); }
+  .card { background: var(--color-background-secondary); border-radius: 12px; padding: 1.25rem 1.5rem; border: 0.5px solid var(--color-border-tertiary); }
+  .ah { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .anum { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; flex-shrink: 0; }
+  .atitle { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .ameta { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .sl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; color: var(--color-text-tertiary); margin: 1rem 0 5px; }
+  .st { font-size: 14px; color: var(--color-text-secondary); line-height: 1.65; }
+  .st b { font-weight: 500; color: var(--color-text-primary); }
+  hr.d { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: .9rem 0; }
+  .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .p { font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+  .pt { background: #E1F5EE; color: #085041; }
+  .pp { background: #EEEDFE; color: #3C3489; }
+  .pa { background: #FAEEDA; color: #633806; }
+  .pc { background: #FAECE7; color: #712B13; }
+  .pg { background: #F1EFE8; color: #444441; }
+  .tip { background: #E1F5EE; border-left: 3px solid #1D9E75; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #085041; line-height: 1.6; margin-top: 1rem; }
+  .warn { background: #FAEEDA; border-left: 3px solid #EF9F27; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #633806; line-height: 1.6; margin-top: 1rem; }
+  .info { background: #E6F1FB; border-left: 3px solid #378ADD; border-radius: 0 8px 8px 0; padding: 10px 14px; font-size: 13px; color: #0C447C; line-height: 1.6; margin-top: 1rem; }
+  @media (prefers-color-scheme: dark) {
+    .badge { background:#4A1B0C; color:#F5C4B3; }
+    .pt { background:#04342C; color:#9FE1CB; }
+    .pp { background:#26215C; color:#CECBF6; }
+    .pa { background:#412402; color:#FAC775; }
+    .pc { background:#4A1B0C; color:#F5C4B3; }
+    .pg { background:#2C2C2A; color:#D3D1C7; }
+    .tip { background:#04342C; color:#9FE1CB; }
+    .warn { background:#412402; color:#FAC775; }
+    .info { background:#042C53; color:#B5D4F4; }
+  }
+</style>
+<div class="wrap">
+  <div class="wk-header">
+    <div>
+      <div class="wk-title">Semana 13 — Imersão</div>
+      <div class="wk-sub">2º trimestre · 5 aulas · Avaliação final + aprofundamento literário</div>
+    </div>
+    <div class="badge">2º trim. · última semana</div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="sw(1,this)">A1</button>
+    <button class="tab" onclick="sw(2,this)">A2</button>
+    <button class="tab" onclick="sw(3,this)">A3</button>
+    <button class="tab" onclick="sw(4,this)">A4</button>
+    <button class="tab" onclick="sw(5,this)">A5</button>
+  </div>
+
+  <div class="card" id="c1">
+    <div class="ah">
+      <div class="anum" style="background:#FAECE7;color:#712B13;">A1</div>
+      <div><div class="atitle">Revisão final dirigida</div><div class="ameta">50 min · Aula 100% regular — sem alteração</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Preparar os alunos para a avaliação final do 2º trimestre com revisão focada nos pontos de maior dificuldade. Aula inteiramente regular.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Levantamento de dúvidas (10 min)</b> — O professor abre espaço para os alunos apontarem os conteúdos sobre os quais ainda têm insegurança antes da avaliação.<br><br>
+      <b>2. Revisão dos conteúdos prioritários (30 min)</b> — Explicação e exemplificação dos tópicos mais solicitados. Uso do quadro com exemplos práticos, exercícios resolvidos coletivamente.<br><br>
+      <b>3. Orientações finais sobre a avaliação (10 min)</b> — Formato, número de questões, critérios. Lembrete de que haverá 1 questão sobre o conto lido, valendo 10% da nota, em substituição a 1 questão de texto jornalístico.
+    </div>
+    <div class="pills">
+      <span class="p pg">Revisão regular</span>
+      <span class="p pa">Pré-avaliação</span>
+    </div>
+    <div class="info">Lembrete: Comunicar claramente que a questão literária substitui, e não acrescenta, uma questão da avaliação. Os alunos precisam saber isso antes da prova.</div>
+  </div>
+
+  <div class="card" id="c2" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#FAECE7;color:#712B13;">A2</div>
+      <div><div class="atitle">Avaliação final do 2º trimestre</div><div class="ameta">50 min · Com questão literária integrada · Peso: 10%</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Realizar a avaliação somativa do 2º trimestre, incluindo 1 questão de interpretação do conto lido nas semanas anteriores, que substitui 1 questão de texto jornalístico.</div>
+    <hr class="d">
+    <div class="sl">Estrutura da avaliação</div>
+    <div class="st">
+      <b>Questões regulares (90%)</b> — Conteúdos gramaticais e textuais do 2º trimestre, no formato habitual da escola.<br><br>
+      <b>Questão literária (10%)</b> — 1 questão de interpretação do conto lido no projeto. Pode ser dissertativa curta ou de múltipla escolha justificada. Exemplos de enunciado:<br>
+      — "Com base no conto lido em sala, explique o conflito central vivido pelo personagem principal e como ele foi resolvido."<br>
+      — "O narrador do conto adota qual ponto de vista? Como isso afeta a forma como entendemos a história?"<br><br>
+      <b>Condução</b> — Avaliação individual, silenciosa, no tempo habitual. O professor circula normalmente.
+    </div>
+    <div class="pills">
+      <span class="p pc">Avaliação somativa</span>
+      <span class="p pp">Questão literária</span>
+      <span class="p pg">Interpretação de texto</span>
+    </div>
+    <div class="warn">A questão literária deve ser acessível: ela avalia leitura e interpretação, não memorização de detalhes. Um aluno que participou das rodas de conversa deve conseguir respondê-la sem ter relido o conto.</div>
+  </div>
+
+  <div class="card" id="c3" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#FAECE7;color:#712B13;">A3</div>
+      <div><div class="atitle">Devolutiva + leitura do 2º conto em voz alta</div><div class="ameta">50 min · Transição: encerramento do 2º trim. + semeadura para o 3º</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Devolver a avaliação com comentários formativos e, na segunda parte da aula, realizar a leitura do 2º conto do livro — que ficará "em suspense" durante o recesso, criando expectativa para o 3º trimestre.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Devolutiva da avaliação (20 min)</b> — Entrega das avaliações com comentários escritos. O professor destaca os acertos gerais da turma, comenta os erros mais comuns (sem expor alunos individualmente) e discute especificamente a questão literária: o que a turma respondeu bem e o que poderia ter sido mais desenvolvido.<br><br>
+      <b>2. Transição para a leitura (5 min)</b> — O professor anuncia: "Vamos começar o segundo conto do livro. Não terminaremos hoje — o recesso vai interromper. Quando voltarmos, retomaremos de onde paramos."<br><br>
+      <b>3. Leitura expressiva do 2º conto (20 min)</b> — Leitura em voz alta pelo professor, sem interrupções, até um ponto de tensão narrativa ou de clímax. Parar deliberadamente num momento de suspense.<br><br>
+      <b>4. "Cliffhanger" coletivo (5 min)</b> — Pergunta de saída: "O que vocês acham que vai acontecer?" Registrar as hipóteses no quadro. Foto para retomar no 3º trimestre.
+    </div>
+    <div class="pills">
+      <span class="p pg">Devolutiva formativa</span>
+      <span class="p pt">Leitura em voz alta</span>
+      <span class="p pp">Antecipação narrativa</span>
+    </div>
+    <div class="tip">Dica: O "cliffhanger" é pedagogicamente intencional. O recesso com um conto inacabado cria um vínculo afetivo com o projeto que atravessa as férias. Guarde a foto das hipóteses para mostrar na S1 do 3º trim.</div>
+  </div>
+
+  <div class="card" id="c4" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#F1EFE8;color:#444441;">A4</div>
+      <div><div class="atitle">Recuperação paralela (aula normal)</div><div class="ameta">50 min · Sem alteração — planejamento regular mantido</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Atender alunos em processo de recuperação paralela ou reforço dos conteúdos do 2º trimestre. Aula inteiramente regular, sem interferência do projeto literário.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Diagnóstico individual (10 min)</b> — Identificação dos alunos em recuperação e seus pontos de maior dificuldade com base na avaliação devolvida na A3.<br><br>
+      <b>2. Atividade de recuperação (30 min)</b> — Exercícios diferenciados ou retomada de conteúdos específicos. Pode ocorrer em paralelo à turma, se a dinâmica da escola permitir grupos simultâneos.<br><br>
+      <b>3. Orientações e encerramento do 2º trimestre (10 min)</b> — Comunicados sobre notas, prazos, critérios de recuperação. Encerramento formal do período letivo com a turma.
+    </div>
+    <div class="pills">
+      <span class="p pg">Recuperação paralela</span>
+      <span class="p pa">Encerramento do trimestre</span>
+    </div>
+    <div class="warn">Aula 100% regular. O projeto literário não tem espaço aqui. Se algum aluno perguntar sobre o conto inacabado, o professor pode sorrir e dizer: "Isso fica para o 3º trimestre."</div>
+  </div>
+
+  <div class="card" id="c5" style="display:none">
+    <div class="ah">
+      <div class="anum" style="background:#F1EFE8;color:#444441;">A5</div>
+      <div><div class="atitle">Recuperação paralela — continuação</div><div class="ameta">50 min · Sem alteração — planejamento regular mantido</div></div>
+    </div>
+    <div class="sl">Objetivo</div>
+    <div class="st">Concluir o processo de recuperação paralela do 2º trimestre, garantindo que todos os alunos encerrem o período com seus registros e situações resolvidas.</div>
+    <hr class="d">
+    <div class="sl">Desenvolvimento</div>
+    <div class="st">
+      <b>1. Continuidade das atividades de recuperação (30 min)</b> — Alunos em recuperação continuam as atividades iniciadas na A4. Professor oferece suporte individualizado.<br><br>
+      <b>2. Avaliação de recuperação (se aplicável) (15 min)</b> — Instrumento avaliativo específico para alunos que precisam complementar a nota do 2º trimestre, conforme política da escola.<br><br>
+      <b>3. Encerramento e despedida do 2º trimestre (5 min)</b> — O professor encerra o período com a turma. Pode fazer uma antecipação leve e motivadora do projeto que continuará no 3º trimestre.
+    </div>
+    <div class="pills">
+      <span class="p pg">Recuperação paralela</span>
+      <span class="p pa">Encerramento letivo</span>
+    </div>
+    <div class="tip">Dica: Nos 5 minutos finais, o professor pode retomar as hipóteses do "cliffhanger" da A3 e dizer: "Quando voltarmos do recesso, descobriremos o que aconteceu com o personagem." Isso cria expectativa para o 3º trimestre.</div>
+  </div>
+</div>
+<script>
+function sw(n, el) {
+  for(let i=1;i<=5;i++) document.getElementById('c'+i).style.display = i===n?'block':'none';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+}
+</script>

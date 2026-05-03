@@ -1,0 +1,168 @@
+
+<style>
+  .container { padding: 1.5rem 0; font-family: var(--font-sans); max-width: 680px; }
+  .week-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .week-badge { background: #E1F5EE; color: #0F6E56; font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+  .week-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin: 0; }
+  .week-sub { font-size: 13px; color: var(--color-text-secondary); margin-top: 2px; }
+  .aula-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 1rem; overflow: hidden; }
+  .aula-header { display: flex; align-items: center; gap: 12px; padding: 1rem 1.25rem 0.75rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .aula-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+  .aula-meta { flex: 1; }
+  .aula-titulo { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin: 0; }
+  .aula-tempo { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .aula-body { padding: 1rem 1.25rem; }
+  .secao { margin-bottom: 0.875rem; }
+  .secao:last-child { margin-bottom: 0; }
+  .secao-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-text-tertiary); margin-bottom: 6px; }
+  .secao-conteudo { font-size: 14px; color: var(--color-text-primary); line-height: 1.6; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+  .tag-gramatica { background: #EEEDFE; color: #3C3489; }
+  .tag-material { background: #E6F1FB; color: #0C447C; }
+  .tag-avaliacao { background: #FAEEDA; color: #633806; }
+  .tag-diferencial { background: #EAF3DE; color: #27500A; }
+  .passo { display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px; line-height: 1.5; color: var(--color-text-primary); }
+  .passo-num { flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; margin-top: 1px; }
+  .bloco-destaque { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 13px; color: var(--color-text-secondary); margin-top: 8px; line-height: 1.6; border-left: 2px solid #1D9E75; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+  .divisor-duplo { display: flex; gap: 1rem; }
+  .divisor-duplo .aula-card { flex: 1; margin-bottom: 0; }
+  .duplas-wrapper { display: flex; gap: 1rem; margin-bottom: 1rem; }
+  .duplas-wrapper .aula-card { flex: 1; }
+</style>
+
+<div class="container">
+  <div class="week-header">
+    <div>
+      <p class="week-title">Semana 4 — Publicação: o livro da turma</p>
+      <p class="week-sub">5 aulas · detalhamento completo · 3º trimestre</p>
+    </div>
+    <div class="week-badge">S4</div>
+  </div>
+
+  <!-- AULAS 1 e 2 -->
+  <div class="aula-card">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#E1F5EE;color:#0F6E56;">1–2</div>
+      <div class="aula-meta">
+        <p class="aula-titulo">Edição final + ilustração</p>
+        <p class="aula-tempo">2 aulas · ~90 min no total · individual com devolutiva</p>
+      </div>
+    </div>
+    <div class="aula-body">
+      <div class="secao">
+        <div class="secao-label">Objetivo</div>
+        <div class="secao-conteudo">Transformar o rascunho revisado da semana 3 na versão definitiva do conto, adicionando elementos visuais autorais e recebendo devolutiva individual do professor.</div>
+      </div>
+      <div class="secao">
+        <div class="secao-label">Roteiro da aula 1 — Edição</div>
+        <div class="passo"><div class="passo-num" style="background:#E1F5EE;color:#0F6E56;">1</div><div>Devolver os rascunhos com as anotações da revisão em duplas (Semana 3). Dar 5 min para o aluno reler os comentários do colega.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#E1F5EE;color:#0F6E56;">2</div><div>Apresentar a "Pauta de Edição Final" na lousa: título, parágrafo de abertura, coerência do conflito, encerramento satisfatório, ortografia e pontuação.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#E1F5EE;color:#0F6E56;">3</div><div>Escrita da versão final no papel definitivo (folha A4 ou caderno de publicação). Professor circula e faz devolutiva individual em voz baixa — 2 a 3 min por aluno.</div></div>
+        <div class="bloco-destaque">Devolutiva individual: focar em 1 ponto de elogio + 1 ajuste essencial. Evitar correções excessivas que desmotivem.</div>
+      </div>
+      <div class="secao">
+        <div class="secao-label">Roteiro da aula 2 — Ilustração</div>
+        <div class="passo"><div class="passo-num" style="background:#E1F5EE;color:#0F6E56;">1</div><div>Retomar exemplos de ilustrações dos livros lidos na Semana 1. Perguntar: "O que a imagem acrescenta ao texto?"</div></div>
+        <div class="passo"><div class="passo-num" style="background:#E1F5EE;color:#0F6E56;">2</div><div>Cada aluno cria 1 ilustração para seu conto — pode ser cena principal, personagem ou elemento simbólico. Sem pressão por perfeição estética.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#E1F5EE;color:#0F6E56;">3</div><div>Orientar a escrita do nome do autor e do título na folha da ilustração. Organizar as folhas para a montagem do livro.</div></div>
+      </div>
+      <div class="tag-row">
+        <span class="tag tag-material">folhas de publicação</span>
+        <span class="tag tag-material">lápis de cor / canetinhas</span>
+        <span class="tag tag-gramatica">revisão ortográfica em contexto</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AULA 3 -->
+  <div class="aula-card">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#FAEEDA;color:#633806;">3</div>
+      <div class="aula-meta">
+        <p class="aula-titulo">Sarau literário</p>
+        <p class="aula-tempo">1 aula · ~45 min · oralidade e escuta ativa</p>
+      </div>
+    </div>
+    <div class="aula-body">
+      <div class="secao">
+        <div class="secao-label">Objetivo</div>
+        <div class="secao-conteudo">Dar voz pública aos textos criados, consolidar a identidade de autor e exercitar a escuta respeitosa entre pares.</div>
+      </div>
+      <div class="secao">
+        <div class="secao-label">Preparação</div>
+        <div class="secao-conteudo">Reorganizar a sala em semicírculo ou roda. Se possível, um microfone de brinquedo ou objeto simbólico que circule. Música instrumental suave de fundo (opcional — tema indígena ou africano).</div>
+      </div>
+      <div class="secao">
+        <div class="secao-label">Roteiro</div>
+        <div class="passo"><div class="passo-num" style="background:#FAEEDA;color:#633806;">1</div><div>Professor apresenta o sarau: "Hoje vocês são autores que leem para uma plateia." Combinar regra de escuta: silêncio e aplausos ao final.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#FAEEDA;color:#633806;">2</div><div>Cada aluno lê 1 trecho escolhido por ele (1 a 3 parágrafos). Voluntários primeiro — depois convidar os mais tímidos, sem obrigar.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#FAEEDA;color:#633806;">3</div><div>Após cada leitura: turma comenta com uma palavra ou frase positiva — "Gostei de...", "Fiquei curioso sobre...", "A parte que mais me surpreendeu foi...".</div></div>
+        <div class="passo"><div class="passo-num" style="background:#FAEEDA;color:#633806;">4</div><div>Professor encerra com uma fala de síntese valorizando a diversidade de histórias criadas pela turma.</div></div>
+        <div class="bloco-destaque">Sugestão: fotografar cada aluno no momento da leitura para o mural ou portfólio da turma.</div>
+      </div>
+      <div class="tag-row">
+        <span class="tag tag-diferencial">oralidade como competência</span>
+        <span class="tag tag-diferencial">escuta respeitosa</span>
+        <span class="tag tag-avaliacao">avaliação formativa oral</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- AULAS 4 e 5 -->
+  <div class="aula-card">
+    <div class="aula-header">
+      <div class="aula-num" style="background:#EEEDFE;color:#3C3489;">4–5</div>
+      <div class="aula-meta">
+        <p class="aula-titulo">Montagem do livro coletivo + avaliação do projeto</p>
+        <p class="aula-tempo">2 aulas · ~90 min · encerramento e metacognição</p>
+      </div>
+    </div>
+    <div class="aula-body">
+      <div class="secao">
+        <div class="secao-label">Objetivo</div>
+        <div class="secao-conteudo">Concluir o produto coletivo do projeto, desenvolver senso de pertencimento e promover reflexão metacognitiva sobre o percurso de aprendizagem.</div>
+      </div>
+      <div class="secao">
+        <div class="secao-label">Roteiro da aula 4 — Montagem do livro</div>
+        <div class="passo"><div class="passo-num" style="background:#EEEDFE;color:#3C3489;">1</div><div>Definir junto com a turma a ordem dos contos — por tradição (indígenas / africanos), por ordem alfabética dos autores, ou por votação temática.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#EEEDFE;color:#3C3489;">2</div><div>Montar coletivamente: capa (com título e nome da turma), folha de rosto, contos com ilustrações, orelha de "sobre os autores". Cada aluno escreve sua mini-bio (2 linhas).</div></div>
+        <div class="passo"><div class="passo-num" style="background:#EEEDFE;color:#3C3489;">3</div><div>Encadernar fisicamente (espiral, costura simples, clipe encadernador) ou montar versão digital em PDF/apresentação.</div></div>
+        <div class="bloco-destaque">Versão digital: escanear os contos + ilustrações e organizar em Canva, Google Apresentações ou PDF simples. Pode ser enviada às famílias.</div>
+      </div>
+      <div class="secao">
+        <div class="secao-label">Roteiro da aula 5 — Avaliação e encerramento</div>
+        <div class="passo"><div class="passo-num" style="background:#EEEDFE;color:#3C3489;">1</div><div>Distribuir ficha de autoavaliação (veja abaixo). Alunos preenchem individualmente em 10 min.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#EEEDFE;color:#3C3489;">2</div><div>Roda de encerramento: "O que você aprendeu que não sabia antes?" e "O que foi mais difícil?"</div></div>
+        <div class="passo"><div class="passo-num" style="background:#EEEDFE;color:#3C3489;">3</div><div>Professor faz devolutiva coletiva: elogiar conquistas do grupo, nomear aprendizados gramaticais e literários integrados ao longo das 4 semanas.</div></div>
+        <div class="passo"><div class="passo-num" style="background:#EEEDFE;color:#3C3489;">4</div><div>Apresentação oficial do livro: cada aluno recebe uma cópia ou o livro fica exposto na biblioteca da escola.</div></div>
+      </div>
+      <div class="tag-row">
+        <span class="tag tag-avaliacao">autoavaliação</span>
+        <span class="tag tag-avaliacao">avaliação do projeto</span>
+        <span class="tag tag-material">ficha de autoavaliação</span>
+        <span class="tag tag-diferencial">produto concreto para as famílias</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ficha de autoavaliação -->
+  <div class="aula-card" style="border-left: 2px solid #7F77DD; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;">
+    <div class="aula-header">
+      <div class="aula-meta">
+        <p class="aula-titulo">Ficha de autoavaliação sugerida</p>
+        <p class="aula-tempo">para usar na aula 5</p>
+      </div>
+    </div>
+    <div class="aula-body">
+      <div class="secao-conteudo" style="font-size: 14px; line-height: 1.8; color: var(--color-text-primary);">
+        <p style="margin: 0 0 8px;">1. Consegui escrever meu conto do começo ao fim? <span style="color:var(--color-text-secondary)">( ) Sim &nbsp; ( ) Com dificuldade &nbsp; ( ) Não</span></p>
+        <p style="margin: 0 0 8px;">2. Meu conto tem personagem, conflito e desfecho claros? <span style="color:var(--color-text-secondary)">( ) Sim &nbsp; ( ) Mais ou menos &nbsp; ( ) Não</span></p>
+        <p style="margin: 0 0 8px;">3. Aprendi algo novo sobre culturas indígenas ou africanas? <span style="color:var(--color-text-secondary)">( ) Muito &nbsp; ( ) Um pouco &nbsp; ( ) Pouco</span></p>
+        <p style="margin: 0 0 8px;">4. O que foi mais difícil neste projeto? ___________________________</p>
+        <p style="margin: 0;">5. O que eu faria diferente se começasse de novo? ___________________</p>
+      </div>
+    </div>
+  </div>
+
+</div>
